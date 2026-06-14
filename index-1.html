@@ -1,0 +1,2427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="Zion Healing & Deliverance Ministries International — A Christian non-profit NGO in Liberia bringing healing, deliverance, and hope through Jesus Christ."/>
+<title>ZHDMI — Zion Healing & Deliverance Ministries International</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Inter:wght@300;400;500;600&family=Cinzel:wght@500;600&display=swap" rel="stylesheet"/>
+<style>
+/* ══════════════════════════════════════
+   DESIGN TOKENS
+══════════════════════════════════════ */
+:root{
+  --c-bg:        #F9F5EF;
+  --c-bg2:       #F2EBE0;
+  --c-white:     #FFFFFF;
+  --c-ink:       #1C1008;
+  --c-ink2:      #4A3C30;
+  --c-ink3:      #8C7B6A;
+  --c-ink4:      #C8BEB4;
+  --c-crimson:   #7A1818;
+  --c-crimson2:  #5C1010;
+  --c-crimson3:  #9B2020;
+  --c-gold:      #B8882A;
+  --c-gold2:     #D4A840;
+  --c-gold3:     #8A6418;
+  --c-dark:      #180808;
+  --nav-h:       72px;
+  --radius:      4px;
+  --ease:        cubic-bezier(.25,.46,.45,.94);
+  --f-display:   'Cormorant Garamond', Georgia, serif;
+  --f-cap:       'Cinzel', serif;
+  --f-body:      'Inter', system-ui, sans-serif;
+  --shadow-card: 0 1px 4px rgba(0,0,0,.06), 0 4px 20px rgba(0,0,0,.07);
+  --shadow-lift: 0 8px 40px rgba(0,0,0,.13);
+}
+@media(max-width:900px){ :root{ --nav-h:64px } }
+@media(max-width:480px){ :root{ --nav-h:60px } }
+
+/* ══════════════════════════════════════
+   RESET
+══════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{font-family:var(--f-body);background:var(--c-bg);color:var(--c-ink);line-height:1.65;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;font-family:var(--f-body);border:none;background:none}
+ul,ol{list-style:none}
+input,textarea,select{font-family:var(--f-body)}
+
+/* ══════════════════════════════════════
+   LAYOUT
+══════════════════════════════════════ */
+.wrap      {width:min(1160px,92vw);margin-inline:auto}
+.wrap-sm   {width:min(760px,92vw);margin-inline:auto}
+.wrap-lg   {width:min(1340px,96vw);margin-inline:auto}
+.grid-2    {display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.grid-3    {display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+@media(max-width:900px){
+  .wrap{width:min(1160px,94vw)}
+  .grid-2{grid-template-columns:1fr;gap:3rem}
+  .grid-3{grid-template-columns:1fr 1fr;gap:1.5rem}
+}
+@media(max-width:520px){
+  .wrap{width:min(1160px,96vw)}
+  .grid-3{grid-template-columns:1fr;gap:1.25rem}
+}
+
+/* ══════════════════════════════════════
+   TYPOGRAPHY UTILITIES
+══════════════════════════════════════ */
+.label{
+  font-family:var(--f-cap);
+  font-size:.6rem;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--c-gold);
+}
+.display-xl{
+  font-family:var(--f-display);
+  font-size:clamp(2.6rem,5.5vw,4.4rem);
+  font-weight:700;
+  line-height:1.08;
+  letter-spacing:-.02em;
+}
+.display-lg{
+  font-family:var(--f-display);
+  font-size:clamp(2rem,4vw,3.2rem);
+  font-weight:700;
+  line-height:1.1;
+  letter-spacing:-.02em;
+}
+.display-md{
+  font-family:var(--f-display);
+  font-size:clamp(1.5rem,3vw,2.2rem);
+  font-weight:700;
+  line-height:1.18;
+  letter-spacing:-.01em;
+}
+.serif-italic{font-family:var(--f-display);font-style:italic;font-weight:400}
+em.accent{font-style:italic;color:var(--c-crimson)}
+.gold-rule{display:block;width:36px;height:2px;background:var(--c-gold);margin:.9rem 0 1.5rem}
+.gold-rule.center{margin-inline:auto}
+.body-text{font-size:.93rem;color:var(--c-ink2);line-height:1.8}
+
+/* ══════════════════════════════════════
+   BUTTONS
+══════════════════════════════════════ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.55rem;
+  font-family:var(--f-body);font-size:.78rem;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;
+  padding:.85rem 2rem;
+  transition:all .24s var(--ease);
+  cursor:pointer;
+  white-space:nowrap;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+@media(max-width:480px){
+  .btn{padding:.9rem 1.6rem;font-size:.76rem;min-height:48px}
+  .btn-sm{padding:.75rem 1.2rem;font-size:.72rem;min-height:44px}
+}
+.btn-primary{background:var(--c-crimson);color:#fff;border:2px solid var(--c-crimson)}
+.btn-primary:hover{background:var(--c-crimson2);border-color:var(--c-crimson2);transform:translateY(-2px);box-shadow:0 8px 28px rgba(122,24,24,.3)}
+.btn-outline{background:transparent;color:var(--c-crimson);border:2px solid var(--c-crimson)}
+.btn-outline:hover{background:var(--c-crimson);color:#fff;transform:translateY(-2px)}
+.btn-outline-w{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.5)}
+.btn-outline-w:hover{background:#fff;color:var(--c-crimson);border-color:#fff}
+.btn-gold{background:var(--c-gold);color:#fff;border:2px solid var(--c-gold)}
+.btn-gold:hover{background:var(--c-gold3);border-color:var(--c-gold3);transform:translateY(-2px)}
+.btn-sm{padding:.6rem 1.4rem;font-size:.72rem}
+
+/* ══════════════════════════════════════
+   TOP BAR
+══════════════════════════════════════ */
+.topbar{
+  background:var(--c-crimson2);
+  padding:.5rem 0;
+  font-size:.72rem;
+  letter-spacing:.04em;
+  color:rgba(255,255,255,.7);
+}
+.topbar-inner{
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;
+}
+.topbar-left{display:flex;align-items:center;gap:1.5rem}
+.topbar-left a,.topbar-left span{color:rgba(255,255,255,.7);transition:color .2s}
+.topbar-left a:hover{color:var(--c-gold2)}
+.topbar-right{display:flex;align-items:center;gap:.5rem}
+.live-chip{
+  display:flex;align-items:center;gap:.45rem;
+  background:rgba(255,255,255,.1);
+  padding:.22rem .75rem;
+  border:1px solid rgba(255,255,255,.15);
+  font-family:var(--f-cap);font-size:.55rem;letter-spacing:.14em;
+  color:rgba(255,255,255,.75);
+}
+.live-dot{
+  width:5px;height:5px;border-radius:50%;background:#4ade80;
+  animation:livepulse 2s infinite;flex-shrink:0;
+}
+@keyframes livepulse{0%,100%{opacity:1}50%{opacity:.4}}
+@media(max-width:768px){.topbar-left{display:none}.topbar-inner{justify-content:center}}
+@media(max-width:640px){.topbar{padding:.4rem 0}.live-chip{font-size:.52rem;padding:.2rem .6rem}}
+
+/* ══════════════════════════════════════
+   NAVBAR
+══════════════════════════════════════ */
+.navbar{
+  position:sticky;top:0;z-index:1000;
+  height:var(--nav-h);
+  background:rgba(249,245,239,.97);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--c-ink4);
+}
+.nav-inner{
+  height:100%;
+  display:flex;align-items:center;justify-content:space-between;gap:1.5rem;
+}
+.nav-logo{display:flex;align-items:center;gap:.8rem}
+.nav-logo-img{
+  width:40px;height:40px;border-radius:50%;object-fit:cover;
+  border:2px solid var(--c-gold);
+  flex-shrink:0;
+}
+.nav-logo-text strong{
+  display:block;font-family:var(--f-cap);
+  font-size:.82rem;color:var(--c-crimson);letter-spacing:.06em;line-height:1.2;
+}
+.nav-logo-text span{
+  display:block;font-size:.6rem;color:var(--c-ink3);
+  letter-spacing:.03em;line-height:1.3;margin-top:.05rem;
+}
+.nav-links{display:flex;align-items:center;gap:.05rem}
+.nav-links a{
+  font-size:.78rem;font-weight:500;
+  color:var(--c-ink2);letter-spacing:.02em;
+  padding:.45rem .85rem;
+  position:relative;transition:color .2s;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:0;left:.85rem;right:.85rem;
+  height:1.5px;background:var(--c-crimson);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .25s var(--ease);
+}
+.nav-links a:hover{color:var(--c-crimson)}
+.nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1)}
+.nav-links a.active{color:var(--c-crimson);font-weight:600}
+.nav-cta{
+  margin-left:.75rem;
+  background:var(--c-crimson);color:#fff;
+  padding:.5rem 1.2rem;
+  font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  border:2px solid var(--c-crimson);
+  transition:all .22s;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+.nav-cta::after{display:none!important}
+.nav-cta:hover{background:var(--c-crimson2);border-color:var(--c-crimson2);color:#fff}
+
+.hamburger{
+  display:none;flex-direction:column;gap:5px;
+  padding:.6rem;background:none;border:none;
+  min-width:44px;min-height:44px;
+  align-items:center;justify-content:center;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+.hamburger span{display:block;width:22px;height:1.5px;background:var(--c-ink);border-radius:2px;transition:all .28s var(--ease)}
+.hamburger.is-open span:nth-child(1){transform:translateY(6.5px)rotate(45deg)}
+.hamburger.is-open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.hamburger.is-open span:nth-child(3){transform:translateY(-6.5px)rotate(-45deg)}
+
+.mobile-nav{
+  display:none;position:fixed;
+  top:var(--nav-h);left:0;right:0;bottom:0;
+  background:var(--c-white);
+  z-index:999;
+  padding:1.5rem 1.5rem 3rem;
+  overflow-y:auto;
+  border-top:2px solid var(--c-crimson);
+  -webkit-overflow-scrolling:touch;
+}
+.mobile-nav.is-open{display:flex;flex-direction:column}
+.mobile-nav a{
+  font-family:var(--f-display);font-size:1.8rem;font-weight:600;
+  color:var(--c-ink);letter-spacing:-.01em;
+  padding:.65rem 0;border-bottom:1px solid var(--c-ink4);
+  transition:color .2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.mobile-nav a:hover,.mobile-nav a:active{color:var(--c-crimson)}
+.mobile-nav .mob-cta{
+  display:block;text-align:center;
+  background:var(--c-crimson);color:#fff;
+  padding:1rem;margin-top:1.5rem;
+  font-family:var(--f-body);font-size:.82rem;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;
+  border:2px solid var(--c-crimson);
+  transition:background .22s;
+  min-height:52px;display:flex;align-items:center;justify-content:center;
+  -webkit-tap-highlight-color:transparent;
+}
+.mobile-nav .mob-cta:hover{background:var(--c-crimson2)}
+
+/* Tablet: hide text links, show hamburger */
+@media(max-width:900px){
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .nav-logo-text span{display:none}
+}
+/* Mobile: shrink logo */
+@media(max-width:480px){
+  .nav-logo-img{width:34px;height:34px}
+  .nav-logo-text strong{font-size:.75rem}
+  .mobile-nav a{font-size:1.5rem}
+}
+
+/* ══════════════════════════════════════
+   HERO
+══════════════════════════════════════ */
+.hero{
+  position:relative;
+  min-height:calc(100svh - var(--nav-h));
+  background:var(--c-dark);
+  overflow:hidden;display:flex;align-items:center;
+}
+/* Signature backdrop — giant italic word like an illuminated manuscript */
+.hero-watermark{
+  position:absolute;
+  right:-3%;top:50%;transform:translateY(-50%);
+  font-family:var(--f-display);
+  font-weight:300;font-style:italic;
+  font-size:clamp(18rem,42vw,58rem);
+  line-height:.85;
+  letter-spacing:-.04em;
+  color:rgba(255,255,255,.032);
+  user-select:none;pointer-events:none;
+  white-space:nowrap;
+}
+/* Architectural grid lines */
+.hero-line{position:absolute;background:rgba(255,255,255,.05)}
+.hero-line-h{left:0;right:0;height:1px}
+.hero-line-v{top:0;bottom:0;width:1px}
+
+.hero-content{
+  position:relative;z-index:2;
+  width:100%;padding:5.5rem 0 4.5rem;
+}
+.hero-grid{
+  display:grid;
+  grid-template-columns:1fr 400px;
+  gap:4rem;align-items:center;
+}
+.hero-eyebrow{
+  display:flex;align-items:center;gap:.75rem;
+  margin-bottom:1.8rem;
+}
+.hero-eyebrow-line{width:28px;height:1px;background:var(--c-gold)}
+.hero-eyebrow-text{
+  font-family:var(--f-cap);font-size:.6rem;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(255,255,255,.5);
+}
+.hero-title{
+  font-family:var(--f-display);
+  font-size:clamp(2.4rem,6.5vw,5.2rem);
+  font-weight:700;color:#fff;
+  line-height:1.0;letter-spacing:-.025em;
+  margin-bottom:1.8rem;
+}
+.hero-title em{
+  font-style:italic;
+  color:var(--c-gold2);
+  font-weight:400;display:block;
+}
+.hero-verse{
+  border-left:2px solid rgba(184,136,42,.5);
+  padding:1rem 1.5rem;
+  margin-bottom:2.5rem;
+}
+.hero-verse p{
+  font-family:var(--f-display);
+  font-size:1.05rem;font-style:italic;font-weight:400;
+  color:rgba(255,255,255,.65);line-height:1.7;
+}
+.hero-verse cite{
+  display:block;margin-top:.5rem;
+  font-family:var(--f-cap);font-size:.58rem;
+  letter-spacing:.16em;color:var(--c-gold2);font-style:normal;
+}
+.hero-btns{display:flex;flex-wrap:wrap;gap:.9rem;margin-bottom:3rem}
+.hero-stats{
+  display:flex;gap:0;
+  padding-top:2rem;
+  border-top:1px solid rgba(255,255,255,.1);
+}
+.hero-stat{
+  padding-right:2rem;margin-right:2rem;
+  border-right:1px solid rgba(255,255,255,.1);
+}
+.hero-stat:last-child{border-right:none;margin-right:0}
+.hero-stat strong{
+  display:block;font-family:var(--f-display);
+  font-size:2rem;font-weight:700;
+  color:var(--c-gold2);line-height:1;letter-spacing:-.02em;
+}
+.hero-stat span{
+  display:block;margin-top:.3rem;
+  font-size:.65rem;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.4);
+}
+/* Hero panel */
+.hero-panel{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.1);
+  padding:2.2rem;
+}
+.hero-panel-label{
+  font-family:var(--f-cap);font-size:.58rem;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(255,255,255,.4);margin-bottom:1.4rem;
+}
+.countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-bottom:2rem}
+.cd-box{
+  text-align:center;padding:.8rem .3rem;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.09);
+}
+.cd-box strong{
+  display:block;font-family:var(--f-display);
+  font-size:1.9rem;font-weight:700;
+  color:#fff;line-height:1;
+}
+.cd-box span{
+  display:block;margin-top:.25rem;
+  font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,255,255,.38);
+}
+.service-item{
+  display:flex;gap:1rem;padding:1rem 0;
+  border-top:1px solid rgba(255,255,255,.08);
+  align-items:flex-start;
+}
+.service-item-ico{
+  width:34px;height:34px;flex-shrink:0;
+  border:1px solid rgba(184,136,42,.4);
+  display:flex;align-items:center;justify-content:center;margin-top:.05rem;
+}
+.service-item-ico svg{width:15px;height:15px;fill:var(--c-gold2)}
+.service-item strong{display:block;color:#fff;font-size:.83rem;font-weight:600;margin-bottom:.15rem}
+.service-item span{font-size:.72rem;color:rgba(255,255,255,.45)}
+.hero-panel-cta{
+  display:block;width:100%;text-align:center;
+  padding:.9rem;margin-top:1.4rem;
+  background:var(--c-gold);color:#fff;
+  font-family:var(--f-body);font-size:.75rem;
+  font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  transition:background .22s;
+  -webkit-tap-highlight-color:transparent;
+}
+.hero-panel-cta:hover{background:var(--c-gold3);color:#fff}
+
+/* Tablet: hide side panel, stack layout */
+@media(max-width:1020px){
+  .hero-grid{grid-template-columns:1fr 360px;gap:2.5rem}
+}
+@media(max-width:880px){
+  .hero-grid{grid-template-columns:1fr;gap:0}
+  .hero-panel{display:none}
+  .hero-content{padding:3.5rem 0 3rem}
+  .hero-title{font-size:clamp(2.4rem,7vw,4rem)}
+  .hero-btns{gap:.75rem}
+}
+/* Mobile: show a compact inline countdown instead of the side panel */
+@media(max-width:880px){
+  .hero-mobile-service{
+    display:flex;gap:1rem;align-items:center;
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+    padding:.9rem 1.1rem;margin-bottom:2rem;
+  }
+  .hero-mobile-service .live-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:livepulse 2s infinite;flex-shrink:0}
+  .hero-mobile-service span{font-family:var(--f-cap);font-size:.58rem;letter-spacing:.14em;color:rgba(255,255,255,.65)}
+}
+@media(min-width:881px){.hero-mobile-service{display:none}}
+@media(max-width:480px){
+  .hero-content{padding:2.5rem 0 2.5rem}
+  .hero-title{font-size:clamp(2rem,9vw,3rem);margin-bottom:1.2rem}
+  .hero-verse{padding:.8rem 1rem;margin-bottom:1.8rem}
+  .hero-verse p{font-size:.95rem}
+  .hero-btns{flex-direction:column;gap:.65rem;margin-bottom:2rem}
+  .hero-btns .btn{width:100%;justify-content:center}
+  .hero-stats{flex-wrap:wrap;gap:1.2rem;padding-top:1.5rem}
+  .hero-stat{border-right:none;padding-right:0;margin-right:0;min-width:calc(50% - .6rem)}
+  .hero-stat strong{font-size:1.6rem}
+}
+
+/* ══════════════════════════════════════
+   TICKER STRIP
+══════════════════════════════════════ */
+.ticker{
+  background:var(--c-gold);
+  overflow:hidden;padding:.62rem 0;
+}
+.ticker-track{
+  display:flex;gap:5rem;white-space:nowrap;
+  animation:ticker 40s linear infinite;
+}
+.ticker-track:hover{animation-play-state:paused}
+.ticker-item{
+  display:inline-flex;align-items:center;gap:.7rem;
+  font-family:var(--f-cap);font-size:.58rem;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--c-crimson2);
+}
+.ticker-item::before{content:'✦';opacity:.55;font-size:.5rem}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ══════════════════════════════════════
+   SECTION SPACING
+══════════════════════════════════════ */
+.sec{padding:6.5rem 0}
+.sec-sm{padding:3.5rem 0}
+.sec-white{background:var(--c-white)}
+.sec-bg{background:var(--c-bg)}
+.sec-bg2{background:var(--c-bg2)}
+.sec-dark{background:var(--c-dark)}
+.sec-crimson{background:var(--c-crimson)}
+.sec-head{margin-bottom:3.5rem}
+.sec-head-center{text-align:center}
+.sec-head-center .gold-rule{margin-inline:auto}
+@media(max-width:900px){
+  .sec{padding:5rem 0}
+  .sec-sm{padding:2.8rem 0}
+  .sec-head{margin-bottom:2.5rem}
+}
+@media(max-width:480px){
+  .sec{padding:3.5rem 0}
+  .sec-sm{padding:2rem 0}
+  .sec-head{margin-bottom:2rem}
+}
+
+/* ══════════════════════════════════════
+   ABOUT
+══════════════════════════════════════ */
+.about-visual{position:relative}
+.about-img{
+  aspect-ratio:4/5;
+  background:linear-gradient(155deg,var(--c-crimson) 0%,var(--c-dark) 100%);
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.about-img-cross{
+  font-family:var(--f-display);
+  font-size:10rem;font-style:italic;font-weight:300;
+  color:rgba(255,255,255,.08);
+  user-select:none;
+}
+.about-img-caption{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:1.5rem;
+  background:linear-gradient(transparent,rgba(24,8,8,.88));
+}
+.about-img-caption .label{color:rgba(255,255,255,.5);margin-bottom:.3rem}
+.about-img-caption strong{
+  font-family:var(--f-display);font-size:1.1rem;
+  color:#fff;font-weight:600;
+}
+.about-badge{
+  position:absolute;top:-1.2rem;right:-1.2rem;
+  background:var(--c-white);
+  padding:1.1rem 1.3rem;
+  border-left:3px solid var(--c-gold);
+  box-shadow:var(--shadow-lift);
+}
+.about-badge strong{display:block;font-size:.88rem;font-weight:700;color:var(--c-crimson);margin-bottom:.1rem}
+.about-badge span{font-size:.72rem;color:var(--c-ink3)}
+.about-corner{
+  position:absolute;bottom:-1.2rem;left:-1.2rem;
+  width:80px;height:80px;border:2px solid var(--c-gold);
+  z-index:-1;
+}
+.about-body .display-lg{margin-bottom:1.1rem}
+.about-pillars{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:0;margin:2rem 0 2.5rem;
+  border:1px solid var(--c-ink4);
+}
+.pillar{
+  padding:1.3rem;
+  border-right:1px solid var(--c-ink4);
+  border-bottom:1px solid var(--c-ink4);
+  transition:background .2s;
+}
+.pillar:nth-child(2n){border-right:none}
+.pillar:nth-last-child(-n+2){border-bottom:none}
+.pillar:hover{background:rgba(122,24,24,.04)}
+.pillar-ico{
+  width:28px;height:28px;margin-bottom:.8rem;
+  border-bottom:2px solid var(--c-gold);padding-bottom:.3rem;
+  display:flex;align-items:flex-end;
+}
+.pillar-ico svg{width:16px;height:16px;fill:var(--c-crimson)}
+.pillar h4{font-size:.82rem;font-weight:700;color:var(--c-ink);margin-bottom:.2rem}
+.pillar p{font-size:.76rem;color:var(--c-ink3);line-height:1.55}
+
+@media(max-width:900px){
+  .grid-2{grid-template-columns:1fr;gap:3rem}
+  .about-img{aspect-ratio:16/7}
+  .about-badge,.about-corner{display:none}
+  .about-pillars{grid-template-columns:1fr 1fr}
+  .pillar:nth-child(odd){border-right:1px solid var(--c-ink4)}
+  .pillar:nth-child(even){border-right:none}
+}
+@media(max-width:520px){
+  .about-pillars{grid-template-columns:1fr}
+  .pillar{border-right:none!important}
+  .pillar:nth-last-child(-n+1){border-bottom:none}
+  .pillar:nth-last-child(-n+2){border-bottom:1px solid var(--c-ink4)}
+  .pillar:last-child{border-bottom:none}
+}
+
+/* ══════════════════════════════════════
+   IMPACT BAR
+══════════════════════════════════════ */
+.impact-bar{background:var(--c-crimson);padding:3rem 0}
+.impact-grid{display:grid;grid-template-columns:repeat(4,1fr)}
+.impact-item{
+  text-align:center;padding:1rem 1.5rem;
+  border-right:1px solid rgba(255,255,255,.15);
+}
+.impact-item:last-child{border-right:none}
+.impact-num{
+  font-family:var(--f-display);
+  font-size:2.8rem;font-weight:700;
+  color:#fff;line-height:1;letter-spacing:-.03em;
+  display:block;
+}
+.impact-label{
+  display:block;margin-top:.5rem;
+  font-family:var(--f-cap);font-size:.56rem;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(255,255,255,.5);
+}
+@media(max-width:760px){
+  .impact-grid{grid-template-columns:1fr 1fr}
+  .impact-item:nth-child(2){border-right:none}
+  .impact-item:nth-child(3),.impact-item:nth-child(4){border-top:1px solid rgba(255,255,255,.15)}
+  .impact-item:nth-child(4){border-right:none}
+  .impact-num{font-size:2.2rem}
+}
+@media(max-width:400px){
+  .impact-grid{grid-template-columns:1fr 1fr}
+  .impact-bar{padding:2rem 0}
+  .impact-num{font-size:2rem}
+}
+
+/* ══════════════════════════════════════
+   PROGRAMS
+══════════════════════════════════════ */
+.programs-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border:1px solid var(--c-ink4);
+}
+.prog-card{
+  padding:2.2rem 1.8rem;
+  border-right:1px solid var(--c-ink4);
+  border-bottom:1px solid var(--c-ink4);
+  transition:background .22s;
+  position:relative;overflow:hidden;
+}
+.prog-card::after{
+  content:'';position:absolute;
+  left:0;top:0;bottom:0;width:3px;
+  background:var(--c-gold);
+  transform:scaleY(0);transform-origin:bottom;
+  transition:transform .3s var(--ease);
+}
+.prog-card:hover{background:rgba(122,24,24,.03)}
+.prog-card:hover::after{transform:scaleY(1)}
+/* Grid borders — remove right on last in row, bottom on last row */
+.prog-card:nth-child(3n){border-right:none}
+.prog-card:nth-child(n+4){border-bottom:none}
+.prog-ico{
+  width:42px;height:42px;margin-bottom:1.2rem;
+  display:flex;align-items:center;justify-content:center;
+}
+.prog-ico svg{width:24px;height:24px;stroke:var(--c-crimson);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.prog-card h3{
+  font-family:var(--f-display);font-size:1.18rem;font-weight:700;
+  color:var(--c-ink);margin-bottom:.55rem;letter-spacing:-.01em;
+}
+.prog-card p{font-size:.83rem;color:var(--c-ink2);line-height:1.7}
+
+@media(max-width:900px){
+  .programs-grid{grid-template-columns:1fr 1fr}
+  .prog-card:nth-child(3n){border-right:1px solid var(--c-ink4)}
+  .prog-card:nth-child(2n){border-right:none}
+  .prog-card:nth-child(n+4){border-bottom:1px solid var(--c-ink4)}
+  .prog-card:nth-last-child(-n+2){border-bottom:none}
+  .prog-card:nth-child(5){border-right:1px solid var(--c-ink4)}
+  .prog-card:nth-child(6){border-right:none}
+  /* Last row might have 1 card if odd */
+  .prog-card:last-child:nth-child(odd){border-right:none}
+}
+@media(max-width:520px){
+  .programs-grid{grid-template-columns:1fr}
+  .prog-card{border-right:none!important;padding:1.6rem 1.2rem}
+  .prog-card:not(:last-child){border-bottom:1px solid var(--c-ink4)!important}
+  .prog-card:last-child{border-bottom:none!important}
+}
+
+/* ══════════════════════════════════════
+   EVENTS + GIVE SIDEBAR
+══════════════════════════════════════ */
+.events-layout{display:grid;grid-template-columns:1fr 370px;gap:5rem;align-items:start}
+.event-item{
+  display:grid;grid-template-columns:64px 1fr;gap:1.4rem;
+  padding:1.5rem 0;align-items:start;
+  border-bottom:1px solid var(--c-ink4);
+  transition:all .2s;
+}
+.event-item:first-child{border-top:1px solid var(--c-ink4)}
+.event-item:hover .event-title{color:var(--c-crimson)}
+.event-date{
+  text-align:center;padding:.55rem .3rem;
+  border:1px solid var(--c-ink4);
+  transition:border-color .2s;flex-shrink:0;
+}
+.event-item:hover .event-date{border-color:var(--c-crimson)}
+.event-day{
+  display:block;font-family:var(--f-display);
+  font-size:1.7rem;font-weight:700;
+  color:var(--c-crimson);line-height:1;
+}
+.event-mon{
+  display:block;margin-top:.15rem;
+  font-family:var(--f-cap);font-size:.54rem;
+  letter-spacing:.15em;text-transform:uppercase;
+  color:var(--c-ink3);
+}
+.event-title{
+  font-family:var(--f-display);font-size:1.1rem;font-weight:700;
+  color:var(--c-ink);margin-bottom:.3rem;
+  letter-spacing:-.01em;transition:color .2s;
+}
+.event-meta{font-size:.76rem;color:var(--c-ink3);margin-bottom:.5rem}
+.event-tag{
+  display:inline-block;
+  font-family:var(--f-cap);font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--c-gold3);border:1px solid var(--c-gold);
+  padding:.18rem .65rem;
+}
+/* Give panel */
+.give-panel{
+  background:var(--c-crimson2);padding:2.2rem;
+  position:sticky;top:calc(var(--nav-h) + 1.5rem);
+}
+.give-panel .label{color:var(--c-gold2);margin-bottom:.5rem}
+.give-title{
+  font-family:var(--f-display);font-size:1.8rem;font-weight:700;
+  color:#fff;line-height:1.15;margin-bottom:.9rem;letter-spacing:-.02em;
+}
+.give-desc{font-size:.82rem;color:rgba(255,255,255,.6);line-height:1.75;margin-bottom:1.5rem}
+.progress-labels{
+  display:flex;justify-content:space-between;
+  font-size:.74rem;margin-bottom:.45rem;
+}
+.progress-labels .raised{color:var(--c-gold2);font-weight:600}
+.progress-labels .goal{color:rgba(255,255,255,.45)}
+.progress-bar{height:2px;background:rgba(255,255,255,.15);margin-bottom:1.6rem;overflow:hidden}
+.progress-fill{height:100%;width:68%;background:var(--c-gold)}
+.amount-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin-bottom:.9rem}
+.amount-btn{
+  background:transparent;border:1px solid rgba(255,255,255,.18);
+  color:rgba(255,255,255,.65);
+  font-size:.78rem;font-weight:500;padding:.6rem .3rem;
+  text-align:center;transition:all .2s;
+  min-height:44px;
+  -webkit-tap-highlight-color:transparent;
+}
+.amount-btn:hover,.amount-btn.is-active{background:var(--c-gold);border-color:var(--c-gold);color:#fff}
+.give-input{
+  width:100%;padding:.78rem 1rem;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.15);
+  color:#fff;font-size:.88rem;margin-bottom:.9rem;
+  transition:border-color .2s;
+  -webkit-appearance:none;
+}
+.give-input:focus{outline:none;border-color:var(--c-gold)}
+.give-input::placeholder{color:rgba(255,255,255,.3)}
+.give-submit{
+  width:100%;padding:.92rem;
+  background:var(--c-gold);color:#fff;
+  font-family:var(--f-body);font-size:.76rem;
+  font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  transition:background .22s;border:none;cursor:pointer;
+  min-height:52px;
+  -webkit-tap-highlight-color:transparent;
+}
+.give-submit:hover{background:var(--c-gold3)}
+.give-secure{
+  text-align:center;font-size:.68rem;
+  color:rgba(255,255,255,.35);margin-top:.75rem;letter-spacing:.04em;
+}
+
+/* Tablet: stack give panel below events */
+@media(max-width:1000px){
+  .events-layout{grid-template-columns:1fr 320px;gap:3rem}
+}
+@media(max-width:820px){
+  .events-layout{grid-template-columns:1fr;gap:3rem}
+  .give-panel{position:static;margin-top:0}
+  .amount-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:480px){
+  .event-item{grid-template-columns:56px 1fr;gap:1rem;padding:1.2rem 0}
+  .event-day{font-size:1.4rem}
+  .event-title{font-size:1rem}
+  .give-panel{padding:1.5rem}
+  .give-title{font-size:1.5rem}
+}
+
+/* ══════════════════════════════════════
+   SERMONS
+══════════════════════════════════════ */
+.sermons-head{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  margin-bottom:3rem;flex-wrap:wrap;gap:1rem;
+}
+.sermon-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+.sermon-card{transition:transform .25s var(--ease)}
+.sermon-card:hover{transform:translateY(-4px)}
+.sermon-thumb{
+  aspect-ratio:16/9;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.09);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;margin-bottom:1.3rem;overflow:hidden;
+  transition:border-color .25s;
+}
+.sermon-card:hover .sermon-thumb{border-color:rgba(184,136,42,.45)}
+.sermon-thumb-bg{
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(122,24,24,.25),rgba(24,8,8,.6));
+}
+.play-btn{
+  position:relative;z-index:1;
+  width:48px;height:48px;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,.6);
+  display:flex;align-items:center;justify-content:center;
+  transition:all .25s;
+}
+.play-btn svg{width:13px;height:13px;fill:#fff;margin-left:3px}
+.sermon-card:hover .play-btn{background:#fff;border-color:#fff}
+.sermon-card:hover .play-btn svg{fill:var(--c-crimson)}
+.sermon-duration{
+  position:absolute;bottom:.55rem;right:.65rem;
+  font-size:.62rem;letter-spacing:.06em;
+  color:rgba(255,255,255,.5);font-family:var(--f-cap);
+}
+.sermon-card h4{
+  font-family:var(--f-display);font-size:1.08rem;font-weight:700;
+  color:#fff;line-height:1.35;margin-bottom:.45rem;
+}
+.sermon-meta{
+  font-size:.71rem;color:rgba(255,255,255,.4);
+  display:flex;gap:.9rem;flex-wrap:wrap;letter-spacing:.02em;
+}
+@media(max-width:900px){
+  .sermon-grid{grid-template-columns:1fr 1fr}
+  .sermons-head{margin-bottom:2rem}
+}
+@media(max-width:520px){
+  .sermon-grid{grid-template-columns:1fr}
+  .sermons-head{flex-direction:column;align-items:flex-start;gap:.5rem}
+}
+
+/* ══════════════════════════════════════
+   TESTIMONIALS
+══════════════════════════════════════ */
+.testi-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border:1px solid var(--c-ink4);
+}
+.testi-card{
+  padding:2.2rem 1.8rem;
+  border-right:1px solid var(--c-ink4);
+  transition:background .2s;
+}
+.testi-card:last-child{border-right:none}
+.testi-card:hover{background:rgba(122,24,24,.03)}
+.testi-quote{
+  font-family:var(--f-display);
+  font-size:1.02rem;font-style:italic;font-weight:400;
+  color:var(--c-ink2);line-height:1.72;
+  margin-bottom:1.6rem;
+  position:relative;padding-top:1.8rem;
+}
+.testi-quote::before{
+  content:'\201C';position:absolute;
+  top:0;left:-4px;
+  font-size:3.5rem;line-height:1;
+  color:var(--c-crimson);opacity:.2;
+  font-family:var(--f-display);
+}
+.testi-person{display:flex;align-items:center;gap:.85rem}
+.testi-avatar{
+  width:38px;height:38px;flex-shrink:0;
+  background:var(--c-bg2);
+  border:1px solid var(--c-ink4);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--f-cap);font-size:.68rem;color:var(--c-crimson);
+}
+.testi-person strong{display:block;font-size:.84rem;font-weight:700;color:var(--c-ink);margin-bottom:.05rem}
+.testi-person span{font-size:.71rem;color:var(--c-ink3)}
+@media(max-width:900px){
+  .testi-grid{grid-template-columns:1fr 1fr}
+  .testi-card:nth-child(2){border-right:none}
+  .testi-card:nth-child(1),.testi-card:nth-child(2){border-bottom:1px solid var(--c-ink4)}
+  .testi-card:nth-child(3){border-right:none;grid-column:1/-1}
+}
+@media(max-width:600px){
+  .testi-grid{grid-template-columns:1fr}
+  .testi-card{border-right:none!important;border-bottom:1px solid var(--c-ink4)!important}
+  .testi-card:last-child{border-bottom:none!important}
+}
+
+/* ══════════════════════════════════════
+   NEWS
+══════════════════════════════════════ */
+.news-head{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  margin-bottom:3rem;flex-wrap:wrap;gap:1rem;
+}
+.news-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:3rem}
+.news-featured{cursor:pointer}
+.news-thumb{
+  aspect-ratio:16/7;
+  background:linear-gradient(135deg,var(--c-bg2),var(--c-ink4));
+  margin-bottom:1.4rem;position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.news-thumb-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(122,24,24,.06),rgba(122,24,24,.02));
+}
+.news-tag{
+  display:inline-block;
+  font-family:var(--f-cap);font-size:.54rem;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:var(--c-crimson);
+  border-bottom:1.5px solid var(--c-crimson);
+  padding-bottom:.18rem;margin-bottom:.9rem;
+}
+.news-featured h3{
+  font-family:var(--f-display);font-size:1.5rem;font-weight:700;
+  line-height:1.25;margin-bottom:.7rem;letter-spacing:-.01em;
+  transition:color .2s;
+}
+.news-featured:hover h3{color:var(--c-crimson)}
+.news-featured p{font-size:.87rem;color:var(--c-ink2);line-height:1.75;margin-bottom:.9rem}
+.news-meta{font-size:.7rem;color:var(--c-ink3);display:flex;gap:1rem;letter-spacing:.02em}
+.news-side{}
+.news-mini{
+  display:grid;grid-template-columns:52px 1fr;gap:1rem;
+  padding:1.1rem 0;border-bottom:1px solid var(--c-ink4);
+  align-items:start;cursor:pointer;transition:all .2s;
+}
+.news-mini:first-child{border-top:1px solid var(--c-ink4)}
+.news-mini:hover .news-mini-title{color:var(--c-crimson)}
+.news-mini-date{
+  text-align:center;padding:.4rem .2rem;
+  border:1px solid var(--c-ink4);
+}
+.news-mini-date strong{
+  display:block;font-family:var(--f-display);
+  font-size:1.2rem;font-weight:700;color:var(--c-crimson);line-height:1;
+}
+.news-mini-date span{
+  display:block;font-family:var(--f-cap);
+  font-size:.5rem;letter-spacing:.12em;color:var(--c-ink3);margin-top:.1rem;
+}
+.news-mini-title{
+  font-family:var(--f-display);font-size:.95rem;font-weight:700;
+  line-height:1.3;color:var(--c-ink);transition:color .2s;
+}
+@media(max-width:900px){
+  .news-grid{grid-template-columns:1fr}
+  .news-head{margin-bottom:2rem}
+  .news-thumb{aspect-ratio:16/6}
+}
+@media(max-width:480px){
+  .news-featured h3{font-size:1.3rem}
+  .news-mini{grid-template-columns:46px 1fr;gap:.75rem}
+}
+
+/* ══════════════════════════════════════
+   PRAYER WALL
+══════════════════════════════════════ */
+.prayer-layout{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+.prayer-form-box{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  padding:2.2rem;
+}
+.prayer-form-box h3{
+  font-family:var(--f-display);font-size:1.5rem;font-weight:700;
+  color:#fff;margin-bottom:1.5rem;letter-spacing:-.01em;
+}
+.prayer-cats{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:1.3rem}
+.prayer-cat{
+  background:transparent;border:1px solid rgba(255,255,255,.2);
+  color:rgba(255,255,255,.6);font-size:.7rem;
+  letter-spacing:.05em;padding:.35rem .85rem;
+  transition:all .2s;font-family:var(--f-body);
+}
+.prayer-cat:hover,.prayer-cat.is-active{background:var(--c-gold);border-color:var(--c-gold);color:#fff}
+.form-field{margin-bottom:.9rem}
+.form-field label{
+  display:block;font-size:.68rem;letter-spacing:.1em;
+  text-transform:uppercase;color:rgba(255,255,255,.45);
+  margin-bottom:.4rem;font-family:var(--f-cap);
+}
+.form-field input,.form-field textarea{
+  width:100%;padding:.75rem 1rem;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.14);
+  color:#fff;font-family:var(--f-body);font-size:.88rem;
+  transition:border-color .2s;
+  -webkit-appearance:none;
+  border-radius:0;
+}
+.form-field input::placeholder,.form-field textarea::placeholder{color:rgba(255,255,255,.28)}
+.form-field input:focus,.form-field textarea:focus{outline:none;border-color:var(--c-gold)}
+.form-field textarea{min-height:105px;resize:vertical}
+.form-check{
+  display:flex;align-items:center;gap:.65rem;
+  cursor:pointer;font-size:.78rem;
+  color:rgba(255,255,255,.55);margin-bottom:1.3rem;
+}
+.form-check input{width:auto;accent-color:var(--c-gold);min-width:18px;min-height:18px}
+.prayer-submit{
+  width:100%;padding:.92rem;
+  background:var(--c-gold);color:#fff;border:none;
+  font-family:var(--f-body);font-size:.76rem;
+  font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  transition:background .22s;cursor:pointer;
+  min-height:52px;
+  -webkit-tap-highlight-color:transparent;
+}
+.prayer-submit:hover{background:var(--c-gold3)}
+.prayer-confirm{
+  text-align:center;font-size:.78rem;
+  color:var(--c-gold2);margin-top:.7rem;display:none;
+}
+.prayer-verse{
+  border-left:2px solid rgba(184,136,42,.5);
+  padding:1rem 1.5rem;margin-bottom:2.5rem;
+}
+.prayer-verse p{
+  font-family:var(--f-display);font-size:1.05rem;
+  font-style:italic;font-weight:400;
+  color:rgba(255,255,255,.65);line-height:1.7;
+}
+.prayer-verse cite{
+  display:block;margin-top:.5rem;
+  font-family:var(--f-cap);font-size:.58rem;
+  letter-spacing:.16em;color:var(--c-gold2);font-style:normal;
+}
+.req-section-label{
+  font-family:var(--f-cap);font-size:.56rem;letter-spacing:.2em;
+  text-transform:uppercase;color:rgba(255,255,255,.38);
+  display:block;margin-bottom:1rem;
+}
+.req-item{padding:1.2rem 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.req-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.45rem;flex-wrap:wrap;gap:.3rem}
+.req-name{font-size:.78rem;font-weight:700;color:#fff}
+.req-date{font-size:.65rem;color:rgba(255,255,255,.32);letter-spacing:.06em}
+.req-body{font-size:.81rem;color:rgba(255,255,255,.58);line-height:1.62}
+.req-pray-btn{
+  background:none;border:1px solid rgba(255,255,255,.15);
+  color:rgba(255,255,255,.45);
+  font-family:var(--f-cap);font-size:.56rem;letter-spacing:.12em;
+  padding:.3rem .9rem;margin-top:.65rem;
+  transition:all .2s;cursor:pointer;
+  min-height:36px;
+  -webkit-tap-highlight-color:transparent;
+}
+.req-pray-btn:hover{border-color:var(--c-gold);color:var(--c-gold2)}
+@media(max-width:900px){
+  .prayer-layout{grid-template-columns:1fr;gap:3rem}
+  .prayer-form-box{order:-1}
+}
+@media(max-width:480px){
+  .prayer-form-box{padding:1.5rem}
+  .prayer-cats{gap:.35rem}
+  .prayer-cat{font-size:.68rem;padding:.4rem .7rem}
+}
+.req-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.45rem}
+.req-name{font-size:.78rem;font-weight:700;color:#fff}
+.req-date{font-size:.65rem;color:rgba(255,255,255,.32);letter-spacing:.06em}
+.req-body{font-size:.81rem;color:rgba(255,255,255,.58);line-height:1.62}
+.req-pray-btn{
+  background:none;border:1px solid rgba(255,255,255,.15);
+  color:rgba(255,255,255,.45);
+  font-family:var(--f-cap);font-size:.56rem;letter-spacing:.12em;
+  padding:.3rem .9rem;margin-top:.65rem;
+  transition:all .2s;cursor:pointer;
+}
+.req-pray-btn:hover{border-color:var(--c-gold);color:var(--c-gold2)}
+/* location section follows */
+
+/* location section follows */
+/* ══════════════════════════════════════
+   LOCATION
+══════════════════════════════════════ */
+.location-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.map-wrap{border:1px solid var(--c-ink4);height:340px;overflow:hidden}
+.map-wrap iframe{width:100%;height:100%;border:none;display:block}
+.loc-item{
+  display:grid;grid-template-columns:40px 1fr;gap:1.1rem;
+  padding:1.3rem 0;border-bottom:1px solid var(--c-ink4);align-items:start;
+}
+.loc-item:first-child{border-top:1px solid var(--c-ink4)}
+.loc-ico{
+  width:34px;height:34px;
+  border:1px solid var(--c-ink4);
+  display:flex;align-items:center;justify-content:center;
+  margin-top:.05rem;transition:border-color .2s;flex-shrink:0;
+}
+.loc-item:hover .loc-ico{border-color:var(--c-crimson)}
+.loc-ico svg{width:15px;height:15px;stroke:var(--c-crimson);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.loc-item h4{font-size:.88rem;font-weight:700;color:var(--c-ink);margin-bottom:.25rem}
+.loc-item p,.loc-item a{font-size:.8rem;color:var(--c-ink2);line-height:1.6}
+.loc-item a{color:var(--c-crimson);display:block}
+@media(max-width:860px){
+  .location-grid{grid-template-columns:1fr;gap:2.5rem}
+  .map-wrap{height:260px}
+}
+@media(max-width:480px){
+  .map-wrap{height:220px}
+}
+
+/* ══════════════════════════════════════
+   PARTNERS
+══════════════════════════════════════ */
+.partners-row{
+  display:flex;flex-wrap:wrap;
+  border:1px solid var(--c-ink4);
+}
+.partner-item{
+  flex:1;min-width:160px;
+  padding:1.6rem 1.2rem;
+  border-right:1px solid var(--c-ink4);
+  text-align:center;display:flex;flex-direction:column;
+  align-items:center;gap:.5rem;
+  font-size:.76rem;font-weight:600;
+  color:var(--c-ink3);letter-spacing:.03em;
+  transition:all .2s;
+}
+.partner-item:last-child{border-right:none}
+.partner-item svg{width:20px;height:20px;stroke:var(--c-ink4);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s}
+.partner-item:hover{color:var(--c-crimson)}
+.partner-item:hover svg{stroke:var(--c-crimson)}
+@media(max-width:580px){
+  .partners-row{flex-direction:column}
+  .partner-item{border-right:none;border-bottom:1px solid var(--c-ink4);padding:1.2rem 1rem}
+  .partner-item:last-child{border-bottom:none}
+}
+
+/* ══════════════════════════════════════
+   BACK TO TOP
+══════════════════════════════════════ */
+.back-to-top{
+  position:fixed;bottom:1.5rem;right:1.5rem;
+  width:48px;height:48px;
+  background:var(--c-crimson);border:none;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:all .3s var(--ease);z-index:900;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.back-to-top svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.back-to-top.visible{opacity:1;pointer-events:auto}
+.back-to-top:hover{background:var(--c-crimson2);transform:translateY(-3px)}
+@media(max-width:480px){
+  .back-to-top{bottom:1rem;right:1rem;width:44px;height:44px}
+}
+.cta-band{
+  background:var(--c-dark);
+  padding:7rem 0;text-align:center;position:relative;overflow:hidden;
+}
+.cta-bg-word{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  font-family:var(--f-display);
+  font-size:clamp(100px,18vw,260px);
+  font-weight:300;font-style:italic;
+  color:rgba(255,255,255,.022);
+  white-space:nowrap;letter-spacing:-.02em;
+  user-select:none;pointer-events:none;
+}
+.cta-band .label{color:var(--c-gold2)}
+.cta-band-title{
+  font-family:var(--f-display);
+  font-size:clamp(2rem,5vw,3.8rem);
+  font-weight:700;color:#fff;
+  line-height:1.1;letter-spacing:-.025em;
+  max-width:620px;margin:.5rem auto 1.2rem;
+}
+.cta-band-title em{font-style:italic;color:var(--c-gold2);font-weight:400}
+.cta-band p{
+  color:rgba(255,255,255,.55);font-size:.92rem;
+  max-width:480px;margin:0 auto 2.8rem;line-height:1.8;
+}
+.cta-btns{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap}
+@media(max-width:900px){
+  .cta-band{padding:5rem 0}
+}
+@media(max-width:480px){
+  .cta-band{padding:3.5rem 0}
+  .cta-btns{flex-direction:column;align-items:center}
+  .cta-btns .btn{width:100%;max-width:320px;justify-content:center}
+}
+
+/* ══════════════════════════════════════
+   NEWSLETTER
+══════════════════════════════════════ */
+.newsletter-inner{max-width:520px;margin:0 auto;text-align:center}
+.newsletter-inner h2{
+  font-family:var(--f-display);font-size:2rem;font-weight:700;
+  letter-spacing:-.02em;margin:.5rem 0 .7rem;
+}
+.newsletter-inner h2 em{font-style:italic;color:var(--c-crimson)}
+.newsletter-inner p{font-size:.87rem;color:var(--c-ink2);margin-bottom:1.6rem;line-height:1.8}
+.newsletter-form{display:flex}
+.newsletter-input{
+  flex:1;padding:.82rem 1rem;
+  border:1px solid var(--c-ink4);border-right:none;
+  font-family:var(--f-body);font-size:.88rem;
+  color:var(--c-ink);background:var(--c-white);
+  -webkit-appearance:none;border-radius:0;
+  min-height:50px;
+}
+.newsletter-input:focus{outline:none;border-color:var(--c-crimson)}
+.newsletter-btn{
+  padding:.82rem 1.4rem;
+  background:var(--c-crimson);color:#fff;
+  font-family:var(--f-body);font-size:.75rem;
+  font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  transition:background .22s;border:none;cursor:pointer;
+  white-space:nowrap;min-height:50px;
+  -webkit-tap-highlight-color:transparent;
+}
+.newsletter-btn:hover{background:var(--c-crimson2)}
+.newsletter-note{font-size:.68rem;color:var(--c-ink3);margin-top:.8rem;letter-spacing:.03em}
+@media(max-width:520px){
+  .newsletter-form{flex-direction:column}
+  .newsletter-input{border-right:1px solid var(--c-ink4);border-bottom:none;border-radius:0}
+  .newsletter-btn{min-height:52px}
+}
+
+/* ══════════════════════════════════════
+   FOOTER
+══════════════════════════════════════ */
+.footer{background:var(--c-ink)}
+.footer-main{
+  padding:5rem 0 3rem;
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:4rem;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.footer-brand p{font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.8;margin:1.1rem 0 1.7rem}
+.footer-social{display:flex;gap:.5rem;flex-wrap:wrap}
+.footer-soc-btn{
+  width:40px;height:40px;
+  border:1px solid rgba(255,255,255,.12);
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.footer-soc-btn svg{width:13px;height:13px;fill:rgba(255,255,255,.45);transition:fill .2s}
+.footer-soc-btn:hover{background:var(--c-gold);border-color:var(--c-gold)}
+.footer-soc-btn:hover svg{fill:#fff}
+.footer-col h5{
+  font-family:var(--f-cap);font-size:.56rem;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:var(--c-gold);margin-bottom:1.3rem;
+}
+.footer-col a{
+  display:block;font-size:.8rem;
+  color:rgba(255,255,255,.42);padding:.35rem 0;
+  transition:color .2s;
+  min-height:32px;display:flex;align-items:center;
+}
+.footer-col a:hover{color:var(--c-gold2)}
+.footer-bottom{
+  padding:1.5rem 0;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:1rem;
+  font-size:.7rem;color:rgba(255,255,255,.28);letter-spacing:.03em;
+}
+.footer-links{display:flex;gap:1.4rem;flex-wrap:wrap}
+.footer-links a{color:rgba(255,255,255,.28);transition:color .2s;min-height:32px;display:flex;align-items:center}
+.footer-links a:hover{color:rgba(255,255,255,.65)}
+@media(max-width:1000px){.footer-main{grid-template-columns:1.5fr 1fr 1fr;gap:3rem}}
+@media(max-width:760px){
+  .footer-main{grid-template-columns:1fr 1fr;gap:2.5rem;padding:3.5rem 0 2.5rem}
+  .footer-brand{grid-column:1/-1}
+}
+@media(max-width:480px){
+  .footer-main{grid-template-columns:1fr;gap:2rem;padding:3rem 0 2rem}
+  .footer-brand{grid-column:auto}
+  .footer-bottom{flex-direction:column;align-items:flex-start;gap:.6rem}
+}
+
+/* ══════════════════════════════════════
+   SCROLL REVEAL
+══════════════════════════════════════ */
+.reveal{
+  opacity:0;transform:translateY(22px);
+  transition:opacity .6s var(--ease),transform .6s var(--ease);
+}
+.reveal.in{opacity:1;transform:none}
+
+/* ══════════════════════════════════════
+   ACCESSIBILITY UTILITIES
+══════════════════════════════════════ */
+.skip-link{
+  position:absolute;top:-100%;left:1rem;
+  background:var(--c-crimson);color:#fff;
+  padding:.6rem 1.2rem;font-size:.85rem;font-weight:600;
+  z-index:9999;border-radius:0 0 4px 4px;
+  transition:top .2s;
+}
+.skip-link:focus{top:0}
+.sr-only{
+  position:absolute;width:1px;height:1px;
+  padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0,0,0,0);white-space:nowrap;border:0;
+}
+
+/* ══════════════════════════════════════
+   PRAYER BUTTON ACTIVE STATE
+══════════════════════════════════════ */
+.req-pray-btn.prayed{
+  border-color:var(--c-gold);
+  color:var(--c-gold2);
+  background:rgba(184,136,42,.08);
+  cursor:default;
+}
+
+/* ══════════════════════════════════════
+   NEWSLETTER SUCCESS STATE
+══════════════════════════════════════ */
+.newsletter-note.success{
+  color:var(--c-crimson);
+  font-weight:600;
+}
+
+/* ══════════════════════════════════════
+   GLOBAL MOBILE POLISH
+══════════════════════════════════════ */
+/* Prevent text overflow on narrow screens */
+@media(max-width:480px){
+  .display-lg{font-size:clamp(1.75rem,7vw,2.6rem)}
+  .display-md{font-size:clamp(1.3rem,5vw,1.9rem)}
+  .body-text{font-size:.88rem}
+  /* Keep hero buttons from overflowing */
+  .hero-btns .btn{padding:.8rem 1.4rem}
+  /* Wider wrap on very small screens */
+  .wrap,.wrap-sm{width:min(1160px,94vw)}
+}
+
+/* Ensure images never overflow */
+img,iframe,video{max-width:100%}
+
+/* Touch-device tap highlights suppressed globally */
+@media(hover:none){
+  .btn:hover{transform:none!important;box-shadow:none!important}
+  .btn-primary:active{background:var(--c-crimson2)}
+  .btn-gold:active{background:var(--c-gold3)}
+  .btn-outline:active{background:var(--c-crimson);color:#fff}
+  .btn-outline-w:active{background:#fff;color:var(--c-crimson)}
+}
+
+/* ══════════════════════════════════════
+   REDUCED MOTION
+══════════════════════════════════════ */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ SKIP TO CONTENT ══ -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- ══ TOP BAR ══ -->
+<div class="topbar">
+  <div class="wrap topbar-inner">
+    <div class="topbar-left">
+      <a href="tel:+231000000000">+231 000 000 000</a>
+      <span>|</span>
+      <a href="mailto:info@zhdmi.org">info@zhdmi.org</a>
+    </div>
+    <div class="topbar-right">
+      <span class="live-chip">
+        <span class="live-dot"></span>
+        Sunday Worship · 9:00 AM · Johnsonville
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ NAVBAR ══ -->
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+  <div class="wrap nav-inner">
+
+    <a href="#" class="nav-logo" aria-label="ZHDMI Home">
+      <img class="nav-logo-img"
+        src="https://i.ibb.co/B2LfNKxt/Zion-Healing-Ministry-logo-design.png"
+        alt="ZHDMI logo"
+        onerror="this.style.cssText='width:40px;height:40px;border-radius:50%;background:var(--c-crimson)'"/>
+      <div class="nav-logo-text">
+        <strong>ZHDMI</strong>
+        <span>Zion Healing &amp; Deliverance Ministries</span>
+      </div>
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li><a href="#" class="active" aria-current="page">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#programs">Programs</a></li>
+      <li><a href="#events">Events</a></li>
+      <li><a href="#sermons">Sermons</a></li>
+      <li><a href="#prayer">Prayer</a></li>
+      <li><a href="#give" class="nav-cta">Give Now</a></li>
+    </ul>
+
+    <button class="hamburger" id="ham-btn" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-nav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ══ MOBILE NAV ══ -->
+<div class="mobile-nav" id="mobile-nav" role="dialog" aria-label="Mobile navigation">
+  <a href="#"          onclick="closeNav()">Home</a>
+  <a href="#about"     onclick="closeNav()">About Us</a>
+  <a href="#programs"  onclick="closeNav()">Programs</a>
+  <a href="#events"    onclick="closeNav()">Events</a>
+  <a href="#sermons"   onclick="closeNav()">Sermons</a>
+  <a href="#prayer"    onclick="closeNav()">Prayer Wall</a>
+  <a href="#location"  onclick="closeNav()">Location</a>
+  <a href="#give" class="mob-cta" onclick="closeNav()">Give Now</a>
+</div>
+
+<!-- ══ HERO ══ -->
+<main id="main-content">
+<section class="hero" aria-labelledby="hero-heading">
+  <!-- Signature: giant italic watermark word -->
+  <div class="hero-watermark" aria-hidden="true">Healing</div>
+  <!-- Architectural grid lines -->
+  <div class="hero-line hero-line-h" style="top:28%" aria-hidden="true"></div>
+  <div class="hero-line hero-line-h" style="top:76%" aria-hidden="true"></div>
+  <div class="hero-line hero-line-v" style="left:9%"  aria-hidden="true"></div>
+
+  <div class="wrap hero-content">
+    <div class="hero-grid">
+
+      <!-- Left: main message -->
+      <div>
+        <div class="hero-eyebrow" aria-hidden="true">
+          <span class="hero-eyebrow-line"></span>
+          <span class="hero-eyebrow-text">Johnsonville, Liberia · Non-Profit NGO</span>
+        </div>
+
+        <h1 class="hero-title" id="hero-heading">
+          Zion Healing<br>
+          <em>&amp; Deliverance</em>
+          Ministries
+        </h1>
+
+        <blockquote class="hero-verse">
+          <p>"The Spirit of the Lord is upon me, because he has anointed me to proclaim good news to the poor; he has sent me to heal the broken-hearted."</p>
+          <cite>— Luke 4:18 (ESV)</cite>
+        </blockquote>
+
+        <div class="hero-mobile-service" aria-label="Next service">
+          <span class="live-dot"></span>
+          <span>Sunday Worship · Every Sunday 9:00 AM · Johnsonville</span>
+        </div>
+
+        <div class="hero-btns">
+          <a href="#about"   class="btn btn-gold">Our Mission</a>
+          <a href="#give"    class="btn btn-outline-w">Support the Work</a>
+          <a href="#prayer"  class="btn btn-outline-w">Prayer Wall</a>
+        </div>
+
+        <div class="hero-stats" aria-label="Ministry statistics">
+          <div class="hero-stat">
+            <strong>6+</strong>
+            <span>Programmes</span>
+          </div>
+          <div class="hero-stat">
+            <strong>500+</strong>
+            <span>Students Served</span>
+          </div>
+          <div class="hero-stat">
+            <strong>NGO</strong>
+            <span>Registered</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: service panel -->
+      <div class="hero-panel">
+        <p class="hero-panel-label">Next Sunday Worship Service</p>
+        <div class="countdown" aria-label="Countdown to next service">
+          <div class="cd-box"><strong id="cd-d">00</strong><span>Days</span></div>
+          <div class="cd-box"><strong id="cd-h">00</strong><span>Hrs</span></div>
+          <div class="cd-box"><strong id="cd-m">00</strong><span>Min</span></div>
+          <div class="cd-box"><strong id="cd-s">00</strong><span>Sec</span></div>
+        </div>
+
+        <div class="service-item">
+          <div class="service-item-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div>
+            <strong>Sunday Worship &amp; Healing</strong>
+            <span>Every Sunday · 9:00 AM · Johnsonville</span>
+          </div>
+        </div>
+
+        <div class="service-item">
+          <div class="service-item-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <div>
+            <strong>All-Night Prayer Vigil</strong>
+            <span>Monthly · 10:00 PM — Intercession &amp; Fasting</span>
+          </div>
+        </div>
+
+        <div class="service-item">
+          <div class="service-item-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <div>
+            <strong>Youth Leadership Summit</strong>
+            <span>Quarterly · Biblical leadership training</span>
+          </div>
+        </div>
+
+        <a href="#events" class="hero-panel-cta">View All Events</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ TICKER ══ -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track" id="ticker-track">
+    <span class="ticker-item">Sunday Worship &amp; Healing — Every Sunday 9 AM</span>
+    <span class="ticker-item">All-Night Prayer Vigil — Monthly Intercession</span>
+    <span class="ticker-item">Youth Leadership Summit — Quarterly Programme</span>
+    <span class="ticker-item">Free Health Outreach Across Montserrado County</span>
+    <span class="ticker-item">500+ Students Supported Annually</span>
+    <span class="ticker-item">Registered Non-Profit NGO — Republic of Liberia</span>
+    <span class="ticker-item">Sunday Worship &amp; Healing — Every Sunday 9 AM</span>
+    <span class="ticker-item">All-Night Prayer Vigil — Monthly Intercession</span>
+    <span class="ticker-item">Youth Leadership Summit — Quarterly Programme</span>
+    <span class="ticker-item">Free Health Outreach Across Montserrado County</span>
+    <span class="ticker-item">500+ Students Supported Annually</span>
+    <span class="ticker-item">Registered Non-Profit NGO — Republic of Liberia</span>
+  </div>
+</div>
+
+<!-- ══ ABOUT ══ -->
+<section class="sec sec-white reveal" id="about" aria-labelledby="about-heading">
+  <div class="wrap">
+    <div class="grid-2">
+
+      <!-- Visual -->
+      <div class="about-visual">
+        <div class="about-img">
+          <span class="about-img-cross" aria-hidden="true">✝</span>
+          <div class="about-img-caption">
+            <span class="label">Registered Non-Profit</span>
+            <strong>Republic of Liberia</strong>
+          </div>
+        </div>
+        <div class="about-badge">
+          <strong>100% Non-Profit</strong>
+          <span>All giving goes to the mission</span>
+        </div>
+        <div class="about-corner" aria-hidden="true"></div>
+      </div>
+
+      <!-- Body -->
+      <div class="about-body">
+        <span class="label">Who We Are</span>
+        <span class="gold-rule"></span>
+        <h2 class="display-lg" id="about-heading">
+          Bringing God's Healing to<br>
+          <em class="accent">Every Corner of Liberia</em>
+        </h2>
+        <p class="body-text" style="margin-top:1.1rem">
+          Zion Healing and Deliverance Ministries International (ZHDMI) is a Christian-based, non-profit NGO established in Liberia to serve communities through spiritual transformation, humanitarian outreach, and sustainable development.
+        </p>
+        <p class="body-text" style="margin-top:.75rem">
+          We believe the Gospel restores the whole person — spirit, soul, and body. We partner with churches, government agencies, and international organisations to bring lasting change across Montserrado County.
+        </p>
+
+        <div class="about-pillars">
+          <div class="pillar">
+            <div class="pillar-ico">
+              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <h4>Spiritual Growth</h4>
+            <p>Prayer, discipleship &amp; biblical teaching for all communities</p>
+          </div>
+          <div class="pillar">
+            <div class="pillar-ico">
+              <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+            <h4>Health &amp; Healing</h4>
+            <p>Community care reaching underserved families across Liberia</p>
+          </div>
+          <div class="pillar">
+            <div class="pillar-ico">
+              <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+            </div>
+            <h4>Education Support</h4>
+            <p>Empowering youth &amp; building the next generation of leaders</p>
+          </div>
+          <div class="pillar">
+            <div class="pillar-ico">
+              <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+            </div>
+            <h4>Community Development</h4>
+            <p>Poverty reduction &amp; women empowerment programmes</p>
+          </div>
+        </div>
+
+        <a href="#programs" class="btn btn-primary">Explore Our Programmes</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ IMPACT BAR ══ -->
+<div class="impact-bar reveal" aria-label="Ministry impact statistics">
+  <div class="wrap">
+    <div class="impact-grid">
+      <div class="impact-item">
+        <span class="impact-num">6+</span>
+        <span class="impact-label">Active Programmes</span>
+      </div>
+      <div class="impact-item">
+        <span class="impact-num">500+</span>
+        <span class="impact-label">Students Supported</span>
+      </div>
+      <div class="impact-item">
+        <span class="impact-num">200+</span>
+        <span class="impact-label">Vigil Participants</span>
+      </div>
+      <div class="impact-item">
+        <span class="impact-num">100%</span>
+        <span class="impact-label">Non-Profit Mission</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PROGRAMS ══ -->
+<section class="sec sec-bg reveal" id="programs" aria-labelledby="programs-heading">
+  <div class="wrap">
+    <div class="sec-head sec-head-center">
+      <span class="label">What We Do</span>
+      <span class="gold-rule center"></span>
+      <h2 class="display-lg" id="programs-heading">
+        Our Ministries &amp; <em class="accent">Programmes</em>
+      </h2>
+      <p class="body-text" style="max-width:520px;margin:.8rem auto 0">
+        Every programme is rooted in Scripture and directed at meeting real needs in Liberian communities.
+      </p>
+    </div>
+    <div class="programs-grid">
+      <div class="prog-card">
+        <div class="prog-ico"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <h3>Church &amp; Worship</h3>
+        <p>Weekly worship services, prayer gatherings, and evangelistic outreach establishing prayer centres throughout Liberia.</p>
+      </div>
+      <div class="prog-card">
+        <div class="prog-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div>
+        <h3>Evangelism &amp; Discipleship</h3>
+        <p>Preaching the Gospel through conferences, seminars, and multimedia outreach across the nation of Liberia.</p>
+      </div>
+      <div class="prog-card">
+        <div class="prog-ico"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div>
+        <h3>Education Support</h3>
+        <p>Providing resources, materials, and mentorship to underserved children and youth across Montserrado County.</p>
+      </div>
+      <div class="prog-card">
+        <div class="prog-ico"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <h3>Youth &amp; Women Empowerment</h3>
+        <p>Promoting leadership, economic independence, and spiritual formation for young people and women.</p>
+      </div>
+      <div class="prog-card">
+        <div class="prog-ico"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+        <h3>Health Awareness</h3>
+        <p>Community health campaigns and free screenings bringing care to families without access to healthcare.</p>
+      </div>
+      <div class="prog-card">
+        <div class="prog-ico"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+        <h3>Counselling &amp; Spiritual Care</h3>
+        <p>Spiritual guidance and pastoral counselling promoting healing, peace, and renewed purpose in Christ.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ EVENTS + GIVE ══ -->
+<section class="sec sec-white reveal" id="events" aria-labelledby="events-heading">
+  <div class="wrap">
+    <div class="events-layout">
+
+      <!-- Events list -->
+      <div>
+        <div class="sec-head">
+          <span class="label">Calendar</span>
+          <span class="gold-rule"></span>
+          <h2 class="display-lg" id="events-heading">
+            Upcoming Events &amp; <em class="accent">Services</em>
+          </h2>
+          <p class="body-text" style="margin-top:.75rem">
+            Join us as we worship, pray, and grow together across Liberia.
+          </p>
+        </div>
+
+        <div role="list">
+          <div class="event-item" role="listitem">
+            <div class="event-date">
+              <span class="event-day">20</span>
+              <span class="event-mon">Jul</span>
+            </div>
+            <div>
+              <h3 class="event-title">Sunday Worship &amp; Healing Service</h3>
+              <p class="event-meta">Johnsonville Community, Montserrado · 9:00 AM</p>
+              <span class="event-tag">Weekly</span>
+            </div>
+          </div>
+
+          <div class="event-item" role="listitem">
+            <div class="event-date" style="border-color:var(--c-gold)">
+              <span class="event-day" style="color:var(--c-gold)">25</span>
+              <span class="event-mon">Jul</span>
+            </div>
+            <div>
+              <h3 class="event-title">All-Night Prayer Vigil</h3>
+              <p class="event-meta">Johnsonville Community · 10:00 PM — Intercession &amp; Fasting</p>
+              <span class="event-tag">Monthly</span>
+            </div>
+          </div>
+
+          <div class="event-item" role="listitem">
+            <div class="event-date">
+              <span class="event-day">02</span>
+              <span class="event-mon">Aug</span>
+            </div>
+            <div>
+              <h3 class="event-title">Youth Leadership Summit</h3>
+              <p class="event-meta">ZHDMI Headquarters · Biblical leadership training</p>
+              <span class="event-tag">Quarterly</span>
+            </div>
+          </div>
+
+          <div class="event-item" role="listitem">
+            <div class="event-date">
+              <span class="event-day">10</span>
+              <span class="event-mon">Aug</span>
+            </div>
+            <div>
+              <h3 class="event-title">Community Health Outreach</h3>
+              <p class="event-meta">Montserrado County · Free health screenings for families</p>
+              <span class="event-tag">Outreach</span>
+            </div>
+          </div>
+        </div>
+
+        <a href="#" class="btn btn-outline" style="margin-top:1.5rem">View Full Calendar</a>
+      </div>
+
+      <!-- Give panel -->
+      <div class="give-panel" id="give">
+        <span class="label">Support the Mission</span>
+        <h3 class="give-title">Give &amp; Make an Impact</h3>
+        <p class="give-desc">Your generosity fuels every programme, outreach, and life transformed by God's power.</p>
+
+        <div class="progress-labels">
+          <span class="raised">$3,400 raised</span>
+          <span class="goal">Goal: $5,000</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill"></div>
+        </div>
+
+        <div class="amount-grid">
+          <button class="amount-btn" onclick="pickAmt(this,'10')">$10</button>
+          <button class="amount-btn is-active" onclick="pickAmt(this,'25')">$25</button>
+          <button class="amount-btn" onclick="pickAmt(this,'50')">$50</button>
+          <button class="amount-btn" onclick="pickAmt(this,'100')">$100</button>
+          <button class="amount-btn" onclick="pickAmt(this,'250')">$250</button>
+          <button class="amount-btn" onclick="pickAmt(this,'')">Other</button>
+        </div>
+        <input class="give-input" type="number" id="give-amount" placeholder="Enter custom amount (USD)" min="1" value="25"/>
+        <button class="give-submit" onclick="doGive()">Proceed to Give Securely</button>
+        <p class="give-secure">Secure · Transparent · 100% Non-Profit</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ SERMONS ══ -->
+<section class="sec sec-dark reveal" id="sermons" aria-labelledby="sermons-heading">
+  <div class="wrap">
+    <div class="sermons-head">
+      <div>
+        <span class="label" style="color:var(--c-gold2)">Media Library</span>
+        <span class="gold-rule" style="background:var(--c-gold2)"></span>
+        <h2 class="display-lg" id="sermons-heading" style="color:#fff">
+          Sermons &amp; <em style="font-style:italic;color:var(--c-gold2);font-weight:400">Teachings</em>
+        </h2>
+      </div>
+      <a href="#" class="btn btn-outline-w btn-sm">Full Archive</a>
+    </div>
+    <div class="sermon-grid">
+
+      <article class="sermon-card">
+        <div class="sermon-thumb">
+          <div class="sermon-thumb-bg"></div>
+          <div class="play-btn" role="button" tabindex="0" aria-label="Play sermon: By His Stripes We Are Healed" onkeydown="if(event.key==='Enter'||event.key===' ')this.click()">
+            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </div>
+          <span class="sermon-duration">45:12</span>
+        </div>
+        <h4>"By His Stripes We Are Healed"</h4>
+        <div class="sermon-meta">
+          <span>Pastor Monica Wright</span>
+          <span>Jun 8, 2025</span>
+        </div>
+      </article>
+
+      <article class="sermon-card">
+        <div class="sermon-thumb" style="background:rgba(255,255,255,.03)">
+          <div class="sermon-thumb-bg" style="background:linear-gradient(135deg,rgba(184,136,42,.15),rgba(24,8,8,.65))"></div>
+          <div class="play-btn" role="button" tabindex="0" aria-label="Play sermon: Walking in Deliverance and Freedom" onkeydown="if(event.key==='Enter'||event.key===' ')this.click()">
+            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </div>
+          <span class="sermon-duration">38:45</span>
+        </div>
+        <h4>"Walking in Deliverance &amp; Freedom"</h4>
+        <div class="sermon-meta">
+          <span>Elder James Kollie</span>
+          <span>Jun 1, 2025</span>
+        </div>
+      </article>
+
+      <article class="sermon-card">
+        <div class="sermon-thumb" style="background:rgba(255,255,255,.03)">
+          <div class="sermon-thumb-bg" style="background:linear-gradient(135deg,rgba(122,24,24,.4),rgba(184,136,42,.12))"></div>
+          <div class="play-btn" role="button" tabindex="0" aria-label="Play sermon: The Power of Corporate Prayer" onkeydown="if(event.key==='Enter'||event.key===' ')this.click()">
+            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </div>
+          <span class="sermon-duration">52:00</span>
+        </div>
+        <h4>"The Power of Corporate Prayer"</h4>
+        <div class="sermon-meta">
+          <span>Pastor Monica Wright</span>
+          <span>May 25, 2025</span>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ TESTIMONIALS ══ -->
+<section class="sec sec-bg reveal" aria-labelledby="testi-heading">
+  <div class="wrap">
+    <div class="sec-head sec-head-center">
+      <span class="label">Stories of Faith</span>
+      <span class="gold-rule center"></span>
+      <h2 class="display-lg" id="testi-heading">
+        Lives <em class="accent">Transformed</em> by God's Power
+      </h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <blockquote class="testi-quote">
+          I came to ZHDMI broken and hopeless. Through their prayers and counselling, God restored my marriage and gave me a peace I had never known before.
+        </blockquote>
+        <div class="testi-person">
+          <div class="testi-avatar" aria-hidden="true">AM</div>
+          <div>
+            <strong>Abigail Moore</strong>
+            <span>Monrovia, Liberia</span>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <blockquote class="testi-quote">
+          My son was very ill and the doctors had given up. The elders of ZHDMI prayed over him. Within two weeks, he was completely healed. To God be the glory.
+        </blockquote>
+        <div class="testi-person">
+          <div class="testi-avatar" aria-hidden="true">JK</div>
+          <div>
+            <strong>James Kollie</strong>
+            <span>Johnsonville Community</span>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <blockquote class="testi-quote">
+          The youth programme changed my life completely. ZHDMI gave me purpose, discipline, and most importantly — a genuine relationship with Jesus Christ.
+        </blockquote>
+        <div class="testi-person">
+          <div class="testi-avatar" aria-hidden="true">SR</div>
+          <div>
+            <strong>Sarah Reeves</strong>
+            <span>Youth Programme Graduate</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ NEWS ══ -->
+<section class="sec sec-white reveal" aria-labelledby="news-heading">
+  <div class="wrap">
+    <div class="news-head">
+      <div>
+        <span class="label">News &amp; Updates</span>
+        <span class="gold-rule"></span>
+        <h2 class="display-lg" id="news-heading">
+          Latest from <em class="accent">the Ministry</em>
+        </h2>
+      </div>
+      <a href="#" class="btn btn-outline btn-sm">All News</a>
+    </div>
+    <div class="news-grid">
+      <article class="news-featured">
+        <div class="news-thumb">
+          <div class="news-thumb-overlay"></div>
+          <span style="font-size:2.5rem;opacity:.18;position:relative;z-index:1">✦</span>
+        </div>
+        <span class="news-tag">Featured</span>
+        <h3 class="display-md">ZHDMI Launches County-Wide Health Outreach Across Montserrado</h3>
+        <p class="body-text" style="margin-top:.7rem">
+          In partnership with local health authorities, ZHDMI has launched a free health screening and education campaign reaching underserved families across Montserrado County, bringing care and the love of Christ to hundreds of families.
+        </p>
+        <div class="news-meta" style="margin-top:.9rem">
+          <span>March 15, 2025</span>
+          <span>Monica Wright</span>
+        </div>
+      </article>
+      <div class="news-side">
+        <div class="news-mini">
+          <div class="news-mini-date">
+            <strong>8</strong>
+            <span>Mar</span>
+          </div>
+          <p class="news-mini-title">Youth Leadership Summit Draws 200+ Participants</p>
+        </div>
+        <div class="news-mini">
+          <div class="news-mini-date">
+            <strong>28</strong>
+            <span>Feb</span>
+          </div>
+          <p class="news-mini-title">School Supply Drive Serves 500 Children Across Liberia</p>
+        </div>
+        <div class="news-mini">
+          <div class="news-mini-date">
+            <strong>20</strong>
+            <span>Feb</span>
+          </div>
+          <p class="news-mini-title">Prayer Vigil: Testimonies of Healing &amp; Breakthrough</p>
+        </div>
+        <div class="news-mini">
+          <div class="news-mini-date">
+            <strong>30</strong>
+            <span>Jan</span>
+          </div>
+          <p class="news-mini-title">Annual Youth Graduation Ceremony Held in Johnsonville</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PRAYER WALL ══ -->
+<section class="sec sec-crimson reveal" id="prayer" aria-labelledby="prayer-heading">
+  <div class="wrap">
+    <div class="sec-head sec-head-center">
+      <span class="label" style="color:var(--c-gold2)">Prayer Wall</span>
+      <span class="gold-rule center" style="background:var(--c-gold2)"></span>
+      <h2 class="display-lg" id="prayer-heading" style="color:#fff">
+        We Stand With You <em style="font-style:italic;color:var(--c-gold2);font-weight:400">in Prayer</em>
+      </h2>
+      <p class="body-text" style="color:rgba(255,255,255,.6);margin-top:.7rem">
+        Our prayer team intercedes daily for every request. God hears every prayer.
+      </p>
+    </div>
+
+    <div class="prayer-layout" style="margin-top:3.5rem">
+      <!-- Form -->
+      <div class="prayer-form-box">
+        <h3>Submit a Prayer Request</h3>
+        <div class="prayer-cats" role="group" aria-label="Prayer category">
+          <button class="prayer-cat is-active" type="button">Healing</button>
+          <button class="prayer-cat" type="button">Provision</button>
+          <button class="prayer-cat" type="button">Family</button>
+          <button class="prayer-cat" type="button">Deliverance</button>
+          <button class="prayer-cat" type="button">Relationship</button>
+          <button class="prayer-cat" type="button">Other</button>
+        </div>
+        <div class="form-field">
+          <label for="p-name">Your Name</label>
+          <input type="text" id="p-name" placeholder="Enter your name" autocomplete="name"/>
+        </div>
+        <div class="form-field">
+          <label for="p-request">Prayer Request</label>
+          <textarea id="p-request" placeholder="Share your prayer need…"></textarea>
+        </div>
+        <label class="form-check">
+          <input type="checkbox"/> Keep my request confidential (prayer team only)
+        </label>
+        <button class="prayer-submit" type="button" onclick="submitPrayer()">Submit Prayer Request</button>
+        <p class="prayer-confirm" id="prayer-confirm">Thank you — our team will intercede for you.</p>
+      </div>
+
+      <!-- Live requests -->
+      <div>
+        <blockquote class="prayer-verse">
+          <p>"The prayer of a righteous person is powerful and effective."</p>
+          <cite>— James 5:16b (NIV)</cite>
+        </blockquote>
+
+        <span class="req-section-label">Recent Prayer Requests</span>
+
+        <div class="req-item">
+          <div class="req-header">
+            <span class="req-name">Abigail M. · Healing</span>
+            <span class="req-date">2 days ago</span>
+          </div>
+          <p class="req-body">Please pray for my mother's recovery. The doctors have done all they can. I believe God has the final say.</p>
+          <button class="req-pray-btn" type="button">I Prayed for This</button>
+        </div>
+
+        <div class="req-item">
+          <div class="req-header">
+            <span class="req-name">David K. · Provision</span>
+            <span class="req-date">4 days ago</span>
+          </div>
+          <p class="req-body">Lord, I trust You for my children's school fees. I have been without work for three months. I know You provide.</p>
+          <button class="req-pray-btn" type="button">I Prayed for This</button>
+        </div>
+
+        <div class="req-item">
+          <div class="req-header">
+            <span class="req-name">Grace T. · Family</span>
+            <span class="req-date">1 week ago</span>
+          </div>
+          <p class="req-body">My husband and I need God's restoration in our marriage. We are believing together for a miracle.</p>
+          <button class="req-pray-btn" type="button">I Prayed for This</button>
+        </div>
+
+        <a href="#" class="btn btn-outline-w btn-sm" style="margin-top:1.5rem">View Full Prayer Wall</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ LOCATION ══ -->
+<section class="sec sec-bg2 reveal" id="location" aria-labelledby="location-heading">
+  <div class="wrap">
+    <div class="sec-head sec-head-center" style="margin-bottom:3rem">
+      <span class="label">Find Us</span>
+      <span class="gold-rule center"></span>
+      <h2 class="display-lg" id="location-heading">
+        Ministry <em class="accent">Locations</em>
+      </h2>
+    </div>
+    <div class="location-grid">
+      <div class="map-wrap">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31648.6!2d-10.7599!3d6.3606!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xf09ed2b3c98d021%3A0x7d96e9d31f7b1b!2sJohnsonville%2C+Liberia!5e0!3m2!1sen!2sus!4v1700000000000"
+          width="100%" height="340"
+          allowfullscreen loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="ZHDMI — Johnsonville Community, Liberia">
+        </iframe>
+      </div>
+      <div>
+        <div class="loc-item">
+          <div class="loc-ico">
+            <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div>
+            <h4>ZHDMI Headquarters</h4>
+            <p>Johnsonville Community, Montserrado County, Republic of Liberia</p>
+            <p style="color:var(--c-crimson);font-weight:600;font-size:.78rem;margin-top:.3rem">Sunday Worship · Every Sunday 9:00 AM</p>
+          </div>
+        </div>
+        <div class="loc-item">
+          <div class="loc-ico">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2C6.48 2 2 6.48 2 12c0 7 10 13 10 13s10-6 10-13c0-5.52-4.48-10-10-10z"/></svg>
+          </div>
+          <div>
+            <h4>Monrovia Outreach Centre</h4>
+            <p>Monrovia City, Montserrado County, Republic of Liberia<br>Community programmes &amp; health outreach</p>
+          </div>
+        </div>
+        <div class="loc-item">
+          <div class="loc-ico">
+            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.9a16 16 0 006.29 6.29l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          </div>
+          <div>
+            <h4>Contact Us Directly</h4>
+            <a href="tel:+231000000000">+231 000 000 000</a>
+            <a href="mailto:info@zhdmi.org">info@zhdmi.org</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PARTNERS ══ -->
+<section class="sec-sm sec-white reveal" aria-label="Partners and sponsors">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:2rem">
+      <span class="label">Partners &amp; Network</span>
+      <span class="gold-rule center"></span>
+    </div>
+    <div class="partners-row">
+      <div class="partner-item">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+        Local Churches Network
+      </div>
+      <div class="partner-item">
+        <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        Montserrado Health Auth.
+      </div>
+      <div class="partner-item">
+        <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+        Education Ministries
+      </div>
+      <div class="partner-item">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+        International NGO Alliance
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:2.5rem">
+      <a href="#" class="btn btn-primary">Become a Ministry Partner</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA BAND ══ -->
+<section class="cta-band reveal" aria-label="Call to action">
+  <div class="cta-bg-word" aria-hidden="true">Restore</div>
+  <div class="wrap">
+    <span class="label">Get Involved</span>
+    <h2 class="cta-band-title">
+      Join the Mission to <em>Transform Lives</em>
+    </h2>
+    <p>Whether you give, volunteer, or pray — your involvement makes an eternal difference in the lives of people across Liberia.</p>
+    <div class="cta-btns">
+      <a href="#give"   class="btn btn-gold">Give Now</a>
+      <a href="#"       class="btn btn-outline-w">Volunteer</a>
+      <a href="#prayer" class="btn btn-outline-w">Pray with Us</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ NEWSLETTER ══ -->
+<section class="sec sec-bg2 reveal" aria-label="Newsletter signup">
+  <div class="wrap">
+    <div class="newsletter-inner">
+      <span class="label">Stay Connected</span>
+      <span class="gold-rule center"></span>
+      <h2>Ministry <em>Updates</em></h2>
+      <p>Receive events, sermon releases, ministry reports, and prayer alerts directly to your inbox. No spam — only the Word and the Work.</p>
+      <div class="newsletter-form" role="search" aria-label="Newsletter subscription">
+        <label for="nl-email" class="sr-only">Email address</label>
+        <input class="newsletter-input" type="email" id="nl-email" placeholder="Your email address" autocomplete="email" aria-label="Email address" required/>
+        <button class="newsletter-btn" type="button" onclick="doSubscribe()">Subscribe</button>
+      </div>
+      <p class="newsletter-note" id="nl-note">Unsubscribe anytime. We respect your privacy.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+</main>
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-main">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:.75rem">
+          <img src="https://i.ibb.co/B2LfNKxt/Zion-Healing-Ministry-logo-design.png"
+            alt="ZHDMI"
+            style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,.15)"
+            onerror="this.style.display='none'"/>
+          <span style="font-family:var(--f-cap);font-size:.82rem;color:#fff;letter-spacing:.08em">ZHDMI</span>
+        </div>
+        <p>Zion Healing &amp; Deliverance Ministries International — a Christian-based non-profit bringing healing, deliverance, education, and community development to Liberia through the love of Jesus Christ.</p>
+        <div class="footer-social" aria-label="Social media links">
+          <a href="#" class="footer-soc-btn" title="Facebook" aria-label="Facebook">
+            <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          </a>
+          <a href="#" class="footer-soc-btn" title="YouTube" aria-label="YouTube">
+            <svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.4a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+          </a>
+          <a href="#" class="footer-soc-btn" title="WhatsApp" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+          </a>
+          <a href="#" class="footer-soc-btn" title="Instagram" aria-label="Instagram">
+            <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Pages</h5>
+        <a href="#">Home</a>
+        <a href="#about">About Us</a>
+        <a href="#events">Events</a>
+        <a href="#sermons">Sermons</a>
+        <a href="#give">Give</a>
+      </div>
+      <div class="footer-col">
+        <h5>Ministry</h5>
+        <a href="#">Volunteer</a>
+        <a href="#prayer">Prayer Wall</a>
+        <a href="#programs">Programmes</a>
+        <a href="#">Our Team</a>
+        <a href="#">FAQ</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <a href="tel:+231000000000">+231 000 000 000</a>
+        <a href="mailto:info@zhdmi.org">info@zhdmi.org</a>
+        <a href="#location">Johnsonville, Liberia</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">NGO Registration</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Zion Healing &amp; Deliverance Ministries International. All Rights Reserved.</span>
+      <div class="footer-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ══ BACK TO TOP ══ -->
+<button class="back-to-top" id="btt" aria-label="Back to top">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<!-- ══════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════ -->
+<script>
+/* ── HAMBURGER ───────────────────────── */
+const hamBtn   = document.getElementById('ham-btn');
+const mobNav   = document.getElementById('mobile-nav');
+
+hamBtn.addEventListener('click', () => {
+  const isOpen = mobNav.classList.toggle('is-open');
+  hamBtn.classList.toggle('is-open', isOpen);
+  hamBtn.setAttribute('aria-expanded', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+});
+
+function closeNav() {
+  mobNav.classList.remove('is-open');
+  hamBtn.classList.remove('is-open');
+  hamBtn.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+}
+
+/* ── COUNTDOWN TO NEXT SUNDAY 9 AM ──── */
+function getNextSunday9am() {
+  const now = new Date();
+  const result = new Date(now);
+  const dayOfWeek = result.getDay(); // 0 = Sunday
+  // If today is Sunday and it's before 9 AM, show countdown to today's service
+  if (dayOfWeek === 0) {
+    result.setHours(9, 0, 0, 0);
+    if (result > now) return result; // today's service hasn't started yet
+  }
+  // Otherwise go to next Sunday
+  const daysUntil = dayOfWeek === 0 ? 7 : (7 - dayOfWeek);
+  result.setDate(result.getDate() + daysUntil);
+  result.setHours(9, 0, 0, 0);
+  return result;
+}
+
+function updateCountdown() {
+  const target = getNextSunday9am();
+  const now    = new Date();
+  let   diff   = Math.max(0, Math.floor((target - now) / 1000));
+
+  const s   = diff % 60; diff = Math.floor(diff / 60);
+  const m   = diff % 60; diff = Math.floor(diff / 60);
+  const h   = diff % 24;
+  const d   = Math.floor(diff / 24);
+  const pad = n => String(n).padStart(2, '0');
+
+  document.getElementById('cd-d').textContent = pad(d);
+  document.getElementById('cd-h').textContent = pad(h);
+  document.getElementById('cd-m').textContent = pad(m);
+  document.getElementById('cd-s').textContent = pad(s);
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+/* ── SCROLL REVEAL ───────────────────── */
+const revealEls = document.querySelectorAll('.reveal');
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      revealObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.07 });
+revealEls.forEach(el => revealObs.observe(el));
+
+/* ── BACK TO TOP ─────────────────────── */
+const bttBtn = document.getElementById('btt');
+window.addEventListener('scroll', () => {
+  bttBtn.classList.toggle('visible', window.scrollY > 500);
+}, { passive: true });
+bttBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+/* ── ACTIVE NAV ON SCROLL ─────────────── */
+(function () {
+  const sections = document.querySelectorAll('section[id], div[id]');
+  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        navLinks.forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+          a.removeAttribute('aria-current');
+        });
+        const match = document.querySelector(`.nav-links a[href="#${id}"]`);
+        if (match) match.setAttribute('aria-current', 'page');
+      }
+    });
+  }, { threshold: 0.35 });
+  sections.forEach(s => obs.observe(s));
+})();
+
+/* ── I PRAYED BUTTON ─────────────────── */
+document.querySelectorAll('.req-pray-btn').forEach(btn => {
+  btn.addEventListener('click', function () {
+    if (this.classList.contains('prayed')) return;
+    this.classList.add('prayed');
+    this.textContent = '✓ Praying for This';
+    this.setAttribute('aria-pressed', 'true');
+    this.setAttribute('aria-label', 'You are praying for this request');
+  });
+  btn.setAttribute('role', 'button');
+  btn.setAttribute('aria-pressed', 'false');
+});
+
+
+function pickAmt(btn, val) {
+  document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('is-active'));
+  btn.classList.add('is-active');
+  const inp = document.getElementById('give-amount');
+  inp.value = val;
+  if (!val) inp.focus();
+}
+
+function doGive() {
+  const amt = document.getElementById('give-amount').value;
+  if (!amt || isNaN(amt) || +amt <= 0) {
+    alert('Please enter or select a giving amount.');
+    return;
+  }
+  alert('Thank you for your generosity!\n\nAmount: $' + Number(amt).toFixed(2) + '\n\nSecure payment integration coming soon. God bless you!');
+}
+
+/* ── PRAYER CATEGORIES ───────────────── */
+document.querySelectorAll('.prayer-cat').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.prayer-cat').forEach(b => b.classList.remove('is-active'));
+    btn.classList.add('is-active');
+  });
+});
+
+/* ── PRAYER SUBMIT ───────────────────── */
+function submitPrayer() {
+  const nameEl = document.getElementById('p-name');
+  const reqEl  = document.getElementById('p-request');
+  const name   = nameEl.value.trim();
+  const req    = reqEl.value.trim();
+  if (!name) { nameEl.focus(); return; }
+  if (!req)  { reqEl.focus();  return; }
+  const conf = document.getElementById('prayer-confirm');
+  conf.style.display = 'block';
+  conf.setAttribute('role', 'status');
+  nameEl.value = '';
+  reqEl.value  = '';
+  setTimeout(() => {
+    conf.style.display = 'none';
+    conf.removeAttribute('role');
+  }, 6000);
+}
+
+/* ── NEWSLETTER ──────────────────────── */
+function doSubscribe() {
+  const emailInput = document.getElementById('nl-email');
+  const email = emailInput.value.trim();
+  if (!email || !email.includes('@') || !email.includes('.')) {
+    emailInput.focus();
+    emailInput.setCustomValidity('Please enter a valid email address.');
+    emailInput.reportValidity();
+    return;
+  }
+  emailInput.setCustomValidity('');
+  const note = document.getElementById('nl-note');
+  note.textContent = 'You\'re subscribed! Thank you for joining the ZHDMI community.';
+  note.classList.add('success');
+  emailInput.value = '';
+  emailInput.setAttribute('disabled', 'true');
+  document.querySelector('.newsletter-btn').setAttribute('disabled', 'true');
+}
+</script>
+</body>
+</html>
