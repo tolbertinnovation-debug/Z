@@ -1,12 +1,14 @@
 "use client";
-import { useState, Suspense } from "react";
+import { useState, Suspense, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
   User, Mail, Phone, GraduationCap, Upload, CheckCircle,
-  ChevronRight, ChevronLeft, FileText, Building, AlertCircle
+  ChevronRight, ChevronLeft, FileText, Building, AlertCircle, HelpCircle
 } from "lucide-react";
 import { universities } from "@/lib/data";
+
+const STORAGE_KEY = "tih_apply_form";
 
 const steps = [
   { id: 1, title: "Personal Info", icon: User },
@@ -16,32 +18,110 @@ const steps = [
   { id: 5, title: "Review & Submit", icon: CheckCircle },
 ];
 
+interface FormState {
+  firstName: string; lastName: string; gender: string; dob: string; nationality: string;
+  phone: string; whatsapp: string; email: string; address: string;
+  school: string; waecGrade: string; gpa: string; degreeLevel: string;
+  university: string; program: string; intake: string;
+  personalStatement: string;
+  agreeTerms: boolean;
+}
+
 function ApplicationForm() {
   const searchParams = useSearchParams();
   const preSelected = searchParams.get("university") || "";
   const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
   const [appId] = useState(() => "TIH-" + Math.random().toString(36).substring(2, 8).toUpperCase());
-  const [form, setForm] = useState({
-    firstName: "", lastName: "", gender: "", dob: "", nationality: "Liberian",
-    phone: "", whatsapp: "", email: "", address: "",
-    school: "", waecGrade: "", gpa: "", degreeLevel: "undergraduate",
-    university: preSelected, program: "", intake: "September 2024",
-    passport: null as File | null, transcript: null as File | null,
-    waecResult: null as File | null, recommendation: null as File | null,
-    personalStatement: "",
-    agreeTerms: false,
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const [form, setForm] = useState<FormState>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          const parsed = JSON.parse(saved) as FormState;
+          return { ...parsed, university: parsed.university || preSelected };
+        }
+      } catch {
+        // ignore
+      }
+    }
+    return {
+      firstName: "", lastName: "", gender: "", dob: "", nationality: "Liberian",
+      phone: "", whatsapp: "", email: "", address: "",
+      school: "", waecGrade: "", gpa: "", degreeLevel: "undergraduate",
+      university: preSelected, program: "", intake: "September 2024",
+      personalStatement: "",
+      agreeTerms: false,
+    };
   });
 
-  const updateForm = (field: string, value: string | boolean | File | null) =>
+  // File state is not serializable, kept separate
+  const [files, setFiles] = useState<Record<string, File | null>>({
+    passport: null, transcript: null, waecResult: null, recommendation: null
+  });
+
+  // Save form to localStorage on change (excluding files)
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(form));
+    }
+  }, [form]);
+
+  const updateForm = (field: keyof FormState, value: string | boolean) =>
     setForm((prev) => ({ ...prev, [field]: value }));
 
   const selectedUni = universities.find((u) => u.id === form.university);
 
+  const validateStep = (s: number): boolean => {
+    const newErrors: Record<string, string> = {};
+    if (s === 1) {
+      if (!form.firstName.trim()) newErrors.firstName = "First name is required";
+      if (!form.lastName.trim()) newErrors.lastName = "Last name is required";
+      if (!form.gender) newErrors.gender = "Please select a gender";
+      if (!form.dob) newErrors.dob = "Date of birth is required";
+      if (!form.email.trim()) newErrors.email = "Email is required";
+      else if (!/\S+@\S+\.\S+/.test(form.email)) newErrors.email = "Enter a valid email";
+      if (!form.phone.trim()) newErrors.phone = "Phone number is required";
+    }
+    if (s === 2) {
+      if (!form.school.trim()) newErrors.school = "School name is required";
+      if (!form.waecGrade) newErrors.waecGrade = "Please select your WAEC grade";
+    }
+    if (s === 3) {
+      if (!form.university) newErrors.university = "Please select a university";
+      if (!form.program) newErrors.program = "Please select a program";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleNext = () => {
+    if (validateStep(step)) {
+      setStep((s) => Math.min(5, s + 1));
+      setErrors({});
+    }
+  };
+
   const handleSubmit = () => {
     if (!form.agreeTerms) return;
+    // Clear saved progress on submit
+    if (typeof window !== "undefined") localStorage.removeItem(STORAGE_KEY);
     setSubmitted(true);
   };
+
+  const inputClass = (field: string) =>
+    `w-full text-sm border rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors ${
+      errors[field] ? "border-red-400 bg-red-50 focus:ring-red-300" : "border-slate-200"
+    }`;
+
+  const ErrorMsg = ({ field }: { field: string }) =>
+    errors[field] ? (
+      <p className="text-xs text-red-600 mt-1.5 flex items-center gap-1">
+        <AlertCircle className="w-3 h-3" /> {errors[field]}
+      </p>
+    ) : null;
 
   if (submitted) {
     return (
@@ -65,10 +145,10 @@ function ApplicationForm() {
               "University application submission on your behalf",
               "Offer letter receipt and forwarding",
               "Visa guidance and pre-departure support",
-            ].map((step, i) => (
+            ].map((s, i) => (
               <div key={i} className="flex items-start gap-2 py-1.5 text-sm text-slate-700">
                 <span className="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">{i + 1}</span>
-                {step}
+                {s}
               </div>
             ))}
           </div>
@@ -127,42 +207,48 @@ function ApplicationForm() {
               <div className="grid sm:grid-cols-2 gap-5">
                 <div>
                   <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">First Name *</label>
-                  <input type="text" placeholder="Emmanuel" value={form.firstName} onChange={(e) => updateForm("firstName", e.target.value)} className="w-full text-sm border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none" />
+                  <input type="text" placeholder="Emmanuel" value={form.firstName} onChange={(e) => updateForm("firstName", e.target.value)} className={inputClass("firstName")} />
+                  <ErrorMsg field="firstName" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Last Name *</label>
-                  <input type="text" placeholder="Kollie" value={form.lastName} onChange={(e) => updateForm("lastName", e.target.value)} className="w-full text-sm border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none" />
+                  <input type="text" placeholder="Kollie" value={form.lastName} onChange={(e) => updateForm("lastName", e.target.value)} className={inputClass("lastName")} />
+                  <ErrorMsg field="lastName" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Gender *</label>
-                  <select value={form.gender} onChange={(e) => updateForm("gender", e.target.value)} className="w-full text-sm border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white">
+                  <select value={form.gender} onChange={(e) => updateForm("gender", e.target.value)} className={inputClass("gender")}>
                     <option value="">Select gender</option>
                     <option>Male</option><option>Female</option><option>Prefer not to say</option>
                   </select>
+                  <ErrorMsg field="gender" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Date of Birth *</label>
-                  <input type="date" value={form.dob} onChange={(e) => updateForm("dob", e.target.value)} className="w-full text-sm border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none" />
+                  <input type="date" value={form.dob} onChange={(e) => updateForm("dob", e.target.value)} className={inputClass("dob")} />
+                  <ErrorMsg field="dob" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Nationality *</label>
-                  <input type="text" value={form.nationality} onChange={(e) => updateForm("nationality", e.target.value)} className="w-full text-sm border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none" />
+                  <input type="text" value={form.nationality} onChange={(e) => updateForm("nationality", e.target.value)} className={inputClass("nationality")} />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Email Address *</label>
-                  <input type="email" placeholder="you@example.com" value={form.email} onChange={(e) => updateForm("email", e.target.value)} className="w-full text-sm border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none" />
+                  <input type="email" placeholder="you@example.com" value={form.email} onChange={(e) => updateForm("email", e.target.value)} className={inputClass("email")} />
+                  <ErrorMsg field="email" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Phone Number *</label>
-                  <input type="tel" placeholder="+231 770 000 000" value={form.phone} onChange={(e) => updateForm("phone", e.target.value)} className="w-full text-sm border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none" />
+                  <input type="tel" placeholder="+231 770 000 000" value={form.phone} onChange={(e) => updateForm("phone", e.target.value)} className={inputClass("phone")} />
+                  <ErrorMsg field="phone" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">WhatsApp Number</label>
-                  <input type="tel" placeholder="+231 770 000 000" value={form.whatsapp} onChange={(e) => updateForm("whatsapp", e.target.value)} className="w-full text-sm border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none" />
+                  <input type="tel" placeholder="+231 770 000 000" value={form.whatsapp} onChange={(e) => updateForm("whatsapp", e.target.value)} className={inputClass("whatsapp")} />
                 </div>
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Home Address</label>
-                  <textarea rows={2} placeholder="Your address in Liberia" value={form.address} onChange={(e) => updateForm("address", e.target.value)} className="w-full text-sm border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none" />
+                  <textarea rows={2} placeholder="Your address in Liberia" value={form.address} onChange={(e) => updateForm("address", e.target.value)} className={`${inputClass("address")} resize-none`} />
                 </div>
               </div>
             </div>
@@ -177,18 +263,20 @@ function ApplicationForm() {
               <div className="grid sm:grid-cols-2 gap-5">
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Secondary School Name *</label>
-                  <input type="text" placeholder="e.g. ABC High School, Monrovia" value={form.school} onChange={(e) => updateForm("school", e.target.value)} className="w-full text-sm border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none" />
+                  <input type="text" placeholder="e.g. ABC High School, Monrovia" value={form.school} onChange={(e) => updateForm("school", e.target.value)} className={inputClass("school")} />
+                  <ErrorMsg field="school" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Best WAEC Grade *</label>
-                  <select value={form.waecGrade} onChange={(e) => updateForm("waecGrade", e.target.value)} className="w-full text-sm border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white">
+                  <select value={form.waecGrade} onChange={(e) => updateForm("waecGrade", e.target.value)} className={inputClass("waecGrade")}>
                     <option value="">Select best grade</option>
                     {["A1 (Excellent)", "B2 (Very Good)", "B3 (Good)", "C4 (Credit)", "C5 (Credit)", "C6 (Credit)", "D7 (Pass)", "E8 (Pass)", "F9 (Fail)"].map((g) => <option key={g}>{g}</option>)}
                   </select>
+                  <ErrorMsg field="waecGrade" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">GPA / CGPA</label>
-                  <input type="number" placeholder="e.g. 3.5" min="0" max="4" step="0.01" value={form.gpa} onChange={(e) => updateForm("gpa", e.target.value)} className="w-full text-sm border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none" />
+                  <input type="number" placeholder="e.g. 3.5" min="0" max="4" step="0.01" value={form.gpa} onChange={(e) => updateForm("gpa", e.target.value)} className={inputClass("gpa")} />
                 </div>
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Degree Level Applying For *</label>
@@ -224,7 +312,7 @@ function ApplicationForm() {
               <div className="space-y-5">
                 <div>
                   <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Select University *</label>
-                  <select value={form.university} onChange={(e) => updateForm("university", e.target.value)} className="w-full text-sm border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white">
+                  <select value={form.university} onChange={(e) => updateForm("university", e.target.value)} className={inputClass("university")}>
                     <option value="">Choose a university...</option>
                     <optgroup label="🇮🇳 India">
                       {universities.filter((u) => u.country === "India").map((u) => (
@@ -237,6 +325,7 @@ function ApplicationForm() {
                       ))}
                     </optgroup>
                   </select>
+                  <ErrorMsg field="university" />
                 </div>
 
                 {selectedUni && (
@@ -254,7 +343,7 @@ function ApplicationForm() {
 
                 <div>
                   <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Preferred Program *</label>
-                  <select value={form.program} onChange={(e) => updateForm("program", e.target.value)} className="w-full text-sm border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white" disabled={!selectedUni}>
+                  <select value={form.program} onChange={(e) => updateForm("program", e.target.value)} className={inputClass("program")} disabled={!selectedUni}>
                     <option value="">Select program...</option>
                     {selectedUni && (
                       <>
@@ -267,11 +356,12 @@ function ApplicationForm() {
                       </>
                     )}
                   </select>
+                  <ErrorMsg field="program" />
                 </div>
 
                 <div>
                   <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Preferred Intake *</label>
-                  <select value={form.intake} onChange={(e) => updateForm("intake", e.target.value)} className="w-full text-sm border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white">
+                  <select value={form.intake} onChange={(e) => updateForm("intake", e.target.value)} className={inputClass("intake")}>
                     <option>September 2024</option>
                     <option>January 2025</option>
                     <option>September 2025</option>
@@ -305,14 +395,14 @@ function ApplicationForm() {
                       </div>
                       <label className="cursor-pointer flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-700 rounded-xl text-sm font-semibold hover:bg-blue-100 transition-colors">
                         <Upload className="w-4 h-4" />
-                        {(form as Record<string, unknown>)[doc.key] ? "Change File" : "Upload"}
-                        <input type="file" className="hidden" accept=".pdf,.jpg,.jpeg,.png" onChange={(e) => updateForm(doc.key, e.target.files?.[0] || null)} />
+                        {files[doc.key] ? "Change File" : "Upload"}
+                        <input type="file" className="hidden" accept=".pdf,.jpg,.jpeg,.png" onChange={(e) => setFiles((f) => ({ ...f, [doc.key]: e.target.files?.[0] || null }))} />
                       </label>
                     </div>
-                    {!!((form as Record<string, unknown>)[doc.key]) && (
+                    {files[doc.key] && (
                       <div className="mt-3 flex items-center gap-2 text-sm text-green-600 bg-green-50 rounded-lg px-3 py-2">
                         <CheckCircle className="w-4 h-4" />
-                        <span>{((form as Record<string, unknown>)[doc.key] as File)?.name}</span>
+                        <span>{files[doc.key]?.name}</span>
                       </div>
                     )}
                   </div>
@@ -411,7 +501,7 @@ function ApplicationForm() {
 
             {step < 5 ? (
               <button
-                onClick={() => setStep((s) => Math.min(5, s + 1))}
+                onClick={handleNext}
                 className="flex items-center gap-2 px-8 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-colors text-sm shadow-lg shadow-blue-200"
               >
                 Next Step <ChevronRight className="w-4 h-4" />
@@ -427,7 +517,20 @@ function ApplicationForm() {
             )}
           </div>
         </div>
+
+        {/* Form progress saved notice */}
+        <p className="text-center text-xs text-slate-400 mt-4">
+          ✓ Your progress is automatically saved in this browser
+        </p>
       </div>
+
+      {/* Floating "Need help?" button */}
+      <Link
+        href="/counseling"
+        className="fixed bottom-6 left-6 z-40 flex items-center gap-2 px-4 py-3 bg-white text-slate-700 font-semibold text-sm rounded-2xl shadow-xl border border-slate-200 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200 transition-all"
+      >
+        <HelpCircle className="w-4 h-4 text-blue-600" /> Need help?
+      </Link>
     </main>
   );
 }

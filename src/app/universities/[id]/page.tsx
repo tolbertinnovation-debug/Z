@@ -182,11 +182,12 @@ export default function UniversityDetailPage({ params }: { params: Promise<{ id:
                       <h3 className="font-bold text-slate-900 mb-3 flex items-center gap-2">
                         <Play className="w-4 h-4 text-blue-600" /> Campus Tour Video
                       </h3>
-                      <div className="relative bg-slate-100 rounded-2xl overflow-hidden aspect-video">
+                      <div className="relative bg-slate-900 rounded-2xl overflow-hidden aspect-video shadow-xl">
                         <iframe
-                          src={uni.video}
+                          src={`${uni.video}?rel=0&modestbranding=1&showinfo=0`}
                           title={`${uni.name} Campus Tour`}
                           className="w-full h-full"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                           allowFullScreen
                         />
                       </div>

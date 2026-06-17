@@ -1,6 +1,7 @@
 "use client";
-import { useState, useMemo } from "react";
-import { Search, Filter, SlidersHorizontal, MapPin, GraduationCap, X } from "lucide-react";
+import { useState, useMemo, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { Search, Filter, SlidersHorizontal, MapPin, GraduationCap, X, GitCompare, CheckSquare } from "lucide-react";
 import { universities } from "@/lib/data";
 import UniversityCard from "@/components/UniversityCard";
 
@@ -8,7 +9,25 @@ const countries = ["All Countries", "India", "North Cyprus"];
 const degrees = ["All Degrees", "Undergraduate", "Postgraduate", "MBA", "PhD", "Medical"];
 const budgets = ["Any Budget", "< $2,000/yr", "$2,000–$5,000/yr", "> $5,000/yr"];
 
+function SkeletonCard() {
+  return (
+    <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 animate-pulse">
+      <div className="h-48 bg-slate-200" />
+      <div className="p-4 space-y-3">
+        <div className="h-4 bg-slate-200 rounded w-3/4" />
+        <div className="h-3 bg-slate-200 rounded w-1/2" />
+        <div className="flex gap-2">
+          <div className="h-5 bg-slate-200 rounded-full w-16" />
+          <div className="h-5 bg-slate-200 rounded-full w-20" />
+        </div>
+        <div className="h-8 bg-slate-200 rounded-xl" />
+      </div>
+    </div>
+  );
+}
+
 export default function UniversitiesPage() {
+  const router = useRouter();
   const [search, setSearch] = useState("");
   const [country, setCountry] = useState("All Countries");
   const [degree, setDegree] = useState("All Degrees");
@@ -16,6 +35,13 @@ export default function UniversitiesPage() {
   const [scholarship, setScholarship] = useState(false);
   const [sortBy, setSortBy] = useState("ranking");
   const [showFilters, setShowFilters] = useState(false);
+  const [compareIds, setCompareIds] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 300);
+    return () => clearTimeout(timer);
+  }, []);
 
   const filtered = useMemo(() => {
     let list = [...universities];
@@ -66,6 +92,18 @@ export default function UniversitiesPage() {
   };
 
   const hasFilters = search || country !== "All Countries" || degree !== "All Degrees" || budget !== "Any Budget" || scholarship;
+
+  const toggleCompare = (id: string) => {
+    setCompareIds((prev) => {
+      if (prev.includes(id)) return prev.filter((i) => i !== id);
+      if (prev.length >= 3) return prev;
+      return [...prev, id];
+    });
+  };
+
+  const handleCompareClick = () => {
+    router.push(`/compare?ids=${compareIds.join(",")}`);
+  };
 
   return (
     <main className="min-h-screen bg-slate-50">
@@ -167,25 +205,37 @@ export default function UniversitiesPage() {
           </div>
         )}
 
-        {/* Country Pills */}
-        <div className="flex gap-2 mb-6 flex-wrap">
-          {countries.map((c) => (
+        {/* Top bar: Country pills + Sort */}
+        <div className="flex items-start justify-between gap-4 mb-6 flex-wrap">
+          <div className="flex gap-2 flex-wrap">
+            {countries.map((c) => (
+              <button
+                key={c}
+                onClick={() => setCountry(c)}
+                className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${country === c ? "bg-blue-600 text-white shadow-md shadow-blue-200" : "bg-white text-slate-600 border border-slate-200 hover:border-blue-200 hover:text-blue-600"}`}
+              >
+                {c === "India" && "🇮🇳"}
+                {c === "North Cyprus" && "🇨🇾"}
+                {c}
+              </button>
+            ))}
             <button
-              key={c}
-              onClick={() => setCountry(c)}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${country === c ? "bg-blue-600 text-white shadow-md shadow-blue-200" : "bg-white text-slate-600 border border-slate-200 hover:border-blue-200 hover:text-blue-600"}`}
+              onClick={() => setScholarship(!scholarship)}
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${scholarship ? "bg-amber-500 text-white shadow-md shadow-amber-200" : "bg-white text-slate-600 border border-slate-200 hover:border-amber-200 hover:text-amber-600"}`}
             >
-              {c === "India" && "🇮🇳"}
-              {c === "North Cyprus" && "🇨🇾"}
-              {c}
+              🏆 Scholarships Available
             </button>
-          ))}
-          <button
-            onClick={() => setScholarship(!scholarship)}
-            className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${scholarship ? "bg-amber-500 text-white shadow-md shadow-amber-200" : "bg-white text-slate-600 border border-slate-200 hover:border-amber-200 hover:text-amber-600"}`}
-          >
-            🏆 Scholarships Available
-          </button>
+          </div>
+          {/* Sort dropdown */}
+          <div className="flex items-center gap-2">
+            <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider whitespace-nowrap">Sort by</label>
+            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="text-sm border border-slate-200 rounded-xl px-3 py-2 bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none">
+              <option value="ranking">Best Ranking</option>
+              <option value="rating">Highest Rated</option>
+              <option value="tuition_low">Lowest Tuition</option>
+              <option value="tuition_high">Highest Tuition</option>
+            </select>
+          </div>
         </div>
 
         {/* Results count */}
@@ -201,11 +251,36 @@ export default function UniversitiesPage() {
         </div>
 
         {/* Grid */}
-        {filtered.length > 0 ? (
+        {loading ? (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filtered.map((uni) => (
-              <UniversityCard key={uni.id} uni={uni} />
-            ))}
+            {Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)}
+          </div>
+        ) : filtered.length > 0 ? (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filtered.map((uni) => {
+              const isSelected = compareIds.includes(uni.id);
+              const isDisabled = !isSelected && compareIds.length >= 3;
+              return (
+                <div key={uni.id} className="relative group">
+                  {/* Compare checkbox */}
+                  <button
+                    onClick={() => !isDisabled && toggleCompare(uni.id)}
+                    className={`absolute top-3 left-3 z-10 flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-bold shadow-lg transition-all duration-200 ${
+                      isSelected
+                        ? "bg-blue-600 text-white"
+                        : isDisabled
+                        ? "bg-white/70 text-slate-400 cursor-not-allowed"
+                        : "bg-white/90 text-slate-600 hover:bg-blue-50 hover:text-blue-700 opacity-0 group-hover:opacity-100"
+                    }`}
+                    aria-label={isSelected ? "Remove from compare" : "Add to compare"}
+                  >
+                    <CheckSquare className="w-3 h-3" />
+                    {isSelected ? "Added" : "Compare"}
+                  </button>
+                  <UniversityCard uni={uni} />
+                </div>
+              );
+            })}
           </div>
         ) : (
           <div className="text-center py-24">
@@ -220,6 +295,34 @@ export default function UniversitiesPage() {
           </div>
         )}
       </div>
+
+      {/* Floating compare bar */}
+      {compareIds.length > 0 && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 bg-white rounded-2xl shadow-2xl border border-slate-100 px-6 py-4 flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <GitCompare className="w-5 h-5 text-blue-600" />
+            <span className="font-bold text-slate-900 text-sm">
+              Compare (<span className="text-blue-600">{compareIds.length}</span>)
+            </span>
+            <span className="text-xs text-slate-500">— select up to 3</span>
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setCompareIds([])}
+              className="px-3 py-1.5 bg-slate-100 text-slate-600 rounded-xl text-xs font-semibold hover:bg-slate-200 transition-colors"
+            >
+              Clear
+            </button>
+            <button
+              onClick={handleCompareClick}
+              disabled={compareIds.length < 2}
+              className="px-5 py-1.5 bg-blue-600 text-white rounded-xl text-xs font-bold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              Compare Now
+            </button>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

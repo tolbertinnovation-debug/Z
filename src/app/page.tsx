@@ -4,7 +4,7 @@ import Link from "next/link";
 import {
   GraduationCap, Globe, Users, Trophy, ChevronRight, Star,
   BookOpen, Plane, Award, CheckCircle, ArrowRight, Play,
-  Search, Lightbulb, Shield
+  Search, Lightbulb, Shield, Brain, Sparkles, ChevronDown
 } from "lucide-react";
 import { universities, testimonials, scholarships, stats } from "@/lib/data";
 import UniversityCard from "@/components/UniversityCard";
@@ -37,6 +37,44 @@ function AnimatedCounter({ end, suffix }: { end: number; suffix: string }) {
   return <span ref={ref}>{count.toLocaleString()}{suffix}</span>;
 }
 
+const typedWords = ["Computer Science", "Medicine", "Law", "Engineering", "MBA"];
+
+function TypedText() {
+  const [wordIndex, setWordIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(0);
+  const [deleting, setDeleting] = useState(false);
+  const [text, setText] = useState("");
+
+  useEffect(() => {
+    const word = typedWords[wordIndex];
+    const delay = deleting ? 60 : charIndex === word.length ? 1800 : 90;
+
+    const timer = setTimeout(() => {
+      if (!deleting && charIndex < word.length) {
+        setText(word.slice(0, charIndex + 1));
+        setCharIndex((c) => c + 1);
+      } else if (!deleting && charIndex === word.length) {
+        setDeleting(true);
+      } else if (deleting && charIndex > 0) {
+        setText(word.slice(0, charIndex - 1));
+        setCharIndex((c) => c - 1);
+      } else {
+        setDeleting(false);
+        setWordIndex((w) => (w + 1) % typedWords.length);
+      }
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [wordIndex, charIndex, deleting]);
+
+  return (
+    <span className="gradient-text">
+      {text}
+      <span className="animate-pulse">|</span>
+    </span>
+  );
+}
+
 const features = [
   { icon: Search, title: "Find Universities", desc: "Browse 17 partner universities across India and North Cyprus with detailed profiles, rankings, and programs.", color: "from-blue-500 to-blue-600" },
   { icon: BookOpen, title: "Compare Programs", desc: "Compare tuition fees, programs, scholarships, and admission requirements side by side.", color: "from-indigo-500 to-indigo-600" },
@@ -44,6 +82,12 @@ const features = [
   { icon: Users, title: "Expert Counseling", desc: "Book one-on-one sessions with our experienced education counselors for personalized guidance.", color: "from-pink-500 to-rose-500" },
   { icon: Award, title: "Scholarship Finder", desc: "Discover scholarships worth up to 80% tuition waiver matched to your academic profile.", color: "from-amber-500 to-orange-500" },
   { icon: Shield, title: "Visa Support", desc: "Get complete assistance with student visa applications, documentation, and pre-departure guidance.", color: "from-green-500 to-teal-500" },
+];
+
+const trustMetrics = [
+  { value: "100%", label: "Authentic Partner Universities", icon: "🎓", desc: "Every university is officially verified and accredited" },
+  { value: "92%", label: "Visa Success Rate", icon: "✈️", desc: "Industry-leading visa approval rate for our students" },
+  { value: "1000+", label: "Students Successfully Placed", icon: "🌍", desc: "Liberian students studying abroad through our portal" },
 ];
 
 export default function Home() {
@@ -100,9 +144,10 @@ export default function Home() {
               <span className="text-white/80 text-sm font-medium">Now Accepting Applications for 2024–25</span>
             </div>
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.05] mb-6 tracking-tight">
-              Your Gateway to{" "}
-              <span className="gradient-text">International</span>
-              <br />Education
+              Study{" "}
+              <TypedText />
+              <br />
+              <span className="text-white/80">Abroad Today</span>
             </h1>
             <p className="text-lg md:text-xl text-white/70 leading-relaxed mb-10 max-w-2xl">
               Explore top universities in India and North Cyprus, compare programs, discover scholarships, and apply directly through Tolbert Innovation Hub — Liberia&apos;s most trusted study abroad portal.
@@ -128,6 +173,12 @@ export default function Home() {
               </Link>
             </div>
           </div>
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
+          <span className="text-white/40 text-xs font-medium tracking-widest uppercase">Scroll</span>
+          <ChevronDown className="w-5 h-5 text-white/40" />
         </div>
 
         <div className="absolute bottom-0 left-0 right-0">
@@ -177,64 +228,32 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── STUDY DESTINATIONS ── */}
-      <section className="py-24 bg-white">
+      {/* ── AI MATCH BANNER ── */}
+      <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
-              <Globe className="w-4 h-4" /> Study Destinations
+          <div className="bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 rounded-3xl p-8 md:p-12 relative overflow-hidden">
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <div className="absolute -top-8 -right-8 w-48 h-48 bg-white/5 rounded-full" />
+              <div className="absolute -bottom-8 -left-8 w-64 h-64 bg-white/5 rounded-full" />
+              <div className="absolute top-1/2 right-1/4 w-32 h-32 bg-white/5 rounded-full" />
             </div>
-            <h2 className="section-title text-slate-900 mb-4">Where Will You Study?</h2>
-            <p className="text-slate-500 text-lg max-w-2xl mx-auto">Choose from vibrant destinations offering world-class education, rich culture, and exciting student life.</p>
-          </div>
-          <div className="grid md:grid-cols-2 gap-8">
-            {/* India */}
-            <div className="relative rounded-3xl overflow-hidden group cursor-pointer shadow-xl card-hover">
-              <img
-                src="https://images.unsplash.com/photo-1532664189809-02133fee698d?w=800&q=80"
-                alt="India - Gate of India, Mumbai"
-                className="w-full h-72 object-cover group-hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-8">
-                <div className="flex items-center gap-3 mb-3">
-                  <span className="text-4xl">🇮🇳</span>
-                  <div>
-                    <h3 className="text-white text-2xl font-black">India</h3>
-                    <p className="text-blue-300 text-sm font-semibold">15 Partner Universities</p>
-                  </div>
+            <div className="relative flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="flex items-center gap-6">
+                <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center shrink-0 shadow-xl">
+                  <Brain className="w-8 h-8 text-white" />
                 </div>
-                <p className="text-white/80 text-sm mb-4">Home to world-ranked universities, affordable tuition, rich cultural experiences, and booming tech industry opportunities.</p>
-                <div className="flex flex-wrap gap-2">
-                  {["NAAC A++", "Scholarships up to 80%", "$1,000–$10,000/yr"].map((tag) => (
-                    <span key={tag} className="px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-xs rounded-full border border-white/30">{tag}</span>
-                  ))}
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <Sparkles className="w-4 h-4 text-yellow-300" />
+                    <span className="text-yellow-300 text-sm font-bold uppercase tracking-wide">New Feature</span>
+                  </div>
+                  <h3 className="text-2xl md:text-3xl font-black text-white mb-2">Find Your Perfect University Match</h3>
+                  <p className="text-white/70 max-w-lg">Answer 6 quick questions and our AI will recommend the top 5 universities perfectly matched to your profile, budget, and goals.</p>
                 </div>
               </div>
-            </div>
-            {/* North Cyprus */}
-            <div className="relative rounded-3xl overflow-hidden group cursor-pointer shadow-xl card-hover">
-              <img
-                src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80"
-                alt="North Cyprus - Mediterranean coastline"
-                className="w-full h-72 object-cover group-hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-8">
-                <div className="flex items-center gap-3 mb-3">
-                  <span className="text-4xl">🇨🇾</span>
-                  <div>
-                    <h3 className="text-white text-2xl font-black">North Cyprus</h3>
-                    <p className="text-cyan-300 text-sm font-semibold">2 Partner Universities</p>
-                  </div>
-                </div>
-                <p className="text-white/80 text-sm mb-4">European-standard education in a stunning Mediterranean setting with EU-recognized degrees and world-class lifestyle.</p>
-                <div className="flex flex-wrap gap-2">
-                  {["EU-Recognized Degrees", "Scholarships up to 75%", "Mediterranean Lifestyle"].map((tag) => (
-                    <span key={tag} className="px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-xs rounded-full border border-white/30">{tag}</span>
-                  ))}
-                </div>
-              </div>
+              <Link href="/ai-match" className="shrink-0 flex items-center gap-2 px-8 py-4 bg-white text-blue-700 font-black rounded-2xl hover:bg-blue-50 hover:scale-105 transition-all duration-300 shadow-xl text-sm whitespace-nowrap">
+                <Brain className="w-5 h-5" /> Try AI Matcher
+              </Link>
             </div>
           </div>
         </div>
@@ -258,6 +277,92 @@ export default function Home() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {universities.slice(0, 8).map((uni) => (
               <UniversityCard key={uni.id} uni={uni} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── STUDY DESTINATIONS ── */}
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
+              <Globe className="w-4 h-4" /> Study Destinations
+            </div>
+            <h2 className="section-title text-slate-900 mb-4">Where Will You Study?</h2>
+            <p className="text-slate-500 text-lg max-w-2xl mx-auto">Choose from vibrant destinations offering world-class education, rich culture, and exciting student life.</p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="relative rounded-3xl overflow-hidden group shadow-xl card-hover">
+              <img
+                src="https://images.unsplash.com/photo-1532664189809-02133fee698d?w=800&q=80"
+                alt="India"
+                className="w-full h-72 object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-8">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-4xl">🇮🇳</span>
+                  <div>
+                    <h3 className="text-white text-2xl font-black">India</h3>
+                    <p className="text-blue-300 text-sm font-semibold">15 Partner Universities</p>
+                  </div>
+                </div>
+                <p className="text-white/80 text-sm mb-4">World-ranked universities, affordable tuition, rich culture, and booming tech industry opportunities.</p>
+                <div className="flex flex-wrap gap-2">
+                  {["NAAC A++", "Scholarships up to 80%", "$1K–$10K/yr"].map((tag) => (
+                    <span key={tag} className="px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-xs rounded-full border border-white/30">{tag}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="relative rounded-3xl overflow-hidden group shadow-xl card-hover">
+              <img
+                src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80"
+                alt="North Cyprus"
+                className="w-full h-72 object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-8">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-4xl">🇨🇾</span>
+                  <div>
+                    <h3 className="text-white text-2xl font-black">North Cyprus</h3>
+                    <p className="text-cyan-300 text-sm font-semibold">2 Partner Universities</p>
+                  </div>
+                </div>
+                <p className="text-white/80 text-sm mb-4">European-standard education in a stunning Mediterranean setting with EU-recognized degrees.</p>
+                <div className="flex flex-wrap gap-2">
+                  {["EU-Recognized", "Scholarships up to 75%", "Mediterranean Life"].map((tag) => (
+                    <span key={tag} className="px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-xs rounded-full border border-white/30">{tag}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── WHY LIBERIAN STUDENTS CHOOSE US ── */}
+      <section className="py-24 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-14">
+            <div className="inline-flex items-center gap-2 bg-green-50 text-green-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
+              <CheckCircle className="w-4 h-4" /> Trusted by Students
+            </div>
+            <h2 className="section-title text-slate-900 mb-4">Why Liberian Students Choose Us</h2>
+            <p className="text-slate-500 text-lg max-w-2xl mx-auto">We&apos;re not just an agent — we&apos;re your dedicated partner from Liberia to the world.</p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            {trustMetrics.map((metric) => (
+              <div key={metric.label} className="text-center p-8 bg-slate-50 rounded-3xl border border-slate-100 card-hover">
+                <div className="text-5xl mb-4">{metric.icon}</div>
+                <p className="text-4xl font-black bg-gradient-to-br from-blue-600 to-indigo-700 bg-clip-text text-transparent mb-2">
+                  {metric.value}
+                </p>
+                <h3 className="font-bold text-slate-900 text-lg mb-2">{metric.label}</h3>
+                <p className="text-slate-500 text-sm leading-relaxed">{metric.desc}</p>
+              </div>
             ))}
           </div>
         </div>

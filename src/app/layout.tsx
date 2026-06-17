@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import LiveChat from "@/components/LiveChat";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -24,6 +26,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Navbar />
         <div className="flex-1">{children}</div>
         <Footer />
+        <LiveChat />
+        <Toaster position="top-right" toastOptions={{ duration: 4000 }} />
       </body>
     </html>
   );

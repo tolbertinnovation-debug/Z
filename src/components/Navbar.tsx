@@ -1,8 +1,8 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, GraduationCap, ChevronDown } from "lucide-react";
+import { Menu, X, GraduationCap, ChevronDown, Brain, GitCompare, Award } from "lucide-react";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -12,10 +12,26 @@ const navLinks = [
   { href: "/dashboard", label: "Student Portal" },
 ];
 
+const universityDropdown = [
+  { href: "/universities", label: "All Universities", flag: "🎓" },
+  { href: "/universities?country=India", label: "India (15)", flag: "🇮🇳" },
+  { href: "/universities?country=NorthCyprus", label: "North Cyprus (2)", flag: "🇨🇾" },
+];
+
+const toolsDropdown = [
+  { href: "/ai-match", label: "AI Matcher", icon: Brain, desc: "Find your perfect university" },
+  { href: "/compare", label: "Compare", icon: GitCompare, desc: "Compare universities side-by-side" },
+  { href: "/scholarship-finder", label: "Scholarship Finder", icon: Award, desc: "Find scholarships for your profile" },
+];
+
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [uniDropOpen, setUniDropOpen] = useState(false);
+  const [toolsDropOpen, setToolsDropOpen] = useState(false);
   const pathname = usePathname();
+  const uniRef = useRef<HTMLDivElement>(null);
+  const toolsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20);
@@ -23,7 +39,19 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
+  // Close dropdowns on outside click
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (uniRef.current && !uniRef.current.contains(e.target as Node)) setUniDropOpen(false);
+      if (toolsRef.current && !toolsRef.current.contains(e.target as Node)) setToolsDropOpen(false);
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
   const isHome = pathname === "/";
+  const textClass = scrolled || !isHome ? "text-slate-700 hover:text-blue-600 hover:bg-blue-50" : "text-white/90 hover:text-white hover:bg-white/10";
+  const activeClass = "bg-blue-600 text-white shadow-md shadow-blue-200";
 
   return (
     <nav
@@ -52,16 +80,82 @@ export default function Navbar() {
 
           {/* Desktop Nav */}
           <div className="hidden lg:flex items-center gap-1">
-            {navLinks.map((link) => (
+            <Link
+              href="/"
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                pathname === "/" ? activeClass : textClass
+              }`}
+            >
+              Home
+            </Link>
+
+            {/* Universities dropdown */}
+            <div className="relative" ref={uniRef}>
+              <button
+                onClick={() => { setUniDropOpen(!uniDropOpen); setToolsDropOpen(false); }}
+                className={`flex items-center gap-1 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  pathname.startsWith("/universities") ? activeClass : textClass
+                }`}
+              >
+                Universities
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${uniDropOpen ? "rotate-180" : ""}`} />
+              </button>
+              {uniDropOpen && (
+                <div className="absolute top-full left-0 mt-2 w-52 bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden z-50">
+                  {universityDropdown.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setUniDropOpen(false)}
+                      className="flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-700 transition-colors"
+                    >
+                      <span className="text-lg">{item.flag}</span>
+                      <span className="font-medium">{item.label}</span>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Tools dropdown */}
+            <div className="relative" ref={toolsRef}>
+              <button
+                onClick={() => { setToolsDropOpen(!toolsDropOpen); setUniDropOpen(false); }}
+                className={`flex items-center gap-1 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  ["/ai-match", "/compare", "/scholarship-finder"].includes(pathname) ? activeClass : textClass
+                }`}
+              >
+                Tools
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${toolsDropOpen ? "rotate-180" : ""}`} />
+              </button>
+              {toolsDropOpen && (
+                <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden z-50">
+                  {toolsDropdown.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setToolsDropOpen(false)}
+                      className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 transition-colors group"
+                    >
+                      <div className="w-8 h-8 rounded-lg bg-blue-50 group-hover:bg-blue-100 flex items-center justify-center shrink-0">
+                        <item.icon className="w-4 h-4 text-blue-600" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-slate-800 group-hover:text-blue-700">{item.label}</p>
+                        <p className="text-xs text-slate-500">{item.desc}</p>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {navLinks.filter((l) => !["Home", "Universities"].includes(l.label)).map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  pathname === link.href
-                    ? "bg-blue-600 text-white shadow-md shadow-blue-200"
-                    : scrolled || !isHome
-                    ? "text-slate-700 hover:text-blue-600 hover:bg-blue-50"
-                    : "text-white/90 hover:text-white hover:bg-white/10"
+                  pathname === link.href ? activeClass : textClass
                 }`}
               >
                 {link.label}
@@ -106,6 +200,21 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
+              {/* Mobile tools */}
+              <div className="pt-2 border-t border-slate-100">
+                <p className="px-4 py-1 text-xs font-bold text-slate-400 uppercase tracking-wider">Tools</p>
+                {toolsDropdown.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setOpen(false)}
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                  >
+                    <item.icon className="w-4 h-4" />
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
               <Link
                 href="/apply"
                 onClick={() => setOpen(false)}
