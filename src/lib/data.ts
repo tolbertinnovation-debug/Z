@@ -25,7 +25,7 @@ export const universities = [
     accreditation: "NAAC A+",
     tags: ["Technology", "Engineering", "Management"],
     highlights: ["NBA Accredited", "International Exchange Programs", "100+ Research Centers", "Smart Campus"],
-    video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    video: "https://www.youtube.com/embed/XuW9Yc6Ow2E",
     gallery: [
       "https://images.unsplash.com/photo-1562774053-701939374585?w=600&q=80",
       "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&q=80",
@@ -61,7 +61,7 @@ export const universities = [
     accreditation: "NAAC A",
     tags: ["Engineering", "Healthcare", "Business"],
     highlights: ["Industry 4.0 Labs", "Innovation Hub", "International Collaborations", "Green Campus"],
-    video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    video: "https://www.youtube.com/embed/bsV4_nIV2sU",
     gallery: [
       "https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?w=600&q=80",
       "https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?w=600&q=80",
@@ -97,7 +97,7 @@ export const universities = [
     accreditation: "NAAC B++",
     tags: ["Pharmacy", "Engineering", "Agriculture"],
     highlights: ["Pharmacy Research Labs", "Agricultural Fields", "Sports Complex", "Cultural Hub"],
-    video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    video: "https://www.youtube.com/embed/eCr_U6N5dHA",
     gallery: [
       "https://images.unsplash.com/photo-1592280771190-3e2e4d571952?w=600&q=80",
       "https://images.unsplash.com/photo-1613904133939-f3d5ef6c7e71?w=600&q=80",
@@ -133,7 +133,7 @@ export const universities = [
     accreditation: "NAAC B+",
     tags: ["Law", "Education", "Hotel Management"],
     highlights: ["Moot Court", "Hotel Management Kitchen", "Digital Library", "Eco-Friendly Campus"],
-    video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    video: "https://www.youtube.com/embed/toDqZc-Hcs0",
     gallery: [
       "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=600&q=80",
       "https://images.unsplash.com/photo-1599687351724-dfa3c4ff81b1?w=600&q=80",
@@ -169,7 +169,7 @@ export const universities = [
     accreditation: "NAAC A",
     tags: ["AI/ML", "Data Science", "Technology"],
     highlights: ["AI Research Center", "Industry 4.0 Labs", "Startup Incubator", "International Faculty"],
-    video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    video: "https://www.youtube.com/embed/3Ir4C6wdn3o",
     gallery: [
       "https://images.unsplash.com/photo-1576495199011-eb94736d05d6?w=600&q=80",
       "https://images.unsplash.com/photo-1517180102446-f3ece451e9d8?w=600&q=80",
@@ -205,7 +205,7 @@ export const universities = [
     accreditation: "NAAC A+",
     tags: ["Innovation", "Entrepreneurship", "Engineering"],
     highlights: ["Top NAAC A+ Rating", "Startup Incubator with 50+ Startups", "International Exchange", "Industry 4.0 Lab"],
-    video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    video: "https://www.youtube.com/embed/Ni3ScjGpVjI",
     gallery: [
       "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&q=80",
       "https://images.unsplash.com/photo-1551636898-47668aa61de2?w=600&q=80",
@@ -241,7 +241,7 @@ export const universities = [
     accreditation: "NAAC A",
     tags: ["Agriculture", "Nursing", "Education"],
     highlights: ["Agricultural Research Farm", "Nursing Skills Lab", "State Sports Facilities", "Cultural Heritage Center"],
-    video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    video: "https://www.youtube.com/embed/DQIeqtHsdi4",
     gallery: [
       "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=600&q=80",
       "https://images.unsplash.com/photo-1593642532454-e138e28a63f4?w=600&q=80",
@@ -277,7 +277,7 @@ export const universities = [
     accreditation: "NAAC A++",
     tags: ["Global University", "Industry Connect", "Research"],
     highlights: ["QS World Ranked", "30,000+ Students", "50+ Countries", "600+ Programs", "World-Class Campus"],
-    video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    video: "https://www.youtube.com/embed/coEaOaAhxTs",
     gallery: [
       "https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?w=600&q=80",
       "https://images.unsplash.com/photo-1562774053-701939374585?w=600&q=80",
@@ -313,7 +313,7 @@ export const universities = [
     accreditation: "NAAC B++",
     tags: ["Healthcare", "Management", "Social Work"],
     highlights: ["Northeast India's Hub", "Healthcare Training Center", "Social Entrepreneurship Lab"],
-    video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    video: "https://www.youtube.com/embed/pZnaKowtN8w",
     gallery: [
       "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=600&q=80",
       "https://images.unsplash.com/photo-1576495199011-eb94736d05d6?w=600&q=80",
@@ -349,7 +349,7 @@ export const universities = [
     accreditation: "NAAC A+",
     tags: ["Medical", "Law", "International"],
     highlights: ["Medical & Dental Colleges", "150+ International MOU", "Delhi NCR Location", "World-Class Research"],
-    video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    video: "https://www.youtube.com/embed/Kw4Af3hN8fk",
     gallery: [
       "https://images.unsplash.com/photo-1550305080-4e029753abcf?w=600&q=80",
       "https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?w=600&q=80",
@@ -385,7 +385,7 @@ export const universities = [
     accreditation: "NAAC A++",
     tags: ["Top Ranked", "Research", "Global"],
     highlights: ["QS World Top 300", "Global Campuses", "200+ MoUs Worldwide", "Industry-Ready Programs"],
-    video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    video: "https://www.youtube.com/embed/RWH1MpQ_Zng",
     gallery: [
       "https://images.unsplash.com/photo-1554188248-986adbb73be4?w=600&q=80",
       "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&q=80",
@@ -421,7 +421,7 @@ export const universities = [
     accreditation: "NAAC B+",
     tags: ["Heritage", "Arts", "Sciences"],
     highlights: ["Cultural Heritage Center", "Punjabi Language Research", "Golden Temple Proximity", "Sports Academy"],
-    video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    video: "https://www.youtube.com/embed/paVk-PPl2r0",
     gallery: [
       "https://images.unsplash.com/photo-1519452635265-7b1fbfd1e4e0?w=600&q=80",
       "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=600&q=80",
@@ -457,7 +457,7 @@ export const universities = [
     accreditation: "NAAC B",
     tags: ["Law", "Journalism", "Technology"],
     highlights: ["Media Production Studio", "Legal Aid Clinic", "Pharmaceutical Lab", "Career Placement Cell"],
-    video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    video: "https://www.youtube.com/embed/fE5Uit93NvI",
     gallery: [
       "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=600&q=80",
       "https://images.unsplash.com/photo-1497366858526-0766d9dae979?w=600&q=80",
@@ -493,7 +493,7 @@ export const universities = [
     accreditation: "NAAC B",
     tags: ["Commerce", "Arts", "Sciences"],
     highlights: ["Affordable Education", "Strong Alumni Network", "Cultural Programs", "Women-Friendly Campus"],
-    video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    video: "https://www.youtube.com/embed/Sr1Tn-crCxU",
     gallery: [
       "https://images.unsplash.com/photo-1497366858526-0766d9dae979?w=600&q=80",
       "https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&q=80",
@@ -529,7 +529,7 @@ export const universities = [
     accreditation: "NAAC A++",
     tags: ["Medical", "Research", "Engineering"],
     highlights: ["NAAC A++ Ranked", "1000-bed Teaching Hospital", "Research Publications Top 50", "International Collaborations"],
-    video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    video: "https://www.youtube.com/embed/0oLl_3YEtd4",
     gallery: [
       "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=600&q=80",
       "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&q=80",
@@ -565,7 +565,7 @@ export const universities = [
     accreditation: "YÖK Recognized, FIBAA Accredited",
     tags: ["Mediterranean", "International", "English-Medium"],
     highlights: ["European Standards", "Mediterranean Climate", "Affordable Cost of Living", "International Recognition"],
-    video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    video: "https://www.youtube.com/embed/c0auZbBHjpI",
     gallery: [
       "https://images.unsplash.com/photo-1506818144585-74b29c980d4b?w=600&q=80",
       "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80",
@@ -601,7 +601,7 @@ export const universities = [
     accreditation: "YÖK Recognized, AACSB Candidate",
     tags: ["Law", "Medicine", "International"],
     highlights: ["EU-Recognized Degrees", "Nicosia Capital City", "International Faculty", "Mediterranean Lifestyle"],
-    video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    video: "https://www.youtube.com/embed/OeP3EAnnzFA",
     gallery: [
       "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80",
       "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=600&q=80",
