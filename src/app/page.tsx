@@ -177,8 +177,71 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── FEATURED UNIVERSITIES ── */}
+      {/* ── STUDY DESTINATIONS ── */}
       <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
+              <Globe className="w-4 h-4" /> Study Destinations
+            </div>
+            <h2 className="section-title text-slate-900 mb-4">Where Will You Study?</h2>
+            <p className="text-slate-500 text-lg max-w-2xl mx-auto">Choose from vibrant destinations offering world-class education, rich culture, and exciting student life.</p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* India */}
+            <div className="relative rounded-3xl overflow-hidden group cursor-pointer shadow-xl card-hover">
+              <img
+                src="https://images.unsplash.com/photo-1532664189809-02133fee698d?w=800&q=80"
+                alt="India - Gate of India, Mumbai"
+                className="w-full h-72 object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-8">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-4xl">🇮🇳</span>
+                  <div>
+                    <h3 className="text-white text-2xl font-black">India</h3>
+                    <p className="text-blue-300 text-sm font-semibold">15 Partner Universities</p>
+                  </div>
+                </div>
+                <p className="text-white/80 text-sm mb-4">Home to world-ranked universities, affordable tuition, rich cultural experiences, and booming tech industry opportunities.</p>
+                <div className="flex flex-wrap gap-2">
+                  {["NAAC A++", "Scholarships up to 80%", "$1,000–$10,000/yr"].map((tag) => (
+                    <span key={tag} className="px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-xs rounded-full border border-white/30">{tag}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+            {/* North Cyprus */}
+            <div className="relative rounded-3xl overflow-hidden group cursor-pointer shadow-xl card-hover">
+              <img
+                src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80"
+                alt="North Cyprus - Mediterranean coastline"
+                className="w-full h-72 object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-8">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-4xl">🇨🇾</span>
+                  <div>
+                    <h3 className="text-white text-2xl font-black">North Cyprus</h3>
+                    <p className="text-cyan-300 text-sm font-semibold">2 Partner Universities</p>
+                  </div>
+                </div>
+                <p className="text-white/80 text-sm mb-4">European-standard education in a stunning Mediterranean setting with EU-recognized degrees and world-class lifestyle.</p>
+                <div className="flex flex-wrap gap-2">
+                  {["EU-Recognized Degrees", "Scholarships up to 75%", "Mediterranean Lifestyle"].map((tag) => (
+                    <span key={tag} className="px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-xs rounded-full border border-white/30">{tag}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── FEATURED UNIVERSITIES ── */}
+      <section className="py-24 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
             <div>
