@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sign In / Create Account — Tolbert Innovation Hub Study Abroad Portal</title>
+<meta name="description" content="Sign in or create your free Tolbert Innovation Hub account to track applications, save universities and manage your study abroad journey from one dashboard." />
+<meta name="keywords" content="Tolbert Innovation Hub login, student sign in, create account, study abroad dashboard, Liberia students" />
+<meta property="og:title" content="Sign In — Tolbert Innovation Hub Study Abroad Portal" />
+<meta property="og:description" content="Access your dashboard to track applications, save universities and manage scholarships." />
+<meta property="og:type" content="website" />
+<meta name="theme-color" content="#5b46f5" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/styles.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%235b46f5'/><text x='50' y='70' font-size='62' fill='white' text-anchor='middle' font-family='sans-serif' font-weight='bold'>T</text></svg>" />
+<script type="application/ld+json">
+{ "@context":"https://schema.org","@type":"EducationalOrganization","name":"Tolbert Innovation Hub Study Abroad Portal","url":"https://tolbertinnovationhub.com","description":"Study abroad consultancy helping students in Liberia apply to international universities.","areaServed":"Liberia" }
+</script>
+<style>
+  .auth-wrap { display: grid; place-items: center; min-height: 70vh; }
+  .auth-card { width: min(440px, 92vw); padding: 2.2rem; }
+  .auth-head { text-align: center; margin-bottom: 1.6rem; }
+  .auth-head .logo-mark { width: 52px; height: 52px; border-radius: 14px; background: var(--brand-grad); color:#fff; display:grid; place-items:center; font-family:var(--f-display); font-weight:800; font-size:1.5rem; margin: 0 auto 1rem; }
+  .auth-head h1 { font-family: var(--f-display); font-size: 1.6rem; }
+  .auth-head p { color: var(--ink2); font-size: .94rem; margin-top: .35rem; }
+  .auth-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: .35rem; background: var(--surface2); border: 1px solid var(--line); border-radius: 100px; padding: .35rem; margin-bottom: 1.6rem; }
+  .auth-tab { border: none; background: transparent; padding: .6rem; border-radius: 100px; font-family: var(--f-body); font-weight: 600; font-size: .9rem; color: var(--ink2); cursor: pointer; transition: all .25s var(--ease); }
+  .auth-tab.active { background: var(--brand-grad); color: #fff; box-shadow: var(--shadow-brand); }
+  .auth-form[hidden] { display: none; }
+  .auth-divider { display: flex; align-items: center; gap: .8rem; color: var(--ink3); font-size: .82rem; margin: 1.2rem 0; }
+  .auth-divider::before, .auth-divider::after { content:''; flex:1; height:1px; background: var(--line); }
+  .gbtn { display: flex; align-items: center; justify-content: center; gap: .6rem; }
+  .gbtn .g { width: 18px; height: 18px; display:inline-block; }
+  .auth-foot { text-align: center; font-size: .84rem; color: var(--ink3); margin-top: 1.2rem; }
+  .signed-in { text-align: center; }
+  .signed-in .avatar { width: 64px; height: 64px; font-size: 1.3rem; margin: 0 auto 1rem; }
+</style>
+</head>
+<body>
+<div class="bg-aurora"><span></span><span></span><span></span></div>
+<canvas id="particles"></canvas>
+
+<section class="section" style="padding-top:calc(var(--nav-h) + 3rem)">
+  <div class="wrap">
+    <div class="auth-wrap">
+      <div class="card glass auth-card" data-reveal id="authCard"></div>
+    </div>
+  </div>
+</section>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+  bootChrome("");
+
+  const GOOGLE_SVG = `<svg class="g" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.9 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.1 29.5 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.3-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 16 19 13 24 13c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.1 29.5 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.5-5.2l-6.2-5.3C29.2 35 26.7 36 24 36c-5.3 0-9.7-3.1-11.3-7.6l-6.6 5.1C9.6 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.1-4 5.5l6.2 5.3C39.7 36.6 44 31 44 24c0-1.3-.1-2.3-.4-3.5z"/></svg>`;
+
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function cap(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
+
+  function nameFromEmail(email) {
+    const local = (email.split("@")[0] || "Student").replace(/[._-]+/g, " ").trim();
+    return local.split(/\s+/).map(cap).join(" ") || "Student";
+  }
+
+  function initials(name) {
+    const parts = name.trim().split(/\s+/);
+    const a = parts[0] ? parts[0][0] : "";
+    const b = parts.length > 1 ? parts[parts.length - 1][0] : "";
+    return (a + b).toUpperCase() || "ST";
+  }
+
+  function doLogin(user) {
+    TIHStore.login(user);
+    toast("Welcome, " + user.name.split(" ")[0] + "!");
+    setTimeout(() => { location.href = "dashboard.html"; }, 800);
+  }
+
+  /* ── Already signed in ── */
+  function renderSignedIn(user) {
+    const card = document.getElementById("authCard");
+    card.innerHTML = `
+      <div class="signed-in">
+        <div class="avatar">${escapeHtml(user.photo || initials(user.name))}</div>
+        <h1 style="font-family:var(--f-display);font-size:1.4rem">You're signed in</h1>
+        <p class="muted" style="margin:.4rem 0 1.6rem">Welcome back, <strong>${escapeHtml(user.name)}</strong><br><span style="font-size:.86rem">${escapeHtml(user.email)}</span></p>
+        <a class="btn btn-primary btn-block" href="dashboard.html" style="margin-bottom:.7rem">Go to Dashboard</a>
+        <button class="btn btn-ghost btn-block" id="signOutBtn">Sign out</button>
+      </div>`;
+    document.getElementById("signOutBtn").addEventListener("click", () => {
+      TIHStore.logout();
+      toast("You've been signed out.");
+      setTimeout(() => location.reload(), 500);
+    });
+  }
+
+  /* ── Auth forms ── */
+  function renderAuth() {
+    const card = document.getElementById("authCard");
+    card.innerHTML = `
+      <div class="auth-head">
+        <div class="logo-mark">T</div>
+        <h1>Welcome to the Hub</h1>
+        <p>Track applications, save universities and unlock scholarships.</p>
+      </div>
+      <div class="auth-tabs" role="tablist">
+        <button class="auth-tab active" id="tabSignIn" role="tab" aria-selected="true">Sign In</button>
+        <button class="auth-tab" id="tabRegister" role="tab" aria-selected="false">Create Account</button>
+      </div>
+
+      <form class="auth-form" id="signInForm" novalidate>
+        <div class="field">
+          <label for="siEmail">Email</label>
+          <input type="email" id="siEmail" autocomplete="email" placeholder="you@example.com" />
+        </div>
+        <div class="field">
+          <label for="siPass">Password</label>
+          <input type="password" id="siPass" autocomplete="current-password" placeholder="••••••••" />
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+        <div class="auth-divider">or</div>
+        <button type="button" class="btn btn-ghost btn-block gbtn" data-google>${GOOGLE_SVG} Continue with Google</button>
+        <div class="auth-foot">No account yet? <a href="#" id="goRegister" style="color:var(--brand);font-weight:600">Create one</a></div>
+      </form>
+
+      <form class="auth-form" id="registerForm" novalidate hidden>
+        <div class="field">
+          <label for="rgName">Full Name</label>
+          <input type="text" id="rgName" autocomplete="name" placeholder="Joseph Kollie" />
+        </div>
+        <div class="field">
+          <label for="rgEmail">Email</label>
+          <input type="email" id="rgEmail" autocomplete="email" placeholder="you@example.com" />
+        </div>
+        <div class="field">
+          <label for="rgPass">Password</label>
+          <input type="password" id="rgPass" autocomplete="new-password" placeholder="Choose a password" />
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+        <div class="auth-divider">or</div>
+        <button type="button" class="btn btn-ghost btn-block gbtn" data-google>${GOOGLE_SVG} Continue with Google</button>
+        <div class="auth-foot">Already have an account? <a href="#" id="goSignIn" style="color:var(--brand);font-weight:600">Sign in</a></div>
+      </form>`;
+
+    const tabSignIn = document.getElementById("tabSignIn");
+    const tabRegister = document.getElementById("tabRegister");
+    const signInForm = document.getElementById("signInForm");
+    const registerForm = document.getElementById("registerForm");
+
+    function show(which) {
+      const reg = which === "register";
+      tabRegister.classList.toggle("active", reg);
+      tabSignIn.classList.toggle("active", !reg);
+      tabRegister.setAttribute("aria-selected", reg ? "true" : "false");
+      tabSignIn.setAttribute("aria-selected", reg ? "false" : "true");
+      registerForm.hidden = !reg;
+      signInForm.hidden = reg;
+    }
+    tabSignIn.addEventListener("click", () => show("signin"));
+    tabRegister.addEventListener("click", () => show("register"));
+    document.getElementById("goRegister").addEventListener("click", e => { e.preventDefault(); show("register"); });
+    document.getElementById("goSignIn").addEventListener("click", e => { e.preventDefault(); show("signin"); });
+
+    // Sign in
+    signInForm.addEventListener("submit", e => {
+      e.preventDefault();
+      const email = document.getElementById("siEmail").value.trim();
+      const pass = document.getElementById("siPass").value;
+      if (!EMAIL_RE.test(email)) { toast("Please enter a valid email address."); return; }
+      if (!pass) { toast("Please enter your password."); return; }
+      const name = nameFromEmail(email);
+      doLogin({ name, email, photo: initials(name) });
+    });
+
+    // Register
+    registerForm.addEventListener("submit", e => {
+      e.preventDefault();
+      const name = document.getElementById("rgName").value.trim();
+      const email = document.getElementById("rgEmail").value.trim();
+      const pass = document.getElementById("rgPass").value;
+      if (!name) { toast("Please enter your full name."); return; }
+      if (!EMAIL_RE.test(email)) { toast("Please enter a valid email address."); return; }
+      if (!pass) { toast("Please choose a password."); return; }
+      doLogin({ name, email, photo: initials(name) });
+    });
+
+    // Google (both forms)
+    card.querySelectorAll("[data-google]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        doLogin({ name: "Demo Student", email: "student@gmail.com", photo: "DS" });
+      });
+    });
+  }
+
+  const existing = TIHStore.user();
+  if (existing) renderSignedIn(existing);
+  else renderAuth();
+
+  requestAnimationFrame(() => { initReveal(); initCounters(); });
+</script>
+</body>
+</html>

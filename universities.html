@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Partner Universities — Tolbert Innovation Hub | Find Your Perfect University</title>
+<meta name="description" content="Browse and filter Tolbert Innovation Hub's 17 partner universities in India and North Cyprus by country, program, tuition and scholarships. Check your eligibility instantly." />
+<meta name="keywords" content="study abroad Liberia, international universities, scholarships, India universities, North Cyprus, Tolbert Innovation Hub, student counseling" />
+<meta property="og:title" content="Partner Universities — Tolbert Innovation Hub" />
+<meta property="og:description" content="Explore 17 partner universities. Filter by country, program, tuition and scholarships, then apply online." />
+<meta property="og:type" content="website" />
+<meta name="theme-color" content="#5b46f5" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/styles.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%235b46f5'/><text x='50' y='70' font-size='62' fill='white' text-anchor='middle' font-family='sans-serif' font-weight='bold'>T</text></svg>" />
+<style>
+  /* page-specific: results bar + empty state */
+  .results-bar { display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:1.4rem; }
+  .results-bar .count { font-family:var(--f-display); font-weight:600; color:var(--ink2); font-size:.96rem; }
+  .results-bar .count strong { color:var(--ink); }
+  .sort-wrap { display:flex; align-items:center; gap:.5rem; font-size:.86rem; color:var(--ink3); }
+  .sort-wrap select { padding:.55rem .9rem; border:1px solid var(--line); border-radius:100px; background:var(--surface2); color:var(--ink); outline:none; transition:all .25s; }
+  .sort-wrap select:focus { border-color:var(--brand); }
+  .empty-state { grid-column:1/-1; text-align:center; padding:3.5rem 1.5rem; }
+  .empty-state .em { font-size:2.6rem; }
+  .empty-state h3 { margin:.8rem 0 .4rem; }
+</style>
+</head>
+<body>
+<div class="bg-aurora"><span></span><span></span><span></span></div>
+<canvas id="particles"></canvas>
+
+<main>
+  <!-- ── Directory ──────────────────────── -->
+  <section class="section" style="padding-top:calc(var(--nav-h) + 3rem)">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">Partner Universities</span>
+        <h2 class="title">Find your perfect <span class="gradient-text">university</span></h2>
+        <p class="lead">Compare 17 globally recognised partner universities across India and North Cyprus. Filter by country, program, tuition and scholarships to shortlist the right fit — then apply in a few clicks.</p>
+      </div>
+
+      <div class="dir-layout">
+        <!-- LEFT: filters -->
+        <aside class="filter-panel glass" data-reveal>
+          <div class="search-bar glass">
+            <span aria-hidden="true">🔍</span>
+            <input id="searchInput" placeholder="Search university, program or country…" aria-label="Search universities" />
+          </div>
+
+          <div class="filter-group">
+            <h4>Country</h4>
+            <div id="countryFilters"></div>
+          </div>
+
+          <div class="filter-group">
+            <h4>Degree Level</h4>
+            <label><input type="radio" name="level" value="all" checked /> All</label>
+            <label><input type="radio" name="level" value="ug" /> Undergraduate</label>
+            <label><input type="radio" name="level" value="pg" /> Postgraduate</label>
+          </div>
+
+          <div class="filter-group">
+            <h4>Program</h4>
+            <div id="programFilters"></div>
+          </div>
+
+          <div class="filter-group">
+            <h4>Max Tuition / yr</h4>
+            <input type="range" id="tuitionRange" min="1500" max="8000" step="500" value="8000" aria-label="Maximum tuition per year" />
+            <div style="margin-top:.4rem">Up to <span class="range-val" id="tuitionVal">$8,000</span></div>
+          </div>
+
+          <div class="filter-group">
+            <h4>Scholarships</h4>
+            <label><input type="checkbox" id="schOnly" /> Scholarships available</label>
+          </div>
+
+          <button class="btn btn-ghost btn-sm btn-block" id="resetBtn" type="button">↺ Reset filters</button>
+        </aside>
+
+        <!-- RIGHT: results -->
+        <div>
+          <div class="results-bar">
+            <div class="count"><strong id="resultCount">0</strong> universities found</div>
+            <div class="sort-wrap">
+              <label for="sortSel">Sort by</label>
+              <select id="sortSel">
+                <option value="recommended">Recommended</option>
+                <option value="tuition-asc">Tuition: Low → High</option>
+                <option value="tuition-desc">Tuition: High → Low</option>
+                <option value="rated">Highest Rated</option>
+                <option value="az">A – Z</option>
+              </select>
+            </div>
+          </div>
+          <div class="uni-grid" id="uniResults"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Eligibility checker ────────────── -->
+  <section class="section" style="background:var(--bg2)">
+    <div class="wrap">
+      <div class="card glass" data-reveal style="padding:2.4rem;max-width:860px;margin-inline:auto">
+        <span class="eyebrow">Instant Check</span>
+        <h2 class="title" style="font-size:clamp(1.6rem,3.4vw,2.3rem)">Instant Eligibility Checker</h2>
+        <p class="lead" style="margin-bottom:1.6rem">Enter your grades to see which partner universities you qualify for — it takes seconds and there's no sign-up required.</p>
+        <div class="field-row">
+          <div class="field">
+            <label for="egGpa">GPA (out of 4.0)</label>
+            <input type="number" id="egGpa" min="0" max="4" step="0.1" placeholder="e.g. 3.2" />
+          </div>
+          <div class="field">
+            <label for="egWaec">WAEC subjects passed</label>
+            <input type="number" id="egWaec" min="0" max="12" step="1" placeholder="e.g. 6" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="egLevel">Degree Level</label>
+          <select id="egLevel">
+            <option value="Undergraduate">Undergraduate</option>
+            <option value="Postgraduate">Postgraduate</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" id="egCheck" type="button">Check Eligibility →</button>
+        <div id="egResult"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+  bootChrome("Universities");
+
+  /* ── Build filter controls ──────────────────────────────── */
+  const PROGRAMS = ["Computer Science", "Information Technology", "Business Administration", "Engineering", "Nursing", "Agriculture"];
+
+  document.getElementById("countryFilters").innerHTML = TIH_COUNTRIES.map(c =>
+    `<label><input type="checkbox" class="f-country" value="${escapeHtml(c)}" /> ${flagFor(c)} ${escapeHtml(c)}</label>`
+  ).join("");
+
+  document.getElementById("programFilters").innerHTML = PROGRAMS.map(p =>
+    `<label><input type="checkbox" class="f-program" value="${escapeHtml(p)}" /> ${escapeHtml(p)}</label>`
+  ).join("");
+
+  /* ── Element refs ───────────────────────────────────────── */
+  const searchInput = document.getElementById("searchInput");
+  const tuitionRange = document.getElementById("tuitionRange");
+  const tuitionVal  = document.getElementById("tuitionVal");
+  const schOnly     = document.getElementById("schOnly");
+  const sortSel     = document.getElementById("sortSel");
+  const resultsEl   = document.getElementById("uniResults");
+  const resultCount = document.getElementById("resultCount");
+
+  /* ── Filter + render ────────────────────────────────────── */
+  function render() {
+    const q = searchInput.value.trim().toLowerCase();
+    const countries = [...document.querySelectorAll(".f-country:checked")].map(c => c.value);
+    const programs  = [...document.querySelectorAll(".f-program:checked")].map(c => c.value);
+    const level     = (document.querySelector("input[name=level]:checked") || {}).value || "all";
+    const maxTuition = parseInt(tuitionRange.value, 10);
+    const schRequired = schOnly.checked;
+
+    let list = TIH_UNIVERSITIES.filter(u => {
+      // text search across name, country, city, programs
+      if (q) {
+        const hay = [u.name, u.country, u.city, ...(u.programsUG || []), ...(u.programsPG || [])]
+          .join(" ").toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      // country
+      if (countries.length && !countries.includes(u.country)) return false;
+      // degree level
+      if (level === "ug" && !(u.programsUG && u.programsUG.length)) return false;
+      if (level === "pg" && !(u.programsPG && u.programsPG.length)) return false;
+      // program (UG or PG includes any selected)
+      if (programs.length) {
+        const offered = [...(u.programsUG || []), ...(u.programsPG || [])];
+        if (!programs.some(p => offered.includes(p))) return false;
+      }
+      // max tuition (entry tuition affordable)
+      if (u.tuitionMin > maxTuition) return false;
+      // scholarships
+      if (schRequired && !u.scholarship) return false;
+      return true;
+    });
+
+    // sort
+    switch (sortSel.value) {
+      case "tuition-asc":  list.sort((a, b) => a.tuitionMin - b.tuitionMin); break;
+      case "tuition-desc": list.sort((a, b) => b.tuitionMax - a.tuitionMax); break;
+      case "rated":        list.sort((a, b) => b.rating - a.rating); break;
+      case "az":           list.sort((a, b) => a.name.localeCompare(b.name)); break;
+      default:             list.sort((a, b) => b.rating - a.rating); // recommended
+    }
+
+    resultCount.textContent = list.length;
+
+    if (!list.length) {
+      resultsEl.innerHTML = `
+        <div class="card empty-state" data-reveal>
+          <div class="em">🔍</div>
+          <h3>No universities match your filters</h3>
+          <p class="muted">Try widening your tuition range, clearing some programs, or resetting the filters.</p>
+          <button class="btn btn-ghost btn-sm mt-3" type="button" onclick="document.getElementById('resetBtn').click()">↺ Reset filters</button>
+        </div>`;
+    } else {
+      resultsEl.innerHTML = list.map((u, i) => uniCardHTML(u, i % 4)).join("");
+    }
+    requestAnimationFrame(() => { initReveal(); initCounters(); });
+  }
+
+  /* ── Wire up controls ───────────────────────────────────── */
+  tuitionRange.addEventListener("input", () => {
+    tuitionVal.textContent = "$" + parseInt(tuitionRange.value, 10).toLocaleString();
+    render();
+  });
+  searchInput.addEventListener("input", render);
+  [...document.querySelectorAll(".filter-group input"), sortSel].forEach(el =>
+    el.addEventListener("change", render)
+  );
+
+  document.getElementById("resetBtn").addEventListener("click", () => {
+    searchInput.value = "";
+    document.querySelectorAll(".f-country, .f-program").forEach(c => c.checked = false);
+    document.querySelector("input[name=level][value=all]").checked = true;
+    schOnly.checked = false;
+    tuitionRange.value = "8000";
+    tuitionVal.textContent = "$8,000";
+    sortSel.value = "recommended";
+    render();
+  });
+
+  render();
+
+  /* ── Eligibility checker ────────────────────────────────── */
+  document.getElementById("egCheck").addEventListener("click", () => {
+    const gpa = parseFloat(document.getElementById("egGpa").value);
+    const waec = parseInt(document.getElementById("egWaec").value, 10);
+    const level = document.getElementById("egLevel").value;
+    const out = document.getElementById("egResult");
+
+    if (isNaN(gpa) || isNaN(waec)) {
+      out.className = "elig-result maybe";
+      out.innerHTML = `<span style="font-size:1.3rem">⚠️</span><div>Please enter both your GPA and the number of WAEC subjects you passed to check your eligibility.</div>`;
+      return;
+    }
+
+    // simple scoring rule
+    const gpaScore  = gpa >= 3.5 ? 2 : gpa >= 2.5 ? 1 : 0;
+    const waecScore = waec >= 6 ? 2 : waec >= 4 ? 1 : 0;
+    const score = gpaScore + waecScore;
+
+    if (score >= 3) {
+      out.className = "elig-result ok";
+      out.innerHTML = `<span style="font-size:1.3rem">✅</span><div><strong>Eligible — you qualify for most partner universities!</strong><br>Based on your ${level} profile, you're in great shape. <a href="apply.html" style="text-decoration:underline">Start your application →</a></div>`;
+    } else if (score >= 2) {
+      out.className = "elig-result maybe";
+      out.innerHTML = `<span style="font-size:1.3rem">⚠️</span><div><strong>Conditionally Eligible — some universities may require a foundation year.</strong><br>A counselor can help you find the best ${level} pathway. <a href="counseling.html" style="text-decoration:underline">Book free counseling →</a></div>`;
+    } else {
+      out.className = "elig-result no";
+      out.innerHTML = `<span style="font-size:1.3rem">❌</span><div><strong>Not Eligible yet — book a free counseling session to improve your profile.</strong><br>We'll help you map out a route to study abroad. <a href="counseling.html" style="text-decoration:underline">Talk to a counselor →</a></div>`;
+    }
+  });
+</script>
+</body>
+</html>

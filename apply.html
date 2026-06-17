@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Apply Online — Tolbert Innovation Hub Study Abroad Portal</title>
+<meta name="description" content="Apply online to your dream international university through Tolbert Innovation Hub. Complete a simple 4-step application and get your Application ID instantly." />
+<meta name="keywords" content="study abroad application Liberia, apply international university, online application, Tolbert Innovation Hub" />
+<meta property="og:title" content="Apply Online — Tolbert Innovation Hub" />
+<meta property="og:description" content="Complete a simple 4-step application and get your Application ID instantly." />
+<meta property="og:type" content="website" />
+<meta name="theme-color" content="#5b46f5" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/styles.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%235b46f5'/><text x='50' y='70' font-size='62' fill='white' text-anchor='middle' font-family='sans-serif' font-weight='bold'>T</text></svg>" />
+<script type="application/ld+json">
+{ "@context":"https://schema.org","@type":"EducationalOrganization","name":"Tolbert Innovation Hub Study Abroad Portal","url":"https://tolbertinnovationhub.com","description":"Study abroad consultancy helping students in Liberia apply to international universities.","areaServed":"Liberia" }
+</script>
+<style>
+  .apply-wrap { width: min(760px, 92vw); margin-inline: auto; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+  .form-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 1.6rem; }
+  .form-nav .spacer { flex: 1; }
+  .file-drop strong { display: block; margin-top: .35rem; font-weight: 600; word-break: break-all; }
+  .success-state { text-align: center; padding: 1rem; }
+  .success-state .big-check { font-size: 3.6rem; line-height: 1; }
+  .app-id { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 1.3rem; font-weight: 700; letter-spacing: 1px; user-select: all; display: inline-block; padding: .7rem 1.2rem; border-radius: 12px; background: color-mix(in srgb,var(--brand) 10%, transparent); border: 1px solid color-mix(in srgb,var(--brand) 28%, transparent); color: var(--brand); margin: .6rem 0; }
+  .success-state .btns { display: flex; gap: .9rem; justify-content: center; flex-wrap: wrap; margin-top: 1.6rem; }
+</style>
+</head>
+<body>
+<div class="bg-aurora"><span></span><span></span><span></span></div>
+<canvas id="particles"></canvas>
+
+<!-- ── Apply ────────────────────────────── -->
+<section class="section" style="padding-top:calc(var(--nav-h) + 3rem)">
+  <div class="apply-wrap">
+    <div class="section-head center" data-reveal>
+      <span class="eyebrow">Online Application</span>
+      <h2 class="title">Apply to your <span class="gradient-text">dream university</span></h2>
+      <p class="lead">Complete this simple 4-step application. It takes only a few minutes — and you'll receive your Application ID instantly.</p>
+    </div>
+
+    <div class="stepper" id="stepper">
+      <div class="step" data-step="0"><span class="dot">1</span>Personal</div>
+      <div class="step" data-step="1"><span class="dot">2</span>Academic</div>
+      <div class="step" data-step="2"><span class="dot">3</span>University</div>
+      <div class="step" data-step="3"><span class="dot">4</span>Documents</div>
+    </div>
+
+    <div class="card glass" id="applyCard" style="padding:2rem">
+      <form id="applyForm" novalidate>
+
+        <!-- STEP 1 -->
+        <div class="panel active" data-panel="0">
+          <h3 style="margin-bottom:1.2rem">Personal Information</h3>
+          <div class="field">
+            <label for="f_name">Full Name <span style="color:var(--brand)">*</span></label>
+            <input type="text" id="f_name" name="name" placeholder="e.g. Joseph Kollie" required />
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="f_gender">Gender <span style="color:var(--brand)">*</span></label>
+              <select id="f_gender" name="gender" required>
+                <option value="">Select…</option>
+                <option>Female</option>
+                <option>Male</option>
+                <option>Prefer not to say</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="f_dob">Date of Birth <span style="color:var(--brand)">*</span></label>
+              <input type="date" id="f_dob" name="dob" required />
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="f_nationality">Nationality <span style="color:var(--brand)">*</span></label>
+              <input type="text" id="f_nationality" name="nationality" value="Liberian" required />
+            </div>
+            <div class="field">
+              <label for="f_phone">Phone Number <span style="color:var(--brand)">*</span></label>
+              <input type="tel" id="f_phone" name="phone" placeholder="+231 …" required />
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="f_whatsapp">WhatsApp Number</label>
+              <input type="tel" id="f_whatsapp" name="whatsapp" placeholder="+231 …" />
+            </div>
+            <div class="field">
+              <label for="f_email">Email Address <span style="color:var(--brand)">*</span></label>
+              <input type="email" id="f_email" name="email" placeholder="you@email.com" required />
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="panel" data-panel="1">
+          <h3 style="margin-bottom:1.2rem">Academic Information</h3>
+          <div class="field">
+            <label for="f_school">School Name <span style="color:var(--brand)">*</span></label>
+            <input type="text" id="f_school" name="school" placeholder="e.g. B.W. Harris High School" required />
+          </div>
+          <div class="field">
+            <label for="f_waec">WAEC Results <span style="color:var(--brand)">*</span></label>
+            <input type="text" id="f_waec" name="waec" placeholder="e.g. 5 Distinctions, 3 Credits" required />
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="f_gpa">GPA <span style="color:var(--brand)">*</span></label>
+              <input type="number" id="f_gpa" name="gpa" step="0.1" min="0" max="4" placeholder="e.g. 3.5" required />
+            </div>
+            <div class="field">
+              <label for="f_level">Degree Applying For <span style="color:var(--brand)">*</span></label>
+              <select id="f_level" name="level" required>
+                <option value="">Select…</option>
+                <option value="Undergraduate">Undergraduate</option>
+                <option value="Postgraduate">Postgraduate</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="panel" data-panel="2">
+          <h3 style="margin-bottom:1.2rem">University Selection</h3>
+          <div class="field">
+            <label for="f_uni">University <span style="color:var(--brand)">*</span></label>
+            <select id="f_uni" name="uni" required>
+              <option value="">Select a university…</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f_program">Program <span style="color:var(--brand)">*</span></label>
+            <select id="f_program" name="program" required disabled>
+              <option value="">Select a university first…</option>
+            </select>
+          </div>
+          <p class="muted" style="font-size:.86rem">Choose any program offered by your selected university. Our counselors will confirm availability and entry requirements.</p>
+        </div>
+
+        <!-- STEP 4 -->
+        <div class="panel" data-panel="3">
+          <h3 style="margin-bottom:1.2rem">Document Upload</h3>
+          <div class="field-row">
+            <div class="field">
+              <label>Passport</label>
+              <label class="file-drop" data-drop="passport">📎 Click to upload passport
+                <input type="file" hidden />
+              </label>
+            </div>
+            <div class="field">
+              <label>Academic Transcript</label>
+              <label class="file-drop" data-drop="transcript">📎 Click to upload transcript
+                <input type="file" hidden />
+              </label>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>WAEC Result</label>
+              <label class="file-drop" data-drop="waecdoc">📎 Click to upload WAEC result
+                <input type="file" hidden />
+              </label>
+            </div>
+            <div class="field">
+              <label>Recommendation Letter</label>
+              <label class="file-drop" data-drop="recommendation">📎 Click to upload letter
+                <input type="file" hidden />
+              </label>
+            </div>
+          </div>
+          <div class="field">
+            <label for="f_statement">Personal Statement</label>
+            <textarea id="f_statement" name="statement" rows="5" placeholder="Tell us about your goals and why you want to study abroad…"></textarea>
+          </div>
+          <p class="muted" style="font-size:.86rem">Documents stay on your device for this demo — nothing is uploaded to a server.</p>
+        </div>
+
+        <div class="form-nav">
+          <button type="button" class="btn btn-ghost" id="backBtn" style="display:none">← Back</button>
+          <div class="spacer"></div>
+          <button type="button" class="btn btn-primary" id="nextBtn">Next →</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+  bootChrome("Apply");
+
+  const TOTAL = 4;
+  let step = 0;
+
+  const stepperEls = [...document.querySelectorAll("#stepper .step")];
+  const panels = [...document.querySelectorAll(".panel")];
+  const backBtn = document.getElementById("backBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const form = document.getElementById("applyForm");
+  const files = {}; // dropKey -> filename
+
+  // Populate universities
+  const uniSel = document.getElementById("f_uni");
+  uniSel.insertAdjacentHTML("beforeend",
+    TIH_UNIVERSITIES.map(u => `<option value="${u.id}">${escapeHtml(u.name)} — ${escapeHtml(u.country)}</option>`).join(""));
+
+  const programSel = document.getElementById("f_program");
+  function populatePrograms(uniId) {
+    const u = uniById(uniId);
+    if (!u) {
+      programSel.innerHTML = `<option value="">Select a university first…</option>`;
+      programSel.disabled = true;
+      return;
+    }
+    const progs = [...(u.programsUG || []), ...(u.programsPG || [])];
+    programSel.innerHTML = `<option value="">Select a program…</option>` +
+      progs.map(p => `<option value="${escapeHtml(p)}">${escapeHtml(p)}</option>`).join("");
+    programSel.disabled = false;
+  }
+  uniSel.addEventListener("change", () => populatePrograms(uniSel.value));
+
+  // Preselect from ?uni=
+  const preUni = getParam("uni");
+  if (preUni && uniById(preUni)) {
+    uniSel.value = preUni;
+    populatePrograms(preUni);
+  }
+
+  // File drops
+  document.querySelectorAll(".file-drop").forEach(drop => {
+    const input = drop.querySelector("input[type=file]");
+    const key = drop.dataset.drop;
+    input.addEventListener("change", () => {
+      if (input.files && input.files[0]) {
+        const fname = input.files[0].name;
+        files[key] = fname;
+        drop.classList.add("has-file");
+        drop.innerHTML = `✅ Uploaded<strong>${escapeHtml(fname)}</strong>`;
+        drop.appendChild(input);
+      }
+    });
+  });
+
+  function showStep(n) {
+    step = n;
+    panels.forEach(p => p.classList.toggle("active", +p.dataset.panel === n));
+    stepperEls.forEach((el, i) => {
+      el.classList.toggle("active", i === n);
+      el.classList.toggle("done", i < n);
+    });
+    backBtn.style.display = n === 0 ? "none" : "inline-flex";
+    nextBtn.textContent = n === TOTAL - 1 ? "Submit Application" : "Next →";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function validateStep(n) {
+    const panel = panels[n];
+    const required = [...panel.querySelectorAll("input[required], select[required], textarea[required]")];
+    for (const el of required) {
+      if (!el.value || !el.value.trim()) return false;
+      if (el.type === "email" && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(el.value.trim())) return false;
+    }
+    return true;
+  }
+
+  backBtn.addEventListener("click", () => { if (step > 0) showStep(step - 1); });
+
+  nextBtn.addEventListener("click", () => {
+    if (!validateStep(step)) { toast("Please complete all required fields"); return; }
+    if (step < TOTAL - 1) { showStep(step + 1); }
+    else { submitApplication(); }
+  });
+
+  function val(id) { return (document.getElementById(id).value || "").trim(); }
+
+  function submitApplication() {
+    const id = genId("APP");
+    const uniId = uniSel.value;
+    const u = uniById(uniId);
+    const email = val("f_email");
+    const name = val("f_name");
+
+    const app = {
+      id,
+      name,
+      email,
+      phone: val("f_phone"),
+      whatsapp: val("f_whatsapp"),
+      gender: val("f_gender"),
+      dob: val("f_dob"),
+      nationality: val("f_nationality"),
+      school: val("f_school"),
+      waec: val("f_waec"),
+      gpa: val("f_gpa"),
+      level: val("f_level"),
+      uniId,
+      uniName: u ? u.name : "",
+      program: val("f_program"),
+      statement: val("f_statement"),
+      status: "New",
+      date: new Date().toISOString()
+    };
+    TIHStore.push("applications", app);
+
+    // Create a light user if none exists so dashboard works
+    if (!TIHStore.user()) {
+      const initials = name.split(/\s+/).filter(Boolean).map(w => w[0]).slice(0, 2).join("").toUpperCase() || "T";
+      TIHStore.login({ name, email, photo: initials });
+    }
+
+    toast("Application submitted! ID: " + id);
+    renderSuccess(app);
+  }
+
+  function renderSuccess(app) {
+    document.getElementById("stepper").style.display = "none";
+    stepperEls.forEach((el, i) => { el.classList.add("done"); el.classList.remove("active"); });
+    const card = document.getElementById("applyCard");
+    card.innerHTML = `
+      <div class="success-state" data-reveal>
+        <div class="big-check">✅</div>
+        <h2 class="title" style="font-size:1.7rem;margin-top:.6rem">Application Submitted Successfully</h2>
+        <p class="lead" style="margin-top:.6rem">Your application to <strong>${escapeHtml(app.uniName || "your university")}</strong> has been received.</p>
+        <div>Your Application ID</div>
+        <div class="app-id">${escapeHtml(app.id)}</div>
+        <p class="muted">A confirmation email has been sent to <strong>${escapeHtml(app.email)}</strong>.</p>
+        <div class="btns">
+          <a class="btn btn-primary" href="dashboard.html">Go to Dashboard →</a>
+          <a class="btn btn-ghost" href="apply.html">Apply to another university</a>
+        </div>
+      </div>`;
+    requestAnimationFrame(() => { initReveal(); initCounters(); });
+  }
+
+  showStep(0);
+  requestAnimationFrame(() => { initReveal(); initCounters(); });
+</script>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Scholarships & Grants — Tolbert Innovation Hub | Find Funding up to 100% Tuition</title>
+<meta name="description" content="Discover scholarships and grants of up to 100% tuition through Tolbert Innovation Hub. Use our Scholarship Finder to match your GPA, budget and program with the right funding and universities." />
+<meta name="keywords" content="study abroad scholarships, Liberia scholarships, merit scholarship, international student grants, tuition discount India North Cyprus, Tolbert Innovation Hub" />
+<meta property="og:title" content="Scholarships & Grants — Tolbert Innovation Hub" />
+<meta property="og:description" content="Find scholarships and grants of up to 100% tuition. Match your GPA, budget and program with the right funding and universities." />
+<meta property="og:type" content="website" />
+<meta name="theme-color" content="#5b46f5" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/styles.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%235b46f5'/><text x='50' y='70' font-size='62' fill='white' text-anchor='middle' font-family='sans-serif' font-weight='bold'>T</text></svg>" />
+<script type="application/ld+json">
+{ "@context":"https://schema.org","@type":"EducationalOrganization","name":"Tolbert Innovation Hub Study Abroad Portal","url":"https://tolbertinnovationhub.com","description":"Study abroad consultancy helping students in Liberia apply to international universities.","areaServed":"Liberia" }
+</script>
+<style>
+  .sf-results { margin-top: 1.6rem; }
+  .sf-results:empty { display: none; }
+  .sch-card { padding: 1.5rem; display: flex; flex-direction: column; gap: .55rem; }
+  .sch-card .ic { width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; font-size: 1.4rem; background: var(--brand-grad); margin-bottom: .3rem; }
+  .sch-card h3 { font-size: 1.08rem; line-height: 1.3; }
+  .sch-meta { color: var(--ink3); font-size: .86rem; }
+  .uni-mini-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 1rem; margin-top: 1rem; }
+  .uni-mini { padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: .4rem; }
+  .uni-mini strong { font-size: .98rem; }
+  .sf-note { padding: 1.1rem 1.3rem; border-radius: var(--radius-sm); background: color-mix(in srgb,var(--brand) 9%,transparent); border: 1px solid color-mix(in srgb,var(--brand) 22%,transparent); font-size: .92rem; }
+  .sf-count { font-weight: 600; color: var(--brand); }
+  .sf-subhead { font-family: var(--f-display); font-weight: 700; font-size: 1.15rem; margin: 1.6rem 0 .3rem; }
+</style>
+</head>
+<body>
+<div class="bg-aurora"><span></span><span></span><span></span></div>
+<canvas id="particles"></canvas>
+
+<!-- ── Header ───────────────────────────── -->
+<section class="section" style="padding-top:calc(var(--nav-h) + 3rem)">
+  <div class="wrap">
+    <div class="section-head center" data-reveal>
+      <span class="eyebrow">Funding Your Future</span>
+      <h2 class="title">Scholarships &amp; <span class="gradient-text">grants</span></h2>
+      <p class="lead">From merit awards to international grants, our partners offer funding of up to 100% tuition. Tell us your GPA, budget and program — we'll match you with scholarships and universities built for your success.</p>
+    </div>
+
+    <!-- Stats strip -->
+    <div class="glass stats-grid" style="padding:1rem">
+      <div class="stat" data-reveal><div class="num"><span data-count="100" data-suffix="%">0</span></div><div class="lbl">Max Tuition Covered</div></div>
+      <div class="stat" data-reveal data-delay="1"><div class="num"><span data-count="6">0</span></div><div class="lbl">Scholarship Types</div></div>
+      <div class="stat" data-reveal data-delay="2"><div class="num"><span data-count="17">0</span></div><div class="lbl">Partner Universities</div></div>
+      <div class="stat" data-reveal data-delay="3"><div class="num">$<span data-count="2000">0</span></div><div class="lbl">Avg Annual Grant</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Scholarship Finder ───────────────── -->
+<section class="section" style="background:var(--bg2);padding-top:0">
+  <div class="wrap">
+    <div class="section-head center" data-reveal>
+      <span class="eyebrow">Personalised Match</span>
+      <h2 class="title">Scholarship <span class="gradient-text">Finder</span></h2>
+      <p class="lead">Answer four quick questions and instantly see the scholarships and universities that fit you best.</p>
+    </div>
+
+    <div class="card glass" data-reveal style="padding:1.8rem;max-width:880px;margin-inline:auto">
+      <div class="field-row">
+        <div class="field">
+          <label for="sfGpa">Your GPA (0 – 4)</label>
+          <input type="number" id="sfGpa" min="0" max="4" step="0.1" placeholder="e.g. 3.6" />
+        </div>
+        <div class="field">
+          <label for="sfBudget">Annual Budget (USD)</label>
+          <input type="number" id="sfBudget" min="0" step="100" placeholder="e.g. 4000" />
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="sfProgram">Program of Interest</label>
+          <select id="sfProgram">
+            <option value="Any">Any</option>
+            <option>Computer Science</option>
+            <option>Information Technology</option>
+            <option>Business Administration</option>
+            <option>Engineering</option>
+            <option>Nursing</option>
+            <option>Agriculture</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="sfCountry">Preferred Country</label>
+          <select id="sfCountry"><option value="Any">Any</option></select>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-block" id="sfFind">Find Scholarships</button>
+      <div class="sf-results" id="sfResults" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Full directory ───────────────────── -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head center" data-reveal>
+      <span class="eyebrow">All Opportunities</span>
+      <h2 class="title">Scholarship <span class="gradient-text">directory</span></h2>
+      <p class="lead">Every scholarship and grant available through Tolbert Innovation Hub partners.</p>
+    </div>
+    <div class="uni-grid" id="schDirectory"></div>
+  </div>
+</section>
+
+<!-- ── CTA ──────────────────────────────── -->
+<section class="section" style="background:var(--bg2)">
+  <div class="wrap">
+    <div class="glass text-center" data-reveal style="padding:3.5rem 2rem;background:var(--brand-grad);border:none;color:#fff;border-radius:28px">
+      <h2 class="title" style="color:#fff">Found your scholarship? Let's apply.</h2>
+      <p class="lead" style="color:rgba(255,255,255,.9);max-width:560px;margin-inline:auto">Start one smart application and our counselors will help you claim the funding you qualify for.</p>
+      <div class="hero-cta" style="justify-content:center">
+        <a class="btn btn-light" href="apply.html">Start Your Application</a>
+        <a class="btn btn-light" href="counseling.html">Talk to a Counselor</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+  bootChrome("Scholarships");
+
+  /* ── Populate country select ── */
+  const sfCountry = document.getElementById("sfCountry");
+  TIH_COUNTRIES.forEach(c => {
+    const o = document.createElement("option");
+    o.value = c; o.textContent = c;
+    sfCountry.appendChild(o);
+  });
+
+  /* ── Scholarship directory ── */
+  function schCardHTML(s, i) {
+    return `
+    <article class="card card-lift sch-card" data-reveal data-delay="${i % 4}">
+      <div class="ic">🎓</div>
+      <h3>${escapeHtml(s.name)}</h3>
+      <div class="rank-pill" style="align-self:flex-start">${escapeHtml(s.amount)}</div>
+      <div class="sch-meta">${escapeHtml(s.level)}</div>
+      <div class="sch-meta">Criteria: ${escapeHtml(s.criteria)}</div>
+      <div class="sch-meta">${flagFor(s.country)} ${escapeHtml(s.country)}</div>
+    </article>`;
+  }
+  document.getElementById("schDirectory").innerHTML =
+    TIH_SCHOLARSHIPS.map((s, i) => schCardHTML(s, i)).join("");
+
+  /* ── Finder logic ── */
+  function countryMatches(scope, country) {
+    // scope = user-selected country ("Any" or a country)
+    // country = a scholarship/university country value (may be "All Countries")
+    if (scope === "Any") return true;
+    if (country === "All Countries") return true;
+    return country === scope;
+  }
+
+  function runFinder() {
+    const gpaRaw = document.getElementById("sfGpa").value.trim();
+    const budgetRaw = document.getElementById("sfBudget").value.trim();
+    const program = document.getElementById("sfProgram").value;
+    const country = sfCountry.value;
+
+    const gpa = gpaRaw === "" ? null : parseFloat(gpaRaw);
+    const budget = budgetRaw === "" ? null : parseFloat(budgetRaw);
+
+    // Match scholarships by country scope
+    let schs = TIH_SCHOLARSHIPS.filter(s => countryMatches(country, s.country));
+
+    // Prioritise merit awards when GPA is strong
+    const isMerit = s => /merit|excellence|leader|innovat|research/i.test(s.name + " " + s.criteria);
+    if (gpa !== null && gpa >= 3.5) {
+      schs = [...schs].sort((a, b) => (isMerit(b) ? 1 : 0) - (isMerit(a) ? 1 : 0));
+    }
+
+    // Recommend universities offering scholarships within budget & country & program
+    let unis = TIH_UNIVERSITIES.filter(u => {
+      if (!u.scholarship) return false;
+      if (!countryMatches(country, u.country)) return false;
+      if (budget !== null && u.tuitionMin > budget) return false;
+      if (program !== "Any" && !(u.programsUG || []).includes(program)) return false;
+      return true;
+    });
+    // Best-value first
+    unis = [...unis].sort((a, b) => a.tuitionMin - b.tuitionMin).slice(0, 6);
+
+    renderResults(schs, unis, gpa);
+  }
+
+  function renderResults(schs, unis, gpa) {
+    const box = document.getElementById("sfResults");
+    let html = "";
+
+    if (gpa !== null && gpa < 2.5) {
+      html += `<div class="sf-note" style="margin-bottom:1.2rem">💪 Every student has a path forward. While a higher GPA unlocks more merit awards, our counselors can help you find foundation programs and conditional offers. <a href="counseling.html" style="color:var(--brand);font-weight:600">Book a free counseling session →</a></div>`;
+    }
+
+    html += `<p style="margin-bottom:.4rem">We found <span class="sf-count">${schs.length}</span> matching scholarship${schs.length === 1 ? "" : "s"}${unis.length ? ` and <span class="sf-count">${unis.length}</span> recommended universit${unis.length === 1 ? "y" : "ies"}` : ""}.</p>`;
+
+    if (schs.length) {
+      html += `<div class="uni-grid" style="grid-template-columns:repeat(auto-fill,minmax(260px,1fr));margin-top:1rem">` +
+        schs.map((s, i) => `
+        <article class="card sch-card" data-reveal data-delay="${i % 3}">
+          <h3>${escapeHtml(s.name)}</h3>
+          <span class="badge new">${escapeHtml(s.amount)}</span>
+          <div class="sch-meta">${escapeHtml(s.level)}</div>
+          <div class="sch-meta">Criteria: ${escapeHtml(s.criteria)}</div>
+          <div class="sch-meta">${flagFor(s.country)} ${escapeHtml(s.country)}</div>
+        </article>`).join("") + `</div>`;
+    } else {
+      html += `<div class="sf-note" style="margin-top:1rem">No scholarships matched that country exactly. Try setting Preferred Country to <strong>Any</strong> to see all options.</div>`;
+    }
+
+    if (unis.length) {
+      html += `<div class="sf-subhead">Recommended universities</div>
+        <p class="muted" style="font-size:.88rem;margin:0">Partners offering scholarships that fit your filters.</p>
+        <div class="uni-mini-grid">` +
+        unis.map(u => `
+        <a class="card card-lift uni-mini" href="university.html?id=${encodeURIComponent(u.id)}">
+          <strong>${escapeHtml(u.name)}</strong>
+          <div class="sch-meta">${flagFor(u.country)} ${escapeHtml(u.city)}, ${escapeHtml(u.country)}</div>
+          <div class="rank-pill" style="align-self:flex-start">From $${u.tuitionMin.toLocaleString()}/yr</div>
+        </a>`).join("") + `</div>`;
+    }
+
+    box.innerHTML = html;
+    requestAnimationFrame(() => { initReveal(); initCounters(); });
+    box.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  document.getElementById("sfFind").addEventListener("click", runFinder);
+
+  requestAnimationFrame(() => { initReveal(); initCounters(); });
+</script>
+</body>
+</html>

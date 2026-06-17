@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard — Tolbert Innovation Hub</title>
+<meta name="description" content="Your personal study abroad dashboard — track applications, saved universities, scholarships and your journey with Tolbert Innovation Hub." />
+<meta property="og:title" content="Dashboard — Tolbert Innovation Hub" />
+<meta property="og:description" content="Track your applications, saved universities and scholarships in one place." />
+<meta property="og:type" content="website" />
+<meta name="theme-color" content="#5b46f5" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/styles.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%235b46f5'/><text x='50' y='70' font-size='62' fill='white' text-anchor='middle' font-family='sans-serif' font-weight='bold'>T</text></svg>" />
+<style>
+  /* page-specific helpers (reuse existing classes where possible) */
+  .view { display: none; }
+  .view.active { display: block; }
+  .page-head { display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:1.6rem; }
+  .page-head h1 { font-size: 1.9rem; }
+  .page-head p { color: var(--ink3); margin-top:.3rem; font-size:.95rem; }
+  .side-foot { margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid var(--line); display:flex; flex-direction:column; gap:.3rem; }
+  .demo-note { font-size:.78rem; color: var(--ink3); background: color-mix(in srgb,var(--brand) 8%, transparent); border:1px dashed color-mix(in srgb,var(--brand) 32%, transparent); padding:.5rem .8rem; border-radius:10px; display:inline-flex; gap:.4rem; align-items:center; }
+  .welcome { display:flex; align-items:center; gap:1.2rem; flex-wrap:wrap; background: var(--brand-grad); color:#fff; border:none; }
+  .welcome .avatar { width:64px; height:64px; font-size:1.4rem; background: rgba(255,255,255,.2); border:2px solid rgba(255,255,255,.4); }
+  .welcome h2 { color:#fff; font-size:1.5rem; }
+  .welcome p { color: rgba(255,255,255,.92); margin-top:.3rem; font-size:.94rem; }
+  .notif-list { list-style:none; display:flex; flex-direction:column; gap:.7rem; }
+  .notif-item { display:flex; gap:.8rem; align-items:flex-start; padding:.7rem .2rem; border-bottom:1px solid var(--line); }
+  .notif-item:last-child { border-bottom:none; }
+  .notif-ic { width:38px; height:38px; border-radius:11px; display:grid; place-items:center; flex-shrink:0; background: var(--surface2); border:1px solid var(--line); font-size:1rem; }
+  .notif-item small { color: var(--ink3); font-size:.78rem; }
+  .empty { text-align:center; padding:3rem 1.5rem; color: var(--ink3); }
+  .empty .em-ic { font-size:2.6rem; margin-bottom:.6rem; }
+  .grid-2 { display:grid; grid-template-columns: 1.4fr 1fr; gap:1.4rem; align-items:start; }
+  @media(max-width:900px){ .grid-2 { grid-template-columns: 1fr; } }
+  .mb { margin-bottom:1.4rem; }
+  .sec-title { font-size:1.15rem; margin-bottom:1rem; display:flex; align-items:center; gap:.5rem; }
+  .row-act { color: var(--brand); font-weight:600; cursor:pointer; }
+  .uni-mini { display:flex; gap:.6rem; align-items:center; }
+  .uni-mini .badge-logo { width:38px; height:38px; border-radius:10px; display:grid; place-items:center; color:#fff; font-weight:800; font-size:.8rem; font-family:var(--f-display); flex-shrink:0; }
+  .saved-card { position:relative; }
+  .unsave-btn { position:absolute; top:.7rem; right:.7rem; z-index:3; width:34px; height:34px; border-radius:50%; background: rgba(255,255,255,.85); color:#dc2626; display:grid; place-items:center; border:none; cursor:pointer; font-size:1rem; box-shadow: var(--shadow); }
+  .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  @media(max-width:600px){ .form-grid { grid-template-columns:1fr; } }
+  .kv { display:flex; justify-content:space-between; gap:1rem; padding:.55rem 0; border-bottom:1px solid var(--line); font-size:.92rem; }
+  .kv:last-child { border-bottom:none; }
+  .kv span:first-child { color: var(--ink3); }
+</style>
+</head>
+<body>
+<div class="bg-aurora"><span></span><span></span><span></span></div>
+<canvas id="particles"></canvas>
+
+<div class="app-shell">
+  <aside class="side">
+    <a class="logo" href="index.html">
+      <span class="logo-mark">T</span>
+      <span>Tolbert Innovation Hub<small>Study Abroad Portal</small></span>
+    </a>
+    <nav id="sideNav">
+      <a class="side-link active" data-view="overview">🏠 <span>Overview</span></a>
+      <a class="side-link" data-view="applications">📄 <span>My Applications</span></a>
+      <a class="side-link" data-view="saved">⭐ <span>Saved Universities</span></a>
+      <a class="side-link" data-view="scholarships">🎓 <span>Scholarships</span></a>
+      <a class="side-link" data-view="profile">👤 <span>Profile</span></a>
+    </nav>
+    <div class="side-foot">
+      <a class="side-link" id="themeToggle">🌙 <span>Toggle Theme</span></a>
+      <a class="side-link" href="index.html">← <span>Back to site</span></a>
+    </div>
+  </aside>
+
+  <main class="app-main">
+    <!-- OVERVIEW -->
+    <section class="view active" id="view-overview">
+      <div class="page-head">
+        <div>
+          <h1>Overview</h1>
+          <p id="overviewSub">Your study abroad journey at a glance.</p>
+        </div>
+        <div id="demoNoteWrap"></div>
+      </div>
+
+      <div class="card welcome mb" data-reveal style="padding:1.6rem 1.8rem">
+        <div class="avatar" id="welcomeAvatar">JK</div>
+        <div style="flex:1;min-width:200px">
+          <h2 id="welcomeName">Welcome back 👋</h2>
+          <p id="welcomeStatus">You have no active applications yet — start your journey today.</p>
+        </div>
+        <a class="btn btn-light" href="apply.html">Start New Application</a>
+      </div>
+
+      <div class="dash-grid mb" id="statGrid"></div>
+
+      <div class="grid-2">
+        <div class="card" data-reveal style="padding:1.6rem 1.8rem">
+          <h3 class="sec-title">📈 Progress Tracker</h3>
+          <div class="timeline" id="timeline"></div>
+        </div>
+        <div class="card" data-reveal style="padding:1.6rem 1.8rem">
+          <h3 class="sec-title">🔔 Notifications</h3>
+          <ul class="notif-list" id="notifList"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- MY APPLICATIONS -->
+    <section class="view" id="view-applications">
+      <div class="page-head">
+        <div><h1>My Applications</h1><p>Track the status of every application you've submitted.</p></div>
+        <a class="btn btn-primary" href="apply.html">+ New Application</a>
+      </div>
+      <div id="appsWrap"></div>
+    </section>
+
+    <!-- SAVED UNIVERSITIES -->
+    <section class="view" id="view-saved">
+      <div class="page-head">
+        <div><h1>Saved Universities</h1><p>Universities you've bookmarked to compare and apply to later.</p></div>
+        <a class="btn btn-ghost" href="universities.html">Browse all →</a>
+      </div>
+      <div id="savedWrap"></div>
+    </section>
+
+    <!-- SCHOLARSHIPS -->
+    <section class="view" id="view-scholarships">
+      <div class="page-head">
+        <div><h1>Scholarships</h1><p>Funding opportunities matched to your profile.</p></div>
+        <a class="btn btn-ghost" href="scholarships.html">All scholarships →</a>
+      </div>
+      <div class="uni-grid" id="schGrid"></div>
+    </section>
+
+    <!-- PROFILE -->
+    <section class="view" id="view-profile">
+      <div class="page-head">
+        <div><h1>Profile</h1><p>Manage your personal information and account.</p></div>
+      </div>
+      <div class="grid-2">
+        <div class="card" data-reveal style="padding:1.8rem">
+          <h3 class="sec-title">✏️ Edit details</h3>
+          <form id="profileForm">
+            <div class="form-grid">
+              <div class="field"><label>Full Name</label><input id="pf-name" type="text" required /></div>
+              <div class="field"><label>Email</label><input id="pf-email" type="email" required /></div>
+              <div class="field"><label>Phone</label><input id="pf-phone" type="tel" placeholder="+231 …" /></div>
+              <div class="field"><label>Current School</label><input id="pf-school" type="text" placeholder="Your school" /></div>
+            </div>
+            <div class="flex gap" style="margin-top:1.2rem;display:flex;gap:.8rem;flex-wrap:wrap">
+              <button class="btn btn-primary" type="submit">Save Changes</button>
+              <button class="btn btn-ghost" type="button" id="signOutBtn">Sign Out</button>
+            </div>
+          </form>
+        </div>
+        <div class="card" data-reveal style="padding:1.8rem">
+          <h3 class="sec-title">👤 Account</h3>
+          <div class="kv"><span>Name</span><strong id="acc-name">—</strong></div>
+          <div class="kv"><span>Email</span><strong id="acc-email">—</strong></div>
+          <div class="kv"><span>Member since</span><strong>2026</strong></div>
+          <div class="kv"><span>Applications</span><strong id="acc-apps">0</strong></div>
+          <div class="kv"><span>Saved universities</span><strong id="acc-saved">0</strong></div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- Application detail modal -->
+<div class="modal-overlay" id="appModal">
+  <div class="card glass modal" style="position:relative">
+    <button class="modal-close" id="appModalClose" aria-label="Close">✕</button>
+    <div id="appModalBody"></div>
+  </div>
+</div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  /* ── Demo seeding (shared with admin) ───────────────── */
+  function seedDemoData() {
+    if (TIHStore.get("seeded", false)) return;
+    if (TIHStore.get("applications", []).length === 0) {
+      const pick = id => TIH_UNIVERSITIES.find(u => u.id === id);
+      const seed = [
+        { name: "Joseph Kollie", email: "joseph@example.com", phone: "+231 770 111 222", gender: "Male", dob: "2004-03-12", nationality: "Liberian", school: "Monrovia Central High", waec: "5 Distinctions", gpa: "3.6", level: "Undergraduate", uniId: "lpu", program: "B.Tech Computer Science", status: "Under Review", daysAgo: 4 },
+        { name: "Fatu Gbessay", email: "fatu@example.com", phone: "+231 880 333 444", gender: "Female", dob: "2003-09-22", nationality: "Liberian", school: "Gbarnga High School", waec: "4 Distinctions", gpa: "3.4", level: "Undergraduate", uniId: "sharda", program: "B.Sc Nursing", status: "Accepted", daysAgo: 18 },
+        { name: "Emmanuel Doe", email: "emmanuel@example.com", phone: "+231 555 666 777", gender: "Male", dob: "2000-01-08", nationality: "Liberian", school: "Buchanan University", waec: "3 Credits", gpa: "3.2", level: "Postgraduate", uniId: "cyrus-international", program: "MBA", status: "Documents Required", daysAgo: 9 },
+        { name: "Princess Tarnue", email: "princess@example.com", phone: "+231 222 999 000", gender: "Female", dob: "2004-11-30", nationality: "Liberian", school: "Kakata Rural High", waec: "5 Distinctions", gpa: "3.8", level: "Undergraduate", uniId: "amity", program: "BBA", status: "New", daysAgo: 1 },
+        { name: "Samuel Weah", email: "samuel@example.com", phone: "+231 770 444 555", gender: "Male", dob: "2002-06-15", nationality: "Liberian", school: "Sinje Community School", waec: "4 Credits", gpa: "2.9", level: "Undergraduate", uniId: "graphic-era", program: "B.Tech IT", status: "Rejected", daysAgo: 25 },
+        { name: "Grace Johnson", email: "grace@example.com", phone: "+231 888 111 333", gender: "Female", dob: "2003-04-02", nationality: "Liberian", school: "Voinjama Multilateral", waec: "5 Distinctions", gpa: "3.7", level: "Undergraduate", uniId: "soa", program: "B.Tech CSE", status: "Under Review", daysAgo: 6 }
+      ].map(s => {
+        const u = pick(s.uniId);
+        const d = new Date(); d.setDate(d.getDate() - s.daysAgo);
+        return {
+          id: "APP-" + Math.random().toString(36).slice(2, 8).toUpperCase(),
+          name: s.name, email: s.email, phone: s.phone, gender: s.gender, dob: s.dob,
+          nationality: s.nationality, school: s.school, waec: s.waec, gpa: s.gpa, level: s.level,
+          uniId: s.uniId, uniName: u ? u.name : s.uniId, program: s.program,
+          statement: "I am passionate about " + s.program + " and eager to study at " + (u ? u.name : "this university") + " to build my future and give back to Liberia.",
+          status: s.status, date: d.toISOString().slice(0, 10)
+        };
+      });
+      TIHStore.set("applications", seed);
+    }
+    if (TIHStore.get("counseling", []).length === 0) {
+      const mk = (name, email, phone, type, daysAgo, time, status) => {
+        const d = new Date(); d.setDate(d.getDate() - daysAgo);
+        return { id: "CNS-" + Math.random().toString(36).slice(2, 7).toUpperCase(), name, phone, email, date: d.toISOString().slice(0, 10), time, type, notes: "Interested in study options and scholarships.", status, created: d.toISOString() };
+      };
+      TIHStore.set("counseling", [
+        mk("Joseph Kollie", "joseph@example.com", "+231 770 111 222", "Zoom", 3, "10:00 AM", "Scheduled"),
+        mk("Princess Tarnue", "princess@example.com", "+231 222 999 000", "WhatsApp", 1, "2:30 PM", "New"),
+        mk("Emmanuel Doe", "emmanuel@example.com", "+231 555 666 777", "In-person", 7, "11:15 AM", "Completed"),
+        mk("Grace Johnson", "grace@example.com", "+231 888 111 333", "Phone", 2, "4:00 PM", "New")
+      ]);
+    }
+    if (TIHStore.saved().length === 0) {
+      TIHStore.set("saved", ["lpu", "sharda", "amity", "cyrus-international"]);
+    }
+    TIHStore.set("seeded", true);
+  }
+  seedDemoData();
+
+  /* ── User (demo fallback, not persisted as login) ───── */
+  let isDemoUser = false;
+  let user = TIHStore.user();
+  if (!user) { user = { name: "Joseph Kollie", email: "joseph@example.com", photo: "JK" }; isDemoUser = true; }
+  const profile = TIHStore.get("profile", {});
+  const firstName = (user.name || "Student").split(" ")[0];
+
+  /* ── Status → badge class map ───────────────────────── */
+  const STATUS_CLASS = { "New": "new", "Under Review": "review", "Documents Required": "docs", "Accepted": "accepted", "Rejected": "rejected" };
+  const badge = s => `<span class="badge ${STATUS_CLASS[s] || "new"}">${escapeHtml(s)}</span>`;
+
+  /* ── My applications (filtered by user email when possible) ── */
+  const allApps = TIHStore.get("applications", []);
+  let myApps = allApps.filter(a => (a.email || "").toLowerCase() === (user.email || "").toLowerCase());
+  if (myApps.length === 0 && isDemoUser) myApps = allApps; // demo view shows all so it looks full
+  const savedIds = TIHStore.saved();
+
+  /* ── Demo note ──────────────────────────────────────── */
+  if (isDemoUser) {
+    document.getElementById("demoNoteWrap").innerHTML =
+      `<span class="demo-note">👁️ Demo view — <a href="login.html" style="color:var(--brand);font-weight:600">sign in</a> to see your own data</span>`;
+  }
+
+  /* ── Welcome banner ─────────────────────────────────── */
+  document.getElementById("welcomeAvatar").textContent = user.photo || (firstName[0] || "S");
+  document.getElementById("welcomeName").textContent = `Welcome back, ${firstName} 👋`;
+  const accepted = myApps.filter(a => a.status === "Accepted").length;
+  const cnsList = TIHStore.get("counseling", []);
+  const myCns = cnsList.filter(c => (c.email || "").toLowerCase() === (user.email || "").toLowerCase());
+  let statusMsg;
+  if (accepted > 0) statusMsg = `🎉 Great news — you have ${accepted} offer${accepted > 1 ? "s" : ""}! `;
+  else if (myApps.length > 0) statusMsg = `You have ${myApps.length} active application${myApps.length > 1 ? "s" : ""} in progress. `;
+  else statusMsg = "You have no active applications yet — start your journey today. ";
+  statusMsg += myCns.length > 0 ? `You also have ${myCns.length} counseling session${myCns.length > 1 ? "s" : ""} booked.` : "Book a free counseling session anytime.";
+  document.getElementById("welcomeStatus").textContent = statusMsg;
+  document.getElementById("overviewSub").textContent = `${firstName}, here's everything in one place.`;
+
+  /* ── Stat cards ─────────────────────────────────────── */
+  const stats = [
+    { ic: "⭐", grad: "linear-gradient(135deg,#5b46f5,#8b5cf6)", n: savedIds.length, l: "Saved Universities" },
+    { ic: "📄", grad: "linear-gradient(135deg,#06b6d4,#0891b2)", n: myApps.length, l: "Active Applications" },
+    { ic: "🎓", grad: "linear-gradient(135deg,#10b981,#059669)", n: 3, l: "Scholarship Matches" },
+    { ic: "🔔", grad: "linear-gradient(135deg,#f5b942,#d4880b)", n: 2, l: "Notifications" },
+    { ic: "⏰", grad: "linear-gradient(135deg,#ef4444,#b91c1c)", n: 1, l: "Upcoming Deadlines" },
+    { ic: "📎", grad: "linear-gradient(135deg,#a855f7,#7c3aed)", n: 4, l: "Documents Uploaded" }
+  ];
+  document.getElementById("statGrid").innerHTML = stats.map((s, i) => `
+    <div class="card dash-card card-lift" data-reveal data-delay="${i % 4}">
+      <div class="ic" style="background:${s.grad}">${s.ic}</div>
+      <div class="big" data-count="${s.n}">0</div>
+      <div class="muted" style="color:var(--ink3);font-size:.9rem">${s.l}</div>
+    </div>`).join("");
+
+  /* ── Progress tracker ───────────────────────────────── */
+  const stages = [
+    { t: "Registration", d: "Account created and profile set up." },
+    { t: "Document Upload", d: "Transcripts, passport and WAEC results submitted." },
+    { t: "Application Submission", d: "Your application has been sent to the university." },
+    { t: "University Review", d: "The admissions team is reviewing your file." },
+    { t: "Offer Letter", d: "Receive your conditional or final offer." },
+    { t: "Visa Process", d: "Student visa application and documentation." },
+    { t: "Enrollment", d: "Final enrollment and travel preparation." }
+  ];
+  // If user has applications: mark through "University Review"; else only Registration.
+  let doneCount, activeIdx;
+  if (myApps.length > 0) {
+    if (accepted > 0) { doneCount = 4; activeIdx = 4; }  // Offer Letter active
+    else { doneCount = 3; activeIdx = 3; }                // University Review active
+  } else { doneCount = 1; activeIdx = 1; }
+  document.getElementById("timeline").innerHTML = stages.map((s, i) => {
+    const cls = i < doneCount ? "done" : (i === activeIdx ? "active" : "");
+    const dot = i < doneCount ? "✓" : (i === activeIdx ? "●" : (i + 1));
+    return `<div class="tl-item ${cls}"><div class="tl-dot">${dot}</div><div><h4>${s.t}</h4><p>${s.d}</p></div></div>`;
+  }).join("");
+
+  /* ── Notifications ──────────────────────────────────── */
+  const reviewUni = myApps.find(a => a.status === "Under Review");
+  const notifs = [
+    { ic: "📨", t: reviewUni ? `Your application to ${reviewUni.uniName} is under review.` : "Welcome to your dashboard — start an application to track it here.", time: "2 hours ago" },
+    { ic: "🎓", t: "New scholarship match: STEM Innovators Scholarship (up to 50% tuition).", time: "Yesterday" },
+    { ic: "📅", t: "Reminder: complete your document upload before the deadline.", time: "3 days ago" }
+  ];
+  document.getElementById("notifList").innerHTML = notifs.map(n => `
+    <li class="notif-item"><div class="notif-ic">${n.ic}</div><div><div>${escapeHtml(n.t)}</div><small>${n.time}</small></div></li>`).join("");
+
+  /* ── My Applications table ──────────────────────────── */
+  function renderApps() {
+    const wrap = document.getElementById("appsWrap");
+    if (myApps.length === 0) {
+      wrap.innerHTML = `<div class="card empty"><div class="em-ic">📄</div><h3>No applications yet</h3><p style="margin:.6rem 0 1.2rem">Pick a university and submit your first application.</p><a class="btn btn-primary" href="apply.html">Apply now</a></div>`;
+      return;
+    }
+    wrap.innerHTML = `<div class="table-wrap"><table>
+      <thead><tr><th>Application ID</th><th>University</th><th>Program</th><th>Level</th><th>Status</th><th>Date</th><th></th></tr></thead>
+      <tbody>${myApps.map((a, i) => {
+        const u = uniById(a.uniId);
+        const logo = u ? `<span class="badge-logo" style="background:linear-gradient(135deg,${u.accent},${shade(u.accent, -28)})">${u.short}</span>` : "";
+        return `<tr data-i="${i}" style="cursor:pointer">
+          <td><strong>${escapeHtml(a.id)}</strong></td>
+          <td><div class="uni-mini">${logo}<span>${escapeHtml(a.uniName)}</span></div></td>
+          <td>${escapeHtml(a.program)}</td>
+          <td>${escapeHtml(a.level || "")}</td>
+          <td>${badge(a.status)}</td>
+          <td>${escapeHtml(a.date || "")}</td>
+          <td><span class="row-act">View →</span></td>
+        </tr>`;
+      }).join("")}</tbody></table></div>`;
+    wrap.querySelectorAll("tbody tr").forEach(tr => tr.addEventListener("click", () => openApp(myApps[+tr.dataset.i])));
+  }
+
+  function openApp(a) {
+    const u = uniById(a.uniId);
+    document.getElementById("appModalBody").innerHTML = `
+      <span class="eyebrow">Application ${escapeHtml(a.id)}</span>
+      <h2 style="font-size:1.4rem;margin:.6rem 0">${escapeHtml(a.uniName)}</h2>
+      <div style="margin-bottom:1rem">${badge(a.status)}</div>
+      <div class="kv"><span>Applicant</span><strong>${escapeHtml(a.name)}</strong></div>
+      <div class="kv"><span>Email</span><strong>${escapeHtml(a.email)}</strong></div>
+      <div class="kv"><span>Phone</span><strong>${escapeHtml(a.phone || "—")}</strong></div>
+      <div class="kv"><span>Program</span><strong>${escapeHtml(a.program)}</strong></div>
+      <div class="kv"><span>Level</span><strong>${escapeHtml(a.level || "—")}</strong></div>
+      <div class="kv"><span>School</span><strong>${escapeHtml(a.school || "—")}</strong></div>
+      <div class="kv"><span>GPA</span><strong>${escapeHtml(a.gpa || "—")}</strong></div>
+      <div class="kv"><span>WAEC</span><strong>${escapeHtml(a.waec || "—")}</strong></div>
+      <div class="kv"><span>Submitted</span><strong>${escapeHtml(a.date || "—")}</strong></div>
+      <p class="muted" style="margin-top:1rem;color:var(--ink2);font-size:.92rem"><strong>Statement:</strong> ${escapeHtml(a.statement || "—")}</p>
+      ${u ? `<a class="btn btn-primary btn-block" style="margin-top:1.2rem" href="university.html?id=${u.id}">View University</a>` : ""}`;
+    document.getElementById("appModal").classList.add("open");
+  }
+  document.getElementById("appModalClose").onclick = () => document.getElementById("appModal").classList.remove("open");
+  document.getElementById("appModal").addEventListener("click", e => { if (e.target.id === "appModal") e.currentTarget.classList.remove("open"); });
+
+  /* ── Saved universities ─────────────────────────────── */
+  function renderSaved() {
+    const wrap = document.getElementById("savedWrap");
+    const ids = TIHStore.saved();
+    if (ids.length === 0) {
+      wrap.innerHTML = `<div class="card empty"><div class="em-ic">⭐</div><h3>No saved universities</h3><p style="margin:.6rem 0 1.2rem">Browse our 17 partner universities and save your favourites.</p><a class="btn btn-primary" href="universities.html">Browse universities</a></div>`;
+      return;
+    }
+    wrap.innerHTML = `<div class="uni-grid">${ids.map((id, i) => {
+      const u = uniById(id); if (!u) return "";
+      return `<div class="saved-card" style="display:contents"><div style="position:relative">
+        <button class="unsave-btn" data-id="${u.id}" title="Remove">✕</button>
+        ${uniCardHTML(u, i % 4)}
+      </div></div>`;
+    }).join("")}</div>`;
+    wrap.querySelectorAll(".unsave-btn").forEach(b => b.addEventListener("click", e => {
+      e.stopPropagation();
+      TIHStore.toggleSaved(b.dataset.id);
+      toast("Removed from saved");
+      renderSaved();
+      // refresh saved count stat on overview
+      const sc = document.querySelector('#statGrid .dash-card .big');
+      if (sc) sc.textContent = TIHStore.saved().length;
+      document.getElementById("acc-saved").textContent = TIHStore.saved().length;
+    }));
+  }
+
+  /* ── Scholarships ───────────────────────────────────── */
+  document.getElementById("schGrid").innerHTML = TIH_SCHOLARSHIPS.slice(0, 4).map((s, i) => `
+    <div class="card card-lift dash-card" data-reveal data-delay="${i % 4}">
+      <div class="ic">🎓</div>
+      <h3 style="font-size:1.08rem">${escapeHtml(s.name)}</h3>
+      <div class="rank-pill" style="align-self:flex-start">${escapeHtml(s.amount)}</div>
+      <p class="muted" style="color:var(--ink3);font-size:.88rem">${escapeHtml(s.level)} • ${escapeHtml(s.country)}</p>
+      <p class="muted" style="color:var(--ink3);font-size:.84rem">Criteria: ${escapeHtml(s.criteria)}</p>
+      <span class="badge accepted" style="align-self:flex-start;margin-top:.3rem">✓ Matched for you</span>
+    </div>`).join("");
+
+  /* ── Profile form ───────────────────────────────────── */
+  document.getElementById("pf-name").value = profile.name || user.name || "";
+  document.getElementById("pf-email").value = profile.email || user.email || "";
+  document.getElementById("pf-phone").value = profile.phone || (myApps[0] && myApps[0].phone) || "";
+  document.getElementById("pf-school").value = profile.school || (myApps[0] && myApps[0].school) || "";
+  document.getElementById("acc-name").textContent = user.name || "—";
+  document.getElementById("acc-email").textContent = user.email || "—";
+  document.getElementById("acc-apps").textContent = myApps.length;
+  document.getElementById("acc-saved").textContent = savedIds.length;
+  document.getElementById("profileForm").addEventListener("submit", e => {
+    e.preventDefault();
+    TIHStore.set("profile", {
+      name: document.getElementById("pf-name").value.trim(),
+      email: document.getElementById("pf-email").value.trim(),
+      phone: document.getElementById("pf-phone").value.trim(),
+      school: document.getElementById("pf-school").value.trim()
+    });
+    document.getElementById("acc-name").textContent = document.getElementById("pf-name").value.trim() || "—";
+    document.getElementById("acc-email").textContent = document.getElementById("pf-email").value.trim() || "—";
+    toast("Profile saved ✓");
+  });
+  document.getElementById("signOutBtn").addEventListener("click", () => {
+    TIHStore.logout();
+    toast("Signing out…");
+    setTimeout(() => location.href = "index.html", 700);
+  });
+
+  /* ── View switching ─────────────────────────────────── */
+  const links = document.querySelectorAll("#sideNav .side-link");
+  function show(view) {
+    document.querySelectorAll(".view").forEach(v => v.classList.toggle("active", v.id === "view-" + view));
+    links.forEach(l => l.classList.toggle("active", l.dataset.view === view));
+    if (view === "applications") renderApps();
+    if (view === "saved") renderSaved();
+    requestAnimationFrame(() => { initReveal(); initCounters(); });
+  }
+  links.forEach(l => l.addEventListener("click", () => show(l.dataset.view)));
+
+  /* ── Theme toggle ───────────────────────────────────── */
+  const themeBtn = document.getElementById("themeToggle");
+  function syncThemeLabel() {
+    const dark = document.documentElement.getAttribute("data-theme") === "dark";
+    themeBtn.innerHTML = (dark ? "☀️" : "🌙") + " <span>Toggle Theme</span>";
+  }
+  syncThemeLabel();
+  themeBtn.addEventListener("click", () => { toggleTheme(); syncThemeLabel(); });
+
+  /* ── Boot ───────────────────────────────────────────── */
+  initParticles();
+  renderApps();
+  renderSaved();
+  requestAnimationFrame(() => { initReveal(); initCounters(); });
+})();
+</script>
+</body>
+</html>

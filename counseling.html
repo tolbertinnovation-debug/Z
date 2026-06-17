@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Student Counseling — Tolbert Innovation Hub Study Abroad Portal</title>
+<meta name="description" content="Book a free counseling session with Tolbert Innovation Hub. Get expert guidance on choosing universities, scholarships, applications and visas — in-person, phone, Zoom or WhatsApp." />
+<meta name="keywords" content="student counseling Liberia, study abroad advice, university guidance, book counseling, Tolbert Innovation Hub" />
+<meta property="og:title" content="Student Counseling — Tolbert Innovation Hub" />
+<meta property="og:description" content="Book a free counseling session with our expert study abroad advisors." />
+<meta property="og:type" content="website" />
+<meta name="theme-color" content="#5b46f5" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/styles.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%235b46f5'/><text x='50' y='70' font-size='62' fill='white' text-anchor='middle' font-family='sans-serif' font-weight='bold'>T</text></svg>" />
+<script type="application/ld+json">
+{ "@context":"https://schema.org","@type":"EducationalOrganization","name":"Tolbert Innovation Hub Study Abroad Portal","url":"https://tolbertinnovationhub.com","description":"Study abroad consultancy helping students in Liberia apply to international universities.","areaServed":"Liberia" }
+</script>
+<style>
+  .couns-wrap { width: min(1180px, 94vw); margin-inline: auto; }
+  .info-list { list-style: none; padding: 0; margin: 1.4rem 0 0; display: grid; gap: 1.1rem; }
+  .info-list li { display: flex; gap: .9rem; align-items: flex-start; }
+  .info-list .ic { flex: 0 0 42px; width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; font-size: 1.15rem; background: color-mix(in srgb,var(--brand) 12%, transparent); }
+  .info-list strong { display: block; margin-bottom: .15rem; }
+  .team-avatars { display: flex; margin-top: 2rem; }
+  .team-avatars .avatar { border: 3px solid var(--bg); margin-left: -12px; box-shadow: var(--shadow); }
+  .team-avatars .avatar:first-child { margin-left: 0; }
+  .type-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .8rem; }
+  @media(max-width:420px){ .type-grid { grid-template-columns: 1fr; } }
+  .type-opt { border: 1.5px solid var(--line); border-radius: 12px; padding: .85rem 1rem; cursor: pointer; display: flex; align-items: center; gap: .6rem; font-weight: 600; font-size: .9rem; transition: all .2s; user-select: none; }
+  .type-opt:hover { border-color: var(--brand); }
+  .type-opt.selected { border-color: var(--brand); background: color-mix(in srgb,var(--brand) 8%, transparent); color: var(--brand); box-shadow: var(--shadow-brand); }
+  .type-opt .em { font-size: 1.15rem; }
+  .confirm-state { text-align: center; padding: 1rem; }
+  .confirm-state .big { font-size: 3.2rem; line-height: 1; }
+  .confirm-summary { display: inline-grid; gap: .4rem; text-align: left; margin: 1.2rem auto; padding: 1.1rem 1.4rem; border-radius: 14px; background: color-mix(in srgb,var(--brand) 7%, transparent); border: 1px solid color-mix(in srgb,var(--brand) 22%, transparent); }
+  .confirm-summary span { color: var(--ink3); font-size: .82rem; }
+  .confirm-summary strong { font-size: 1rem; }
+</style>
+</head>
+<body>
+<div class="bg-aurora"><span></span><span></span><span></span></div>
+<canvas id="particles"></canvas>
+
+<!-- ── Counseling ───────────────────────── -->
+<section class="section" style="padding-top:calc(var(--nav-h) + 3rem)">
+  <div class="couns-wrap">
+    <div class="section-head center" data-reveal>
+      <span class="eyebrow">Student Counseling</span>
+      <h2 class="title">Talk to a <span class="gradient-text">study abroad expert</span></h2>
+      <p class="lead">Free, personalised guidance from counselors who've helped 1,000+ Liberian students go global.</p>
+    </div>
+
+    <div class="grid-2col">
+      <!-- LEFT: info -->
+      <div data-reveal>
+        <div class="card glass" style="padding:2rem">
+          <h3>Why book a session?</h3>
+          <p class="muted" style="margin-top:.6rem">A 30-minute conversation can save you months. Our counselors help you choose the right university, unlock scholarships and avoid costly mistakes.</p>
+          <ul class="info-list">
+            <li><span class="ic">🎯</span><div><strong>Personalised university match</strong><span class="muted">Find the best fit for your grades, budget and career goals.</span></div></li>
+            <li><span class="ic">💰</span><div><strong>Scholarship strategy</strong><span class="muted">Discover funding worth up to 100% of tuition.</span></div></li>
+            <li><span class="ic">📄</span><div><strong>Application & document review</strong><span class="muted">Get your application checked before you submit.</span></div></li>
+            <li><span class="ic">🛂</span><div><strong>Visa & travel guidance</strong><span class="muted">Step-by-step support from offer letter to departure.</span></div></li>
+          </ul>
+          <div class="team-avatars">
+            <div class="avatar">AB</div>
+            <div class="avatar">MK</div>
+            <div class="avatar">JT</div>
+            <div class="avatar">SD</div>
+          </div>
+          <p class="muted" style="margin-top:.9rem;font-size:.86rem">Meet our team of certified study-abroad counselors, ready to guide you.</p>
+        </div>
+      </div>
+
+      <!-- RIGHT: form -->
+      <div data-reveal data-delay="1">
+        <div class="card glass" id="counsCard" style="padding:2rem">
+          <h3 style="margin-bottom:1.2rem">Book your session</h3>
+          <form id="counsForm" novalidate>
+            <div class="field">
+              <label for="c_name">Name <span style="color:var(--brand)">*</span></label>
+              <input type="text" id="c_name" name="name" placeholder="Your full name" required />
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="c_phone">Phone <span style="color:var(--brand)">*</span></label>
+                <input type="tel" id="c_phone" name="phone" placeholder="+231 …" required />
+              </div>
+              <div class="field">
+                <label for="c_email">Email <span style="color:var(--brand)">*</span></label>
+                <input type="email" id="c_email" name="email" placeholder="you@email.com" required />
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="c_date">Preferred Date <span style="color:var(--brand)">*</span></label>
+                <input type="date" id="c_date" name="date" required />
+              </div>
+              <div class="field">
+                <label for="c_time">Preferred Time <span style="color:var(--brand)">*</span></label>
+                <select id="c_time" name="time" required>
+                  <option value="">Select…</option>
+                  <option>9:00 AM</option>
+                  <option>10:00 AM</option>
+                  <option>11:00 AM</option>
+                  <option>12:00 PM</option>
+                  <option>1:00 PM</option>
+                  <option>2:00 PM</option>
+                  <option>3:00 PM</option>
+                  <option>4:00 PM</option>
+                  <option>5:00 PM</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label>Session Type <span style="color:var(--brand)">*</span></label>
+              <div class="type-grid" id="typeGrid">
+                <div class="type-opt" data-type="In-person"><span class="em">🏢</span> In-person</div>
+                <div class="type-opt" data-type="Phone"><span class="em">📞</span> Phone</div>
+                <div class="type-opt" data-type="Zoom"><span class="em">💻</span> Zoom</div>
+                <div class="type-opt" data-type="WhatsApp"><span class="em">✆</span> WhatsApp</div>
+              </div>
+              <input type="hidden" id="c_type" name="type" required />
+            </div>
+            <div class="field">
+              <label for="c_notes">What would you like help with? <span class="muted" style="font-weight:400">(optional)</span></label>
+              <textarea id="c_notes" name="notes" rows="3" placeholder="e.g. Choosing between India and North Cyprus, scholarships for nursing…"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%">Request Session →</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+  bootChrome("Counseling");
+
+  // Session type selection
+  const typeGrid = document.getElementById("typeGrid");
+  const typeInput = document.getElementById("c_type");
+  typeGrid.addEventListener("click", e => {
+    const opt = e.target.closest(".type-opt");
+    if (!opt) return;
+    typeGrid.querySelectorAll(".type-opt").forEach(o => o.classList.remove("selected"));
+    opt.classList.add("selected");
+    typeInput.value = opt.dataset.type;
+  });
+
+  const form = document.getElementById("counsForm");
+  function val(id) { return (document.getElementById(id).value || "").trim(); }
+
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    const required = ["c_name", "c_phone", "c_email", "c_date", "c_time"];
+    for (const id of required) { if (!val(id)) { toast("Please complete all required fields"); return; } }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(val("c_email"))) { toast("Please complete all required fields"); return; }
+    if (!typeInput.value) { toast("Please choose a session type"); return; }
+
+    const req = {
+      id: genId("CNS"),
+      name: val("c_name"),
+      phone: val("c_phone"),
+      email: val("c_email"),
+      date: val("c_date"),
+      time: val("c_time"),
+      type: typeInput.value,
+      notes: val("c_notes"),
+      status: "Requested",
+      created: new Date().toISOString()
+    };
+    TIHStore.push("counseling", req);
+    toast("Counseling session requested!");
+    renderConfirm(req);
+  });
+
+  function renderConfirm(req) {
+    const card = document.getElementById("counsCard");
+    card.innerHTML = `
+      <div class="confirm-state" data-reveal>
+        <div class="big">📅</div>
+        <h2 class="title" style="font-size:1.6rem;margin-top:.6rem">Counseling Session Requested</h2>
+        <p class="lead" style="margin-top:.5rem">Thanks, ${escapeHtml(req.name.split(" ")[0])}! Here are your details:</p>
+        <div class="confirm-summary">
+          <div><span>Reference</span><br><strong>${escapeHtml(req.id)}</strong></div>
+          <div><span>Date</span><br><strong>${escapeHtml(req.date)}</strong></div>
+          <div><span>Time</span><br><strong>${escapeHtml(req.time)}</strong></div>
+          <div><span>Session Type</span><br><strong>${escapeHtml(req.type)}</strong></div>
+        </div>
+        <p class="muted">Our counselor will confirm via WhatsApp / email shortly.</p>
+        <div style="display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap;margin-top:1.4rem">
+          <a class="btn btn-primary" href="universities.html">Explore Universities →</a>
+          <a class="btn btn-ghost" href="counseling.html">Book another session</a>
+        </div>
+      </div>`;
+    requestAnimationFrame(() => { initReveal(); initCounters(); });
+  }
+
+  requestAnimationFrame(() => { initReveal(); initCounters(); });
+</script>
+</body>
+</html>
