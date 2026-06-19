@@ -4,10 +4,11 @@ import Link from "next/link";
 import {
   GraduationCap, Globe, Users, Trophy, ChevronRight, Star,
   BookOpen, Plane, Award, CheckCircle, ArrowRight, Play,
-  Search, Lightbulb, Shield, Brain, Sparkles, ChevronDown
+  Search, Lightbulb, Shield, Brain, Sparkles, ChevronDown, LogIn
 } from "lucide-react";
 import { universities, testimonials, scholarships, stats } from "@/lib/data";
 import UniversityCard from "@/components/UniversityCard";
+import AuthModal from "@/components/AuthModal";
 
 function AnimatedCounter({ end, suffix }: { end: number; suffix: string }) {
   const [count, setCount] = useState(0);
@@ -93,6 +94,7 @@ const trustMetrics = [
 export default function Home() {
   const [heroVisible, setHeroVisible] = useState(false);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [showAuth, setShowAuth] = useState(false);
 
   useEffect(() => {
     setHeroVisible(true);
@@ -104,6 +106,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen">
+      <AuthModal open={showAuth} onClose={() => setShowAuth(false)} />
       {/* ── HERO ── */}
       <section className="relative min-h-screen hero-bg flex items-center overflow-hidden">
         {/* Animated blobs */}
@@ -156,9 +159,12 @@ export default function Home() {
               <Link href="/universities" className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold rounded-2xl shadow-2xl shadow-blue-900/50 hover:shadow-blue-500/50 hover:scale-105 transition-all duration-300">
                 Explore Universities <ArrowRight className="w-5 h-5" />
               </Link>
-              <Link href="/apply" className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 text-white font-bold rounded-2xl border border-white/30 hover:bg-white/20 hover:scale-105 transition-all duration-300 backdrop-blur-sm">
-                Apply Now
-              </Link>
+              <button
+                onClick={() => setShowAuth(true)}
+                className="inline-flex items-center gap-2 px-8 py-4 bg-white text-blue-700 font-bold rounded-2xl shadow-2xl hover:bg-blue-50 hover:scale-105 transition-all duration-300"
+              >
+                <LogIn className="w-5 h-5" /> Sign In / Register
+              </button>
               <Link href="/counseling" className="inline-flex items-center gap-2 px-8 py-4 text-white/80 font-semibold hover:text-white transition-colors">
                 <Play className="w-4 h-4" /> Book Free Counseling
               </Link>
@@ -496,9 +502,12 @@ export default function Home() {
             <Link href="/apply" className="px-10 py-4 bg-white text-blue-700 font-bold rounded-2xl shadow-2xl hover:bg-blue-50 hover:scale-105 transition-all duration-300">
               Start Free Application
             </Link>
-            <Link href="/counseling" className="px-10 py-4 bg-white/10 text-white font-bold rounded-2xl border border-white/30 hover:bg-white/20 hover:scale-105 transition-all duration-300 backdrop-blur-sm">
-              Book Free Counseling
-            </Link>
+            <button
+              onClick={() => setShowAuth(true)}
+              className="inline-flex items-center gap-2 px-10 py-4 bg-white/10 text-white font-bold rounded-2xl border border-white/30 hover:bg-white/20 hover:scale-105 transition-all duration-300 backdrop-blur-sm"
+            >
+              <LogIn className="w-5 h-5" /> Sign In
+            </button>
           </div>
           <div className="mt-10 flex flex-wrap justify-center gap-8 text-white/70 text-sm">
             {["✓ Free Application", "✓ Expert Guidance", "✓ Scholarship Support", "✓ Visa Assistance"].map((item) => (

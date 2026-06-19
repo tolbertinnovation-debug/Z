@@ -2,7 +2,8 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, GraduationCap, ChevronDown, Brain, GitCompare, Award } from "lucide-react";
+import { Menu, X, GraduationCap, ChevronDown, Brain, GitCompare, Award, LogIn } from "lucide-react";
+import AuthModal from "@/components/AuthModal";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -29,6 +30,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [uniDropOpen, setUniDropOpen] = useState(false);
   const [toolsDropOpen, setToolsDropOpen] = useState(false);
+  const [showAuth, setShowAuth] = useState(false);
   const pathname = usePathname();
   const uniRef = useRef<HTMLDivElement>(null);
   const toolsRef = useRef<HTMLDivElement>(null);
@@ -165,6 +167,12 @@ export default function Navbar() {
 
           {/* CTA + Mobile toggle */}
           <div className="flex items-center gap-3">
+            <button
+              onClick={() => setShowAuth(true)}
+              className={`hidden sm:inline-flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200 ${scrolled || !isHome ? "text-slate-700 hover:bg-slate-100" : "text-white/90 hover:bg-white/10"}`}
+            >
+              <LogIn className="w-4 h-4" /> Sign In
+            </button>
             <Link
               href="/apply"
               className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-semibold rounded-xl shadow-lg shadow-blue-200 hover:shadow-blue-300 hover:scale-105 transition-all duration-200"
@@ -215,6 +223,12 @@ export default function Navbar() {
                   </Link>
                 ))}
               </div>
+              <button
+                onClick={() => { setOpen(false); setShowAuth(true); }}
+                className="flex items-center gap-2 w-full px-4 py-3 rounded-xl text-sm font-semibold text-blue-600 bg-blue-50 hover:bg-blue-100 transition-colors mt-2"
+              >
+                <LogIn className="w-4 h-4" /> Sign In / Register
+              </button>
               <Link
                 href="/apply"
                 onClick={() => setOpen(false)}
@@ -226,6 +240,8 @@ export default function Navbar() {
           </div>
         )}
       </div>
+
+      <AuthModal open={showAuth} onClose={() => setShowAuth(false)} />
     </nav>
   );
 }
