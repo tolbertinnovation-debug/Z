@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { usePortalStore } from "@/lib/store";
 import {
   GraduationCap, LayoutDashboard, FileText, FolderOpen,
   MessageSquare, Award, Plane, Bell, User, Settings,
@@ -10,18 +11,21 @@ import {
 
 const navItems = [
   { href: "/portal", icon: LayoutDashboard, label: "Overview", exact: true },
-  { href: "/portal/applications", icon: FileText, label: "My Applications", badge: 3 },
-  { href: "/portal/documents", icon: FolderOpen, label: "Documents", badge: 2 },
-  { href: "/portal/messages", icon: MessageSquare, label: "Messages", badge: 4 },
+  { href: "/portal/applications", icon: FileText, label: "My Applications" },
+  { href: "/portal/documents", icon: FolderOpen, label: "Documents" },
+  { href: "/portal/messages", icon: MessageSquare, label: "Messages" },
   { href: "/portal/scholarships", icon: Award, label: "Scholarships" },
   { href: "/portal/visa", icon: Plane, label: "Visa Tracker" },
-  { href: "/portal/notifications", icon: Bell, label: "Notifications", badge: 5 },
+  { href: "/portal/notifications", icon: Bell, label: "Notifications" },
   { href: "/portal/profile", icon: User, label: "My Profile" },
 ];
 
 export default function PortalLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
+  const unread = usePortalStore(s => s.getUnreadCount("s1"));
+  const myAppsCount = usePortalStore(s => s.applications.filter(a => a.studentId === "s1" && (a.status === "documents-required" || a.status === "submitted")).length);
+  const unreadMessages = usePortalStore(s => s.messages.filter(m => m.toId === "s1" && !m.read).length);
 
   // Login page renders standalone without sidebar
   if (pathname === "/portal/login") return <>{children}</>;
@@ -78,6 +82,10 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
         <nav className="flex-1 overflow-y-auto p-3 space-y-1">
           {navItems.map((item) => {
             const active = isActive(item.href, item.exact);
+            const badge =
+              item.href === "/portal/notifications" ? unread :
+              item.href === "/portal/messages" ? unreadMessages :
+              item.href === "/portal/applications" ? myAppsCount : 0;
             return (
               <Link
                 key={item.href}
@@ -89,11 +97,11 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
                     : "text-slate-400 hover:text-white hover:bg-slate-800"
                 }`}
               >
-                <item.icon className="w-4.5 h-4.5 shrink-0" />
+                <item.icon className="w-4 h-4 shrink-0" />
                 <span className="flex-1">{item.label}</span>
-                {item.badge && (
+                {badge > 0 && (
                   <span className={`text-xs font-bold px-1.5 py-0.5 rounded-full min-w-[20px] text-center ${active ? "bg-white/20 text-white" : "bg-blue-600 text-white"}`}>
-                    {item.badge}
+                    {badge > 99 ? "99+" : badge}
                   </span>
                 )}
                 {active && <ChevronRight className="w-3.5 h-3.5 opacity-70" />}
@@ -134,7 +142,11 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
           <div className="flex items-center gap-2">
             <Link href="/portal/notifications" className="relative p-2 rounded-xl text-slate-500 hover:bg-slate-100 transition-colors">
               <Bell className="w-5 h-5" />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full" />
+              {unread > 0 && (
+                <span className="absolute top-0.5 right-0.5 min-w-[16px] h-4 bg-red-500 rounded-full text-white text-[10px] font-bold flex items-center justify-center px-0.5">
+                  {unread > 9 ? "9+" : unread}
+                </span>
+              )}
             </Link>
             <Link href="/portal/profile" className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-xs">
               EK

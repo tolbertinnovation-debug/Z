@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { usePortalStore } from "@/lib/store";
 import {
   LayoutDashboard, FileText, Users, Building2, MessageSquare,
   Award, FolderOpen, CalendarDays, BarChart3, Settings,
@@ -10,11 +11,12 @@ import {
 
 const navItems = [
   { href: "/admin", icon: LayoutDashboard, label: "Dashboard", exact: true },
-  { href: "/admin/applications", icon: FileText, label: "Applications", badge: 31 },
+  { href: "/admin/applications", icon: FileText, label: "Applications" },
   { href: "/admin/students", icon: Users, label: "Students" },
   { href: "/admin/universities", icon: Building2, label: "Universities" },
-  { href: "/admin/documents", icon: FolderOpen, label: "Documents", badge: 12 },
-  { href: "/admin/messages", icon: MessageSquare, label: "Messages", badge: 7 },
+  { href: "/admin/documents", icon: FolderOpen, label: "Documents" },
+  { href: "/admin/messages", icon: MessageSquare, label: "Messages" },
+  { href: "/admin/notifications", icon: Bell, label: "Notifications" },
   { href: "/admin/counseling", icon: CalendarDays, label: "Counseling" },
   { href: "/admin/scholarships", icon: Award, label: "Scholarships" },
   { href: "/admin/analytics", icon: BarChart3, label: "Analytics" },
@@ -23,6 +25,10 @@ const navItems = [
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
+  const pendingApps = usePortalStore(s => s.applications.filter(a => a.status === "submitted" || a.status === "under-review").length);
+  const pendingDocs = usePortalStore(s => s.applications.flatMap(a => a.documents).filter(d => d.status === "pending").length);
+  const unreadMessages = usePortalStore(s => s.messages.filter(m => m.toId === "admin" && !m.read).length);
+  const adminUnread = usePortalStore(s => s.getUnreadCount("admin"));
 
   if (pathname === "/admin/login") return <>{children}</>;
 
@@ -75,6 +81,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <nav className="flex-1 overflow-y-auto p-3 space-y-1">
           {navItems.map((item) => {
             const active = isActive(item.href, item.exact);
+            const badge =
+              item.href === "/admin/applications" ? pendingApps :
+              item.href === "/admin/documents" ? pendingDocs :
+              item.href === "/admin/messages" ? unreadMessages :
+              item.href === "/admin/notifications" ? adminUnread : 0;
             return (
               <Link
                 key={item.href}
@@ -86,9 +97,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               >
                 <item.icon className="w-4 h-4 shrink-0" />
                 <span className="flex-1">{item.label}</span>
-                {"badge" in item && item.badge && (
+                {badge > 0 && (
                   <span className={`text-xs font-bold px-1.5 py-0.5 rounded-full min-w-[20px] text-center ${active ? "bg-white/20 text-white" : "bg-red-500 text-white"}`}>
-                    {item.badge}
+                    {badge > 99 ? "99+" : badge}
                   </span>
                 )}
                 {active && <ChevronRight className="w-3.5 h-3.5 opacity-70" />}
@@ -127,10 +138,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <p className="text-slate-400 text-xs">Administration · Tolbert Innovation Hub</p>
           </div>
           <div className="flex items-center gap-2">
-            <button className="relative p-2 rounded-xl text-slate-500 hover:bg-slate-100 transition-colors">
+            <a href="/admin/notifications" className="relative p-2 rounded-xl text-slate-500 hover:bg-slate-100 transition-colors">
               <Bell className="w-5 h-5" />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full" />
-            </button>
+              {adminUnread > 0 && (
+                <span className="absolute top-0.5 right-0.5 min-w-[16px] h-4 bg-red-500 rounded-full text-white text-[10px] font-bold flex items-center justify-center px-0.5">
+                  {adminUnread > 9 ? "9+" : adminUnread}
+                </span>
+              )}
+            </a>
             <div className="w-9 h-9 rounded-full bg-gradient-to-br from-red-500 to-orange-600 flex items-center justify-center text-white font-bold text-xs">
               AD
             </div>
