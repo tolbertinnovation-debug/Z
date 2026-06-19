@@ -7,13 +7,15 @@ import LiveChat from "./LiveChat";
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isPortal = pathname?.startsWith("/portal");
+  const isAdmin = pathname?.startsWith("/admin");
+  const isBare = isPortal || isAdmin;
 
   return (
     <>
-      {!isPortal && <Navbar />}
-      <div className={isPortal ? "" : "flex-1"}>{children}</div>
-      {!isPortal && <Footer />}
-      {!isPortal && <LiveChat />}
+      {!isBare && <Navbar />}
+      <div className={isBare ? "" : "flex-1"}>{children}</div>
+      {!isBare && <Footer />}
+      {!isBare && <LiveChat />}
     </>
   );
 }
