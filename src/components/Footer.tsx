@@ -52,7 +52,7 @@ export default function Footer() {
                 { href: "/universities", label: "University Directory" },
                 { href: "/apply", label: "Apply Online" },
                 { href: "/counseling", label: "Book Counseling" },
-                { href: "/dashboard", label: "Student Portal" },
+                { href: "/portal", label: "Student Portal" },
                 { href: "/admin", label: "Admin Dashboard" },
               ].map((link) => (
                 <li key={link.href}>
