@@ -1,9 +1,10 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Menu, X, GraduationCap, ChevronDown, Brain, GitCompare, Award, LogIn } from "lucide-react";
 import AuthModal from "@/components/AuthModal";
+import { usePortalStore } from "@/lib/store";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -32,6 +33,16 @@ export default function Navbar() {
   const [toolsDropOpen, setToolsDropOpen] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+  const isLoggedIn = usePortalStore(s => s.isLoggedIn);
+
+  function handleApplyClick() {
+    if (isLoggedIn) {
+      router.push("/apply");
+    } else {
+      setShowAuth(true);
+    }
+  }
   const uniRef = useRef<HTMLDivElement>(null);
   const toolsRef = useRef<HTMLDivElement>(null);
 
@@ -173,12 +184,12 @@ export default function Navbar() {
             >
               <LogIn className="w-4 h-4" /> Sign In
             </button>
-            <Link
-              href="/apply"
+            <button
+              onClick={handleApplyClick}
               className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-semibold rounded-xl shadow-lg shadow-blue-200 hover:shadow-blue-300 hover:scale-105 transition-all duration-200"
             >
               Apply Now
-            </Link>
+            </button>
             <button
               onClick={() => setOpen(!open)}
               className={`lg:hidden p-2 rounded-lg transition-colors ${
@@ -229,13 +240,12 @@ export default function Navbar() {
               >
                 <LogIn className="w-4 h-4" /> Sign In / Register
               </button>
-              <Link
-                href="/apply"
-                onClick={() => setOpen(false)}
-                className="block px-4 py-3 rounded-xl text-sm font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-center mt-2"
+              <button
+                onClick={() => { setOpen(false); handleApplyClick(); }}
+                className="w-full px-4 py-3 rounded-xl text-sm font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-center mt-2"
               >
                 Apply Now →
-              </Link>
+              </button>
             </div>
           </div>
         )}

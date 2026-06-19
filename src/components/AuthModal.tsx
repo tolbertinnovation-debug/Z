@@ -5,6 +5,7 @@ import {
   X, GraduationCap, Shield, Handshake,
   Mail, Lock, Eye, EyeOff, User, Phone, ArrowRight, CheckCircle
 } from "lucide-react";
+import { usePortalStore } from "@/lib/store";
 
 type PortalType = "student" | "agent" | "admin";
 type AuthMode = "login" | "register";
@@ -56,6 +57,7 @@ const PORTALS = [
 ];
 
 export default function AuthModal({ open, onClose, defaultPortal = "student", defaultMode = "login" }: AuthModalProps) {
+  const login = usePortalStore(s => s.login);
   const [portal, setPortal] = useState<PortalType>(defaultPortal);
   const [mode, setMode] = useState<AuthMode>(defaultMode);
   const [showPassword, setShowPassword] = useState(false);
@@ -69,6 +71,8 @@ export default function AuthModal({ open, onClose, defaultPortal = "student", de
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const displayName = mode === "register" && form.name ? form.name : form.email.split("@")[0];
+    login(portal, displayName);
     setSubmitted(true);
   };
 

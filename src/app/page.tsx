@@ -9,6 +9,8 @@ import {
 import { universities, testimonials, scholarships, stats } from "@/lib/data";
 import UniversityCard from "@/components/UniversityCard";
 import AuthModal from "@/components/AuthModal";
+import { usePortalStore } from "@/lib/store";
+import { useRouter } from "next/navigation";
 
 function AnimatedCounter({ end, suffix }: { end: number; suffix: string }) {
   const [count, setCount] = useState(0);
@@ -95,6 +97,13 @@ export default function Home() {
   const [heroVisible, setHeroVisible] = useState(false);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [showAuth, setShowAuth] = useState(false);
+  const isLoggedIn = usePortalStore(s => s.isLoggedIn);
+  const router = useRouter();
+
+  function handleApply() {
+    if (isLoggedIn) router.push("/apply");
+    else setShowAuth(true);
+  }
 
   useEffect(() => {
     setHeroVisible(true);
@@ -406,9 +415,9 @@ export default function Home() {
             ))}
           </div>
           <div className="text-center mt-12">
-            <Link href="/apply" className="inline-flex items-center gap-2 px-10 py-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold rounded-2xl shadow-2xl shadow-blue-500/30 hover:shadow-blue-500/50 hover:scale-105 transition-all duration-300">
+            <button onClick={handleApply} className="inline-flex items-center gap-2 px-10 py-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold rounded-2xl shadow-2xl shadow-blue-500/30 hover:shadow-blue-500/50 hover:scale-105 transition-all duration-300">
               Start Your Application <ArrowRight className="w-5 h-5" />
-            </Link>
+            </button>
           </div>
         </div>
       </section>
@@ -499,9 +508,9 @@ export default function Home() {
             Join 1,000+ students from Liberia who have successfully enrolled in top international universities through Tolbert Innovation Hub.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link href="/apply" className="px-10 py-4 bg-white text-blue-700 font-bold rounded-2xl shadow-2xl hover:bg-blue-50 hover:scale-105 transition-all duration-300">
+            <button onClick={handleApply} className="px-10 py-4 bg-white text-blue-700 font-bold rounded-2xl shadow-2xl hover:bg-blue-50 hover:scale-105 transition-all duration-300">
               Start Free Application
-            </Link>
+            </button>
             <button
               onClick={() => setShowAuth(true)}
               className="inline-flex items-center gap-2 px-10 py-4 bg-white/10 text-white font-bold rounded-2xl border border-white/30 hover:bg-white/20 hover:scale-105 transition-all duration-300 backdrop-blur-sm"
