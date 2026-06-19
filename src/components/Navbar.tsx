@@ -9,7 +9,7 @@ const navLinks = [
   { href: "/universities", label: "Universities" },
   { href: "/apply", label: "Apply Now" },
   { href: "/counseling", label: "Counseling" },
-  { href: "/dashboard", label: "Student Portal" },
+  { href: "/portal", label: "Student Portal" },
 ];
 
 const universityDropdown = [
