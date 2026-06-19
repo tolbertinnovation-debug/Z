@@ -219,30 +219,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── FEATURES ── */}
-      <section className="py-24 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
-              <Lightbulb className="w-4 h-4" /> Everything You Need
-            </div>
-            <h2 className="section-title text-slate-900 mb-4">Your Complete Study Abroad Solution</h2>
-            <p className="text-slate-500 text-lg max-w-2xl mx-auto">From discovery to enrollment, we guide you through every step of your international education journey.</p>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((f) => (
-              <div key={f.title} className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 card-hover">
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${f.color} flex items-center justify-center mb-4 shadow-lg`}>
-                  <f.icon className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="font-bold text-slate-900 text-lg mb-2">{f.title}</h3>
-                <p className="text-slate-500 text-sm leading-relaxed">{f.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── AI MATCH BANNER ── */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -292,6 +268,30 @@ export default function Home() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {universities.slice(0, 8).map((uni) => (
               <UniversityCard key={uni.id} uni={uni} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── FEATURES ── */}
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
+              <Lightbulb className="w-4 h-4" /> Everything You Need
+            </div>
+            <h2 className="section-title text-slate-900 mb-4">Your Complete Study Abroad Solution</h2>
+            <p className="text-slate-500 text-lg max-w-2xl mx-auto">From discovery to enrollment, we guide you through every step of your international education journey.</p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {features.map((f) => (
+              <div key={f.title} className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 card-hover">
+                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${f.color} flex items-center justify-center mb-4 shadow-lg`}>
+                  <f.icon className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="font-bold text-slate-900 text-lg mb-2">{f.title}</h3>
+                <p className="text-slate-500 text-sm leading-relaxed">{f.desc}</p>
+              </div>
             ))}
           </div>
         </div>
