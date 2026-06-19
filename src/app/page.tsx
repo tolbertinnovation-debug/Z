@@ -153,7 +153,7 @@ export default function Home() {
           <div className="max-w-4xl">
             <div className="inline-flex items-center gap-2 glass rounded-full px-4 py-2 mb-8">
               <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-              <span className="text-white/80 text-sm font-medium">Now Accepting Applications for 2024–25</span>
+              <span className="text-white/80 text-sm font-medium">Now Accepting Applications for 2026–2027</span>
             </div>
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.05] mb-6 tracking-tight">
               Study{" "}
