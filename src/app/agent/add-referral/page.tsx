@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { usePortalStore } from "@/lib/store";
+import toast from "react-hot-toast";
 import Link from "next/link";
 import {
   User,
@@ -263,6 +265,21 @@ export default function AddReferralPage() {
   }
 
   function handleSubmit() {
+    const addReferral = usePortalStore.getState().addReferral;
+    addReferral({
+      agentId: "a1",
+      studentName: `${student.firstName} ${student.lastName}`,
+      studentEmail: student.email,
+      studentPhone: student.phone,
+      program: academic.preferredProgram,
+      preferredCountry: academic.preferredCountry,
+      studyLevel: academic.studyLevel,
+      budget: academic.budgetRange,
+      commissionRate: 12,
+      commissionAmount: 0,
+      commissionPaid: false,
+    });
+    toast.success("Referral submitted! Admin has been notified.");
     setSubmitted(true);
   }
 

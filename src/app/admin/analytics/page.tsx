@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { Download, FileText, TrendingUp, TrendingDown } from "lucide-react";
+import { usePortalStore } from "@/lib/store";
+import LiveBadge from "@/components/LiveBadge";
 
 type DateRange = "7d" | "30d" | "3m" | "custom";
 
@@ -12,57 +14,11 @@ const DATE_RANGES: { key: DateRange; label: string }[] = [
   { key: "custom", label: "Custom" },
 ];
 
-const kpis = [
-  {
-    label: "Total Revenue",
-    value: "$142,400",
-    change: "+12%",
-    up: true,
-    sub: "vs last period",
-  },
-  {
-    label: "Avg Processing Time",
-    value: "8 days",
-    change: "-2 days",
-    up: true,
-    sub: "faster than before",
-  },
-  {
-    label: "Acceptance Rate",
-    value: "71%",
-    change: "+4%",
-    up: true,
-    sub: "vs last period",
-  },
-  {
-    label: "Student Satisfaction",
-    value: "4.8 / 5",
-    change: "+0.2",
-    up: true,
-    sub: "from student surveys",
-  },
-];
+// kpis and funnel computed inside component from store
 
-const funnelStages = [
-  { label: "Registered", count: 1240, pct: 100 },
-  { label: "Applied", count: 980, pct: 79 },
-  { label: "Documents Submitted", count: 720, pct: 58 },
-  { label: "Under Review", count: 510, pct: 41 },
-  { label: "Accepted", count: 352, pct: 28 },
-];
-
-const universities = [
-  { name: "University of Ghana", count: 145 },
-  { name: "Ashesi University", count: 112 },
-  { name: "Strathmore University", count: 98 },
-  { name: "University of Cape Town", count: 87 },
-  { name: "Pan-Atlantic University", count: 74 },
-  { name: "University of Nairobi", count: 63 },
-];
-
-const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
-const applications = [95, 120, 145, 160, 185, 210];
-const acceptances = [52, 70, 88, 102, 118, 135];
+const chartMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+const chartApps = [95, 120, 145, 160, 185, 210];
+const chartAcceptances = [52, 70, 88, 102, 118, 135];
 const maxBar = 220;
 
 const demographics = {
@@ -79,8 +35,37 @@ const demographics = {
 
 export default function AnalyticsPage() {
   const [dateRange, setDateRange] = useState<DateRange>("30d");
+  const applications = usePortalStore(s => s.applications);
+  const students = usePortalStore(s => s.students);
+  const referrals = usePortalStore(s => s.referrals);
 
-  const maxUniversity = Math.max(...universities.map((u) => u.count));
+  const totalApps = applications.length;
+  const acceptedApps = applications.filter(a => a.status === "accepted").length;
+  const acceptanceRate = totalApps ? Math.round((acceptedApps / totalApps) * 100) : 0;
+  const totalCommissions = applications.filter(a => a.status === "accepted").reduce((s, a) => s + a.commissionAmount, 0);
+
+  // Compute university breakdown from real data
+  const uniMap = applications.reduce<Record<string, number>>((acc, a) => {
+    acc[a.universityName] = (acc[a.universityName] ?? 0) + 1;
+    return acc;
+  }, {});
+  const topUniversities = Object.entries(uniMap).map(([name, count]) => ({ name, count })).sort((a, b) => b.count - a.count).slice(0, 6);
+  const maxUniversity = Math.max(...topUniversities.map(u => u.count), 1);
+
+  const kpis = [
+    { label: "Total Commissions", value: `$${totalCommissions.toLocaleString()}`, change: "+12%", up: true, sub: "from accepted apps" },
+    { label: "Avg Processing Time", value: "8 days", change: "-2 days", up: true, sub: "faster than before" },
+    { label: "Acceptance Rate", value: `${acceptanceRate}%`, change: "+4%", up: true, sub: "vs last period" },
+    { label: "Agent Referrals", value: String(referrals.length), change: "+8", up: true, sub: "total referrals" },
+  ];
+
+  const funnelStages = [
+    { label: "Registered", count: students.length, pct: 100 },
+    { label: "Applied", count: totalApps, pct: students.length ? Math.round((totalApps / students.length) * 100) : 0 },
+    { label: "Docs Submitted", count: applications.filter(a => a.documents.some(d => d.status === "approved")).length, pct: totalApps ? Math.round((applications.filter(a => a.documents.some(d => d.status === "approved")).length / totalApps) * 100) : 0 },
+    { label: "Under Review", count: applications.filter(a => a.status === "under-review").length, pct: totalApps ? Math.round((applications.filter(a => a.status === "under-review").length / totalApps) * 100) : 0 },
+    { label: "Accepted", count: acceptedApps, pct: totalApps ? Math.round((acceptedApps / totalApps) * 100) : 0 },
+  ];
 
   return (
     <div className="space-y-6">
@@ -88,7 +73,7 @@ export default function AnalyticsPage() {
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-2xl font-bold text-slate-800">
-            Analytics & Reports
+            Analytics & Reports <LiveBadge />
           </h1>
           <p className="text-slate-500 text-sm mt-1">
             Insights and trends across all student activities
@@ -189,7 +174,7 @@ export default function AnalyticsPage() {
             Top Universities by Applications
           </h2>
           <div className="space-y-3">
-            {universities.map((u) => {
+            {topUniversities.map((u) => {
               const pct = Math.round((u.count / maxUniversity) * 100);
               return (
                 <div key={u.name} className="space-y-1">
@@ -266,7 +251,7 @@ export default function AnalyticsPage() {
           </div>
         </div>
         <div className="flex items-end gap-4 h-40">
-          {months.map((month, i) => (
+          {chartMonths.map((month, i) => (
             <div
               key={month}
               className="flex-1 flex flex-col items-center gap-1"
@@ -277,7 +262,7 @@ export default function AnalyticsPage() {
                   <div
                     className="w-full bg-orange-500 rounded-t"
                     style={{
-                      height: `${(applications[i] / maxBar) * 100}%`,
+                      height: `${(chartApps[i] / maxBar) * 100}%`,
                     }}
                   />
                 </div>
@@ -286,7 +271,7 @@ export default function AnalyticsPage() {
                   <div
                     className="w-full bg-rose-400 rounded-t"
                     style={{
-                      height: `${(acceptances[i] / maxBar) * 100}%`,
+                      height: `${(chartAcceptances[i] / maxBar) * 100}%`,
                     }}
                   />
                 </div>
@@ -296,10 +281,10 @@ export default function AnalyticsPage() {
           ))}
         </div>
         <div className="flex justify-between mt-2 text-xs text-slate-400">
-          {months.map((month, i) => (
+          {chartMonths.map((month, i) => (
             <div key={month} className="flex-1 text-center">
-              <div className="text-slate-600">{applications[i]}</div>
-              <div className="text-rose-400">{acceptances[i]}</div>
+              <div className="text-slate-600">{chartApps[i]}</div>
+              <div className="text-rose-400">{chartAcceptances[i]}</div>
             </div>
           ))}
         </div>
