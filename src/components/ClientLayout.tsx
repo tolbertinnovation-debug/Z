@@ -8,7 +8,8 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   const pathname = usePathname();
   const isPortal = pathname?.startsWith("/portal");
   const isAdmin = pathname?.startsWith("/admin");
-  const isBare = isPortal || isAdmin;
+  const isAgent = pathname?.startsWith("/agent");
+  const isBare = isPortal || isAdmin || isAgent;
 
   return (
     <>
