@@ -101,7 +101,16 @@ export interface CounselingSession {
 
 // ─── Store ────────────────────────────────────────────────────────────────────
 
+export type PortalType = "student" | "agent" | "admin";
+
 interface PortalStore {
+  // Auth
+  isLoggedIn: boolean;
+  loggedInPortal: PortalType | null;
+  loggedInName: string;
+  login: (portal: PortalType, name: string) => void;
+  logout: () => void;
+
   // Data
   students: Student[];
   applications: Application[];
@@ -193,6 +202,12 @@ const seedActivity = [
 export const usePortalStore = create<PortalStore>()(
   persist(
     (set, get) => ({
+      isLoggedIn: false,
+      loggedInPortal: null,
+      loggedInName: "",
+      login: (portal, name) => set({ isLoggedIn: true, loggedInPortal: portal, loggedInName: name }),
+      logout: () => set({ isLoggedIn: false, loggedInPortal: null, loggedInName: "" }),
+
       students: seedStudents,
       applications: seedApplications,
       referrals: seedReferrals,
@@ -350,6 +365,9 @@ export const usePortalStore = create<PortalStore>()(
       name: "tolbert-portal-store",
       // Only persist data, not functions
       partialize: (s) => ({
+        isLoggedIn: s.isLoggedIn,
+        loggedInPortal: s.loggedInPortal,
+        loggedInName: s.loggedInName,
         students: s.students,
         applications: s.applications,
         referrals: s.referrals,

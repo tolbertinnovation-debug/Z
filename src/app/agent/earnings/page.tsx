@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { usePortalStore } from "@/lib/store";
 import {
   DollarSign,
   TrendingUp,
@@ -90,7 +91,11 @@ type PayoutFormErrors = Partial<Record<PayoutFormField, string>>;
 
 /* ─── Component ──────────────────────────────────────────────── */
 
+const now = new Date();
+
 export default function EarningsPage() {
+  const agentApps = usePortalStore(s => s.applications.filter(a => a.agentId === "a1"));
+  const referrals = usePortalStore(s => s.getAgentReferrals("a1"));
   const [activeTab, setActiveTab] = useState<"history" | "payouts">("history");
   const [showPayoutForm, setShowPayoutForm] = useState(false);
   const [payoutSubmitted, setPayoutSubmitted] = useState(false);
@@ -127,21 +132,47 @@ export default function EarningsPage() {
     }
   }
 
-  const totalEarned = EARNINGS.reduce((s, e) => s + e.amount, 0);
-  const paidTotal = EARNINGS.filter((e) => e.status === "Paid").reduce((s, e) => s + e.amount, 0);
-  const pendingTotal = EARNINGS.filter((e) => e.status === "Pending" || e.status === "Processing").reduce((s, e) => s + e.amount, 0);
+  // Real totals from store
+  const realTotalEarned = agentApps.reduce((s, a) => s + a.commissionAmount, 0);
+  const realPaidTotal = agentApps.filter(a => a.commissionPaid).reduce((s, a) => s + a.commissionAmount, 0);
+  const realPendingTotal = agentApps.filter(a => !a.commissionPaid && a.status === "accepted").reduce((s, a) => s + a.commissionAmount, 0);
+  const thisMonthTotal = agentApps.filter(a => {
+    const d = new Date(a.submittedAt);
+    return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
+  }).reduce((s, a) => s + a.commissionAmount, 0);
+
+  // Earnings history from real applications (keep static EARNINGS for historical depth)
+  const liveEarnings: Earning[] = agentApps
+    .filter(a => a.commissionAmount > 0)
+    .map(a => ({
+      id: a.id,
+      student: a.studentName,
+      university: a.universityName,
+      enrollmentDate: new Date(a.submittedAt).toLocaleDateString("en-US", { month: "short", year: "numeric" }),
+      commissionRate: a.commissionRate,
+      amount: a.commissionAmount,
+      status: a.commissionPaid ? "Paid" as const : a.status === "accepted" ? "Pending" as const : "Processing" as const,
+    }));
+  const allEarnings = liveEarnings.length > 0 ? liveEarnings : EARNINGS;
+
+  const tierProgress = Math.min((referrals.length / 50) * 100, 100);
+  const toplatinum = Math.max(0, 50 - referrals.length);
+
+  const totalEarned = allEarnings.reduce((s, e) => s + e.amount, 0);
+  const paidTotal = allEarnings.filter((e) => e.status === "Paid").reduce((s, e) => s + e.amount, 0);
+  const pendingTotal = allEarnings.filter((e) => e.status === "Pending" || e.status === "Processing").reduce((s, e) => s + e.amount, 0);
 
   return (
     <div className="p-4 sm:p-6 space-y-6">
       {/* Summary banner */}
       <div className="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-2xl p-5 sm:p-6 text-white shadow-lg shadow-emerald-200/40">
-        <p className="text-emerald-100 text-sm font-medium mb-4">Earnings Overview</p>
+        <p className="text-emerald-100 text-sm font-medium mb-4">Earnings Overview — Live</p>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {[
-            { label: "Total Earned", value: "$3,760", icon: TrendingUp, sub: "All time" },
-            { label: "This Month", value: "$840", icon: DollarSign, sub: "April 2024" },
-            { label: "Pending", value: "$420", icon: Clock, sub: "Awaiting payout" },
-            { label: "Withdrawn", value: "$2,500", icon: ArrowDownCircle, sub: "Paid out" },
+            { label: "Total Earned", value: `$${realTotalEarned.toLocaleString()}`, icon: TrendingUp, sub: "All commissions" },
+            { label: "This Month", value: `$${thisMonthTotal.toLocaleString()}`, icon: DollarSign, sub: new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" }) },
+            { label: "Pending", value: `$${realPendingTotal.toLocaleString()}`, icon: Clock, sub: "Awaiting payout" },
+            { label: "Withdrawn", value: `$${realPaidTotal.toLocaleString()}`, icon: ArrowDownCircle, sub: "Paid out" },
           ].map((s) => (
             <div key={s.label} className="space-y-1">
               <div className="flex items-center gap-1.5 text-emerald-200 text-xs">
@@ -231,7 +262,7 @@ export default function EarningsPage() {
               <div className="flex items-center justify-between">
                 <p className="text-slate-600 text-sm">
                   Available balance:{" "}
-                  <span className="font-bold text-emerald-600">${pendingTotal.toLocaleString()}</span>
+                  <span className="font-bold text-emerald-600">${realPendingTotal.toLocaleString()}</span>
                 </p>
                 <button
                   onClick={() => { setShowPayoutForm((v) => !v); setPayoutSubmitted(false); }}
@@ -430,17 +461,17 @@ export default function EarningsPage() {
             <div className="space-y-2">
               <div className="flex items-center justify-between text-xs">
                 <span className="text-slate-500 font-medium">Progress to Platinum</span>
-                <span className="text-slate-700 font-bold">47 / 50 refs</span>
+                <span className="text-slate-700 font-bold">{referrals.length} / 50 refs</span>
               </div>
               <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full transition-all"
-                  style={{ width: "94%" }}
+                  style={{ width: `${tierProgress}%` }}
                 />
               </div>
               <p className="text-slate-400 text-xs flex items-center gap-1">
                 <ChevronRight className="w-3 h-3" />
-                3 more referrals to unlock Platinum (15%)
+                {toplatinum > 0 ? `${toplatinum} more referrals to unlock Platinum (15%)` : "Platinum tier achieved!"}
               </p>
             </div>
 

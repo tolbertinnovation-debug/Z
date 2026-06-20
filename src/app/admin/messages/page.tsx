@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { usePortalStore } from "@/lib/store";
 import { Send, Paperclip, ArrowLeft, Plus, Circle } from "lucide-react";
+import toast from "react-hot-toast";
 
 interface Message {
   id: number;
@@ -206,12 +208,21 @@ const conversations: Conversation[] = [
 ];
 
 export default function MessagesPage() {
+  const sendMessage = usePortalStore(s => s.sendMessage);
+  const [convos, setConvos] = useState<Conversation[]>(conversations);
   const [selected, setSelected] = useState<Conversation | null>(null);
   const [input, setInput] = useState("");
   const [showThread, setShowThread] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [selected?.messages.length]);
 
   function selectConversation(conv: Conversation) {
-    setSelected(conv);
+    // Mark as read locally
+    setConvos(prev => prev.map(c => c.id === conv.id ? { ...c, unreadCount: 0 } : c));
+    setSelected(prev => prev?.id === conv.id ? prev : { ...conv, unreadCount: 0 });
     setShowThread(true);
   }
 
@@ -220,8 +231,21 @@ export default function MessagesPage() {
   }
 
   function handleSend() {
-    if (!input.trim()) return;
+    if (!input.trim() || !selected) return;
+    const newMsg: Message = {
+      id: Date.now(),
+      sender: "admin",
+      text: input.trim(),
+      time: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }),
+    };
+    // Update local conversation state
+    const updated = { ...selected, messages: [...selected.messages, newMsg], lastMessage: input.trim(), timestamp: "Just now" };
+    setSelected(updated);
+    setConvos(prev => prev.map(c => c.id === selected.id ? updated : c));
+    // Persist to store for cross-portal visibility
+    sendMessage({ fromId: "admin", fromName: "Admin Team", fromRole: "admin", toId: selected.studentEmail, toName: selected.studentName, body: input.trim() });
     setInput("");
+    toast.success("Message sent");
   }
 
   return (
@@ -241,7 +265,7 @@ export default function MessagesPage() {
 
         {/* Conversation List */}
         <div className="flex-1 overflow-y-auto">
-          {conversations.map((conv) => (
+          {convos.map((conv) => (
             <button
               key={conv.id}
               onClick={() => selectConversation(conv)}
@@ -343,6 +367,7 @@ export default function MessagesPage() {
                   </div>
                 </div>
               ))}
+              <div ref={messagesEndRef} />
             </div>
 
             {/* Input Bar */}

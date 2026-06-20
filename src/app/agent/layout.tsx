@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { usePortalStore } from "@/lib/store";
 import {
   LayoutDashboard, Users, DollarSign, UserPlus, TrendingUp,
   BookOpen, User, Settings, LogOut, Menu, X, Bell,
@@ -10,7 +11,7 @@ import {
 
 const navItems = [
   { href: "/agent", icon: LayoutDashboard, label: "Dashboard", exact: true },
-  { href: "/agent/referrals", icon: Users, label: "My Referrals", badge: 12 },
+  { href: "/agent/referrals", icon: Users, label: "My Referrals" },
   { href: "/agent/add-referral", icon: UserPlus, label: "Add Referral" },
   { href: "/agent/earnings", icon: DollarSign, label: "Earnings & Payouts" },
   { href: "/agent/performance", icon: TrendingUp, label: "Performance" },
@@ -28,6 +29,9 @@ const tierColors: Record<string, string> = {
 export default function AgentLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
+  const referralCount = usePortalStore(s => s.getAgentReferrals("a1").length);
+  const pendingPayouts = usePortalStore(s => s.applications.filter(a => a.agentId === "a1" && a.status === "accepted" && !a.commissionPaid).length);
+  const agentUnread = usePortalStore(s => s.getUnreadCount("a1"));
 
   if (pathname === "/agent/login") return <>{children}</>;
 
@@ -87,6 +91,9 @@ export default function AgentLayout({ children }: { children: React.ReactNode })
         <nav className="flex-1 overflow-y-auto p-3 space-y-1">
           {navItems.map((item) => {
             const active = isActive(item.href, item.exact);
+            const badge =
+              item.href === "/agent/referrals" ? referralCount :
+              item.href === "/agent/earnings" ? pendingPayouts : 0;
             return (
               <Link
                 key={item.href}
@@ -98,9 +105,9 @@ export default function AgentLayout({ children }: { children: React.ReactNode })
               >
                 <item.icon className="w-4 h-4 shrink-0" />
                 <span className="flex-1">{item.label}</span>
-                {"badge" in item && item.badge && (
+                {badge > 0 && (
                   <span className={`text-xs font-bold px-1.5 py-0.5 rounded-full min-w-[20px] text-center ${active ? "bg-white/20 text-white" : "bg-emerald-600 text-white"}`}>
-                    {item.badge}
+                    {badge > 99 ? "99+" : badge}
                   </span>
                 )}
                 {active && <ChevronRight className="w-3.5 h-3.5 opacity-70" />}
@@ -140,7 +147,11 @@ export default function AgentLayout({ children }: { children: React.ReactNode })
             </Link>
             <button className="relative p-2 rounded-xl text-slate-500 hover:bg-slate-100">
               <Bell className="w-5 h-5" />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full" />
+              {agentUnread > 0 && (
+                <span className="absolute top-0.5 right-0.5 min-w-[16px] h-4 bg-red-500 rounded-full text-white text-[10px] font-bold flex items-center justify-center px-0.5">
+                  {agentUnread > 9 ? "9+" : agentUnread}
+                </span>
+              )}
             </button>
             <Link href="/agent/profile" className="w-9 h-9 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white font-bold text-xs">
               JB

@@ -1,12 +1,14 @@
 "use client";
 import { useState, Suspense, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   User, Mail, Phone, GraduationCap, Upload, CheckCircle,
-  ChevronRight, ChevronLeft, FileText, Building, AlertCircle, HelpCircle
+  ChevronRight, ChevronLeft, FileText, Building, AlertCircle, HelpCircle, LogIn
 } from "lucide-react";
 import { universities } from "@/lib/data";
+import { usePortalStore } from "@/lib/store";
+import AuthModal from "@/components/AuthModal";
 
 const STORAGE_KEY = "tih_apply_form";
 
@@ -536,6 +538,41 @@ function ApplicationForm() {
 }
 
 export default function ApplyPage() {
+  const isLoggedIn = usePortalStore(s => s.isLoggedIn);
+  const [showAuth, setShowAuth] = useState(false);
+  const router = useRouter();
+
+  if (!isLoggedIn) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 to-indigo-950 flex items-center justify-center p-6">
+        <div className="w-full max-w-md text-center">
+          <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center mx-auto mb-6 shadow-2xl shadow-blue-500/40">
+            <LogIn className="w-10 h-10 text-white" />
+          </div>
+          <h1 className="text-3xl font-black text-white mb-3">Sign In to Apply</h1>
+          <p className="text-white/60 mb-8 leading-relaxed">
+            You need an account to submit an application. Sign in or create a free account to get started.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <button
+              onClick={() => setShowAuth(true)}
+              className="px-8 py-3.5 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold rounded-2xl shadow-xl hover:scale-105 transition-all"
+            >
+              Sign In / Register Free
+            </button>
+            <button
+              onClick={() => router.back()}
+              className="px-8 py-3.5 bg-white/10 text-white font-semibold rounded-2xl border border-white/20 hover:bg-white/20 transition-all"
+            >
+              Go Back
+            </button>
+          </div>
+        </div>
+        <AuthModal open={showAuth} onClose={() => setShowAuth(false)} defaultPortal="student" defaultMode="register" />
+      </div>
+    );
+  }
+
   return (
     <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
       <ApplicationForm />
