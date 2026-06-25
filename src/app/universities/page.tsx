@@ -2,8 +2,29 @@
 import { useState, useMemo, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Search, Filter, SlidersHorizontal, MapPin, GraduationCap, X, GitCompare, CheckSquare } from "lucide-react";
-import { universities } from "@/lib/data";
+import { universities as staticUniversities } from "@/lib/data";
 import UniversityCard from "@/components/UniversityCard";
+
+interface ApiUni {
+  id: string; name: string; short_name: string; country: string; city: string;
+  ranking: number; image_url: string; rating: number; student_count: number;
+  tuition_min: number; tuition_max: number; currency: string;
+  has_scholarship: number; accreditation: string; logo: string; logo_color: string;
+  tags: string[]; programs_ug: string[]; programs_pg: string[];
+}
+
+function mapApiUni(u: ApiUni) {
+  return {
+    id: u.id, name: u.name, shortName: u.short_name || u.logo,
+    country: u.country, city: u.city, ranking: u.ranking,
+    image: u.image_url, logoColor: u.logo_color, logo: u.logo,
+    rating: u.rating, students: u.student_count,
+    tuition: { min: u.tuition_min, max: u.tuition_max, currency: u.currency },
+    scholarship: Boolean(u.has_scholarship),
+    accreditation: u.accreditation, tags: u.tags,
+    programs: { undergraduate: u.programs_ug, postgraduate: u.programs_pg },
+  };
+}
 
 const countries = ["All Countries", "India", "North Cyprus"];
 const degrees = ["All Degrees", "Undergraduate", "Postgraduate", "MBA", "PhD", "Medical"];
@@ -43,14 +64,20 @@ export default function UniversitiesPage() {
   const [showFilters, setShowFilters] = useState(false);
   const [compareIds, setCompareIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const [allUniversities, setAllUniversities] = useState(() => staticUniversities);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 300);
-    return () => clearTimeout(timer);
+    fetch("/api/universities?limit=50")
+      .then(r => r.json())
+      .then(({ data }) => {
+        if (data?.length) setAllUniversities(data.map(mapApiUni));
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
   }, []);
 
   const filtered = useMemo(() => {
-    let list = [...universities];
+    let list = [...allUniversities];
 
     if (search) {
       const q = search.toLowerCase();
@@ -247,7 +274,7 @@ export default function UniversitiesPage() {
         {/* Results count */}
         <div className="flex items-center justify-between mb-6">
           <p className="text-slate-500 text-sm">
-            Showing <span className="font-semibold text-slate-900">{filtered.length}</span> of {universities.length} universities
+            Showing <span className="font-semibold text-slate-900">{filtered.length}</span> of {allUniversities.length} universities
             {hasFilters && <span className="text-blue-600 font-medium"> (filtered)</span>}
           </p>
           <div className="flex items-center gap-2 text-sm text-slate-500">

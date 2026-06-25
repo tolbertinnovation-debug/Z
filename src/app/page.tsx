@@ -6,7 +6,7 @@ import {
   BookOpen, Plane, Award, CheckCircle, ArrowRight, Play,
   Search, Lightbulb, Shield, Brain, Sparkles, ChevronDown, LogIn
 } from "lucide-react";
-import { universities, testimonials, scholarships, stats } from "@/lib/data";
+import { universities as staticUniversities, testimonials as staticTestimonials, scholarships as staticScholarships, stats as staticStats } from "@/lib/data";
 import UniversityCard from "@/components/UniversityCard";
 import AuthModal from "@/components/AuthModal";
 import { usePortalStore } from "@/lib/store";
@@ -230,12 +230,49 @@ const trustMetrics = [
   { value: "1000+", label: "Students Successfully Placed", icon: "🌍", desc: "Liberian students studying abroad through our portal" },
 ];
 
+// ── API adapters ────────────────────────────────────────────────────────────
+
+interface ApiUniversity {
+  id: string; name: string; short_name: string; country: string; city: string;
+  ranking: number; image_url: string; rating: number; student_count: number;
+  tuition_min: number; tuition_max: number; currency: string;
+  has_scholarship: number; accreditation: string; logo: string; logo_color: string;
+  tags: string[]; programs: string[];
+}
+function mapApiUni(u: ApiUniversity) {
+  return {
+    id: u.id, name: u.name, shortName: u.short_name || u.logo,
+    country: u.country, city: u.city, ranking: u.ranking,
+    image: u.image_url, logoColor: u.logo_color, logo: u.logo,
+    rating: u.rating, students: u.student_count,
+    tuition: { min: u.tuition_min, max: u.tuition_max, currency: u.currency },
+    scholarship: Boolean(u.has_scholarship),
+    accreditation: u.accreditation, tags: u.tags,
+    programs: { undergraduate: u.programs },
+  };
+}
+
+interface ApiTestimonial { student_name: string; university: string; program: string; initials: string; avatar_color: string; story: string; }
+function mapApiTestimonial(t: ApiTestimonial) {
+  return { name: t.student_name, university: t.university, program: t.program, initials: t.initials, avatarColor: t.avatar_color, story: t.story };
+}
+
+interface ApiScholarship { title: string; amount: string; universities_eligible: string; criteria: string; deadline: string; icon: string; color: string; }
+function mapApiScholarship(s: ApiScholarship) {
+  return { title: s.title, amount: s.amount, universities: s.universities_eligible, criteria: s.criteria, deadline: s.deadline, icon: s.icon, color: s.color };
+}
+
 export default function Home() {
   const [heroVisible, setHeroVisible] = useState(false);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [showAuth, setShowAuth] = useState(false);
   const isLoggedIn = usePortalStore(s => s.isLoggedIn);
   const router = useRouter();
+
+  const [statsData, setStatsData] = useState(staticStats);
+  const [testimonialsData, setTestimonialsData] = useState(staticTestimonials);
+  const [scholarshipsData, setScholarshipsData] = useState(staticScholarships);
+  const [featuredUnis, setFeaturedUnis] = useState(() => staticUniversities.slice(0, 8));
 
   function handleApply() {
     if (isLoggedIn) router.push("/apply");
@@ -244,11 +281,26 @@ export default function Home() {
 
   useEffect(() => {
     setHeroVisible(true);
+    fetch("/api/stats").then(r => r.json()).then(({ data }) => {
+      if (data?.length) setStatsData(data);
+    }).catch(() => {});
+    fetch("/api/testimonials").then(r => r.json()).then(({ data }) => {
+      if (data?.length) { setTestimonialsData(data.map(mapApiTestimonial)); setActiveTestimonial(0); }
+    }).catch(() => {});
+    fetch("/api/scholarships").then(r => r.json()).then(({ data }) => {
+      if (data?.length) setScholarshipsData(data.map(mapApiScholarship));
+    }).catch(() => {});
+    fetch("/api/universities?limit=8").then(r => r.json()).then(({ data }) => {
+      if (data?.length) setFeaturedUnis(data.map(mapApiUni));
+    }).catch(() => {});
+  }, []);
+
+  useEffect(() => {
     const interval = setInterval(() => {
-      setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
+      setActiveTestimonial((prev) => (prev + 1) % testimonialsData.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [testimonialsData.length]);
 
   return (
     <main className="min-h-screen">
@@ -367,7 +419,7 @@ export default function Home() {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {stats.map((s) => (
+            {statsData.map((s) => (
               <div key={s.label} className="relative bg-gradient-to-br from-slate-50 to-blue-50/40 border border-slate-100 rounded-2xl p-6 text-center group hover:shadow-xl hover:border-blue-100 transition-all duration-300 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-600/0 to-indigo-600/0 group-hover:from-blue-600/5 group-hover:to-indigo-600/5 transition-all duration-300 rounded-2xl" />
                 <div className="text-4xl lg:text-5xl font-black bg-gradient-to-br from-blue-600 to-indigo-700 bg-clip-text text-transparent mb-2">
@@ -505,7 +557,7 @@ export default function Home() {
             </Link>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {universities.slice(0, 8).map((uni) => (
+            {featuredUnis.map((uni) => (
               <UniversityCard key={uni.id} uni={uni} />
             ))}
           </div>
@@ -687,7 +739,7 @@ export default function Home() {
             <p className="text-slate-500 text-lg max-w-2xl mx-auto">Multiple scholarship options available to make international education affordable for every student.</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {scholarships.map((s) => (
+            {scholarshipsData.map((s) => (
               <div key={s.title} className="rounded-2xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
                 <div className={`p-6 bg-gradient-to-br ${s.color} text-white relative overflow-hidden`}>
                   <div className="absolute -top-4 -right-4 w-24 h-24 bg-white/10 rounded-full" />
@@ -728,23 +780,23 @@ export default function Home() {
                   {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 text-amber-400 fill-amber-400" />)}
                 </div>
                 <blockquote className="text-lg md:text-xl text-slate-700 font-medium leading-relaxed mb-8 italic">
-                  &ldquo;{testimonials[activeTestimonial].story}&rdquo;
+                  &ldquo;{testimonialsData[activeTestimonial].story}&rdquo;
                 </blockquote>
                 <div className="flex items-center gap-4">
-                  <div className={`w-14 h-14 rounded-full bg-gradient-to-br ${testimonials[activeTestimonial].avatarColor} flex items-center justify-center text-white font-black text-lg ring-2 ring-blue-200 shadow-md shrink-0`}>
-                    {testimonials[activeTestimonial].initials}
+                  <div className={`w-14 h-14 rounded-full bg-gradient-to-br ${testimonialsData[activeTestimonial].avatarColor} flex items-center justify-center text-white font-black text-lg ring-2 ring-blue-200 shadow-md shrink-0`}>
+                    {testimonialsData[activeTestimonial].initials}
                   </div>
                   <div>
-                    <p className="font-bold text-slate-900 text-lg">{testimonials[activeTestimonial].name}</p>
-                    <p className="text-sm text-blue-600 font-medium">{testimonials[activeTestimonial].program}</p>
-                    <p className="text-sm text-slate-500">{testimonials[activeTestimonial].university}</p>
+                    <p className="font-bold text-slate-900 text-lg">{testimonialsData[activeTestimonial].name}</p>
+                    <p className="text-sm text-blue-600 font-medium">{testimonialsData[activeTestimonial].program}</p>
+                    <p className="text-sm text-slate-500">{testimonialsData[activeTestimonial].university}</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div className="flex justify-center gap-3 flex-wrap">
-            {testimonials.map((t, i) => (
+            {testimonialsData.map((t, i) => (
               <button key={i} onClick={() => setActiveTestimonial(i)} className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm transition-all duration-300 ${i === activeTestimonial ? "bg-blue-600 text-white shadow-lg shadow-blue-200 scale-105" : "bg-slate-100 text-slate-600 hover:bg-slate-200"}`}>
                 <div className={`w-6 h-6 rounded-full bg-gradient-to-br ${t.avatarColor} flex items-center justify-center text-white text-[9px] font-black shrink-0`}>
                   {t.initials}
