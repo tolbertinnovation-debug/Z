@@ -110,10 +110,9 @@ export default function UniversityCard({ uni }: { uni: University }) {
           </div>
 
           {/* CTA */}
-          <div className="flex items-center justify-between pt-3 border-t border-slate-100">
-            <span className="text-xs text-slate-500">View Details</span>
-            <span className="flex items-center gap-1 text-xs font-semibold text-blue-600 group-hover:gap-2 transition-all">
-              Explore <ArrowRight className="w-3.5 h-3.5" />
+          <div className="pt-3 border-t border-slate-100">
+            <span className="flex items-center justify-center gap-1.5 text-xs font-semibold text-blue-600 group-hover:gap-2.5 transition-all duration-200 py-1">
+              View University Profile <ArrowRight className="w-3.5 h-3.5" />
             </span>
           </div>
         </div>

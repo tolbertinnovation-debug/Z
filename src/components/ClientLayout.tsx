@@ -3,6 +3,7 @@ import { usePathname } from "next/navigation";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import LiveChat from "./LiveChat";
+import CookieBanner from "./CookieBanner";
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -17,6 +18,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
       <div className={isBare ? "" : "flex-1"}>{children}</div>
       {!isBare && <Footer />}
       {!isBare && <LiveChat />}
+      {!isBare && <CookieBanner />}
     </>
   );
 }

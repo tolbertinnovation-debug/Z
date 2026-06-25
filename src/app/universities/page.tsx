@@ -1,6 +1,6 @@
 "use client";
 import { useState, useMemo, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Search, Filter, SlidersHorizontal, MapPin, GraduationCap, X, GitCompare, CheckSquare } from "lucide-react";
 import { universities } from "@/lib/data";
 import UniversityCard from "@/components/UniversityCard";
@@ -28,8 +28,14 @@ function SkeletonCard() {
 
 export default function UniversitiesPage() {
   const router = useRouter();
-  const [search, setSearch] = useState("");
-  const [country, setCountry] = useState("All Countries");
+  const searchParams = useSearchParams();
+  const [search, setSearch] = useState(searchParams.get("search") ?? "");
+  const [country, setCountry] = useState(() => {
+    const c = searchParams.get("country");
+    if (c === "India") return "India";
+    if (c === "NorthCyprus") return "North Cyprus";
+    return "All Countries";
+  });
   const [degree, setDegree] = useState("All Degrees");
   const [budget, setBudget] = useState("Any Budget");
   const [scholarship, setScholarship] = useState(false);

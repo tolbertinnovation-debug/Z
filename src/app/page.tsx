@@ -31,7 +31,7 @@ function AnimatedCounter({ end, suffix }: { end: number; suffix: string }) {
           }, 25);
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
     );
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
@@ -78,6 +78,143 @@ function TypedText() {
   );
 }
 
+const recentSuccesses = [
+  { name: "David W.", action: "received an offer from LPU India", time: "2 hours ago", emoji: "🎉" },
+  { name: "Fatima K.", action: "secured a 60% scholarship at SOA University", time: "5 hours ago", emoji: "🏆" },
+  { name: "Moses B.", action: "got admitted to Amity University", time: "1 day ago", emoji: "✅" },
+  { name: "Agnes T.", action: "completed her visa application", time: "1 day ago", emoji: "✈️" },
+  { name: "Kofi M.", action: "enrolled at Marwadi University", time: "2 days ago", emoji: "🎓" },
+  { name: "Blessing S.", action: "received a merit scholarship at LPU", time: "3 days ago", emoji: "🌟" },
+];
+
+function LiveTicker() {
+  const [current, setCurrent] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const cycle = setInterval(() => {
+      setVisible(false);
+      setTimeout(() => {
+        setCurrent((c) => (c + 1) % recentSuccesses.length);
+        setVisible(true);
+      }, 400);
+    }, 4000);
+    return () => clearInterval(cycle);
+  }, []);
+
+  const item = recentSuccesses[current];
+  return (
+    <div className={`fixed bottom-24 left-4 sm:left-6 z-40 max-w-xs transition-all duration-400 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}`}>
+      <div className="bg-white border border-slate-200 rounded-2xl shadow-xl p-3.5 flex items-start gap-3">
+        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-sm shrink-0">
+          {item.emoji}
+        </div>
+        <div className="min-w-0">
+          <p className="text-xs text-slate-700 leading-snug">
+            <span className="font-bold text-slate-900">{item.name}</span>{" "}
+            {item.action}
+          </p>
+          <p className="text-xs text-slate-400 mt-0.5">{item.time}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function HeroSearch() {
+  const [query, setQuery] = useState("");
+  const router = useRouter();
+
+  function handleSearch(e: React.FormEvent) {
+    e.preventDefault();
+    const q = query.trim();
+    if (q) router.push(`/universities?search=${encodeURIComponent(q)}`);
+    else router.push("/universities");
+  }
+
+  return (
+    <form onSubmit={handleSearch} className="mt-8 flex items-center gap-4 max-w-xl">
+      <div className="flex-1 flex items-center gap-3 bg-white/10 backdrop-blur-md rounded-2xl px-5 py-3.5 border border-white/20">
+        <Search className="w-5 h-5 text-white/50 shrink-0" />
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search universities, programs..."
+          className="bg-transparent text-white placeholder-white/50 text-sm flex-1 outline-none"
+        />
+      </div>
+      <button type="submit" className="px-5 py-3.5 bg-white text-blue-700 font-bold rounded-2xl hover:bg-blue-50 transition-colors shrink-0">
+        Search
+      </button>
+    </form>
+  );
+}
+
+const faqItems = [
+  {
+    q: "How much does it cost to use Tolbert Innovation Hub?",
+    a: "Our platform and application services are completely free. We do not charge any fees for counseling, application processing, or support. You only pay the university's direct fees (tuition, accommodation, etc.).",
+  },
+  {
+    q: "How long does the application process take?",
+    a: "The typical process takes 2–6 weeks from application submission to receiving an offer letter. Visa processing times vary by country but our team guides you through every step.",
+  },
+  {
+    q: "Can I apply to multiple universities at once?",
+    a: "Yes! You can apply to multiple partner universities simultaneously through our portal. Our counselors help you identify the best options based on your profile and goals.",
+  },
+  {
+    q: "What documents do I need for my application?",
+    a: "Typically you need academic transcripts, WAEC/WASSCE results, a valid passport, passport-size photos, a personal statement, and two reference letters. Specific requirements vary by university.",
+  },
+  {
+    q: "Do you guarantee scholarship awards?",
+    a: "We cannot guarantee scholarships, as award decisions are made by universities. However, we actively match you to scholarships you qualify for and help you present the strongest possible application.",
+  },
+  {
+    q: "What support do I get after I arrive at university?",
+    a: "We provide pre-departure orientation, arrival support guidance, and you remain connected to our student community. Our counselors are available throughout your studies for any queries.",
+  },
+];
+
+function FAQSection() {
+  const [open, setOpen] = useState<number | null>(null);
+  return (
+    <section className="py-24 bg-slate-50">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-14">
+          <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
+            <span>❓</span> Common Questions
+          </div>
+          <h2 className="section-title text-slate-900 mb-4">Frequently Asked Questions</h2>
+          <p className="text-slate-500 text-lg max-w-2xl mx-auto">Everything you need to know about studying abroad with Tolbert Innovation Hub.</p>
+        </div>
+        <div className="space-y-3">
+          {faqItems.map((item, i) => (
+            <div key={i} className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+              <button
+                onClick={() => setOpen(open === i ? null : i)}
+                className="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-blue-50/50 transition-colors"
+              >
+                <span className="font-semibold text-slate-900 text-sm pr-4">{item.q}</span>
+                <span className={`w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center shrink-0 transition-transform duration-200 ${open === i ? "rotate-45" : ""}`}>
+                  <span className="text-blue-600 text-lg leading-none font-bold">+</span>
+                </span>
+              </button>
+              {open === i && (
+                <div className="px-6 pb-5">
+                  <p className="text-slate-600 text-sm leading-relaxed">{item.a}</p>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 const features = [
   { icon: Search, title: "Find Universities", desc: "Browse 17 partner universities across India and North Cyprus with detailed profiles, rankings, and programs.", color: "from-blue-500 to-blue-600" },
   { icon: BookOpen, title: "Compare Programs", desc: "Compare tuition fees, programs, scholarships, and admission requirements side by side.", color: "from-indigo-500 to-indigo-600" },
@@ -116,6 +253,7 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       <AuthModal open={showAuth} onClose={() => setShowAuth(false)} />
+      <LiveTicker />
 
       {/* ── HERO ── */}
       <section className="relative min-h-screen hero-bg flex items-center overflow-hidden">
@@ -145,7 +283,7 @@ export default function Home() {
               <div className="w-8 h-8 bg-green-400/20 rounded-lg flex items-center justify-center">
                 <CheckCircle className="w-4 h-4 text-green-400" />
               </div>
-              <div><p className="text-white text-xs font-bold">95% Success</p><p className="text-white/60 text-xs">Admission Rate</p></div>
+              <div><p className="text-white text-xs font-bold">92% Success</p><p className="text-white/60 text-xs">Admission Rate</p></div>
             </div>
           </div>
         </div>
@@ -208,15 +346,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="mt-8 flex items-center gap-4 max-w-xl">
-              <div className="flex-1 flex items-center gap-3 bg-white/10 backdrop-blur-md rounded-2xl px-5 py-3.5 border border-white/20">
-                <Search className="w-5 h-5 text-white/50" />
-                <span className="text-white/50 text-sm flex-1">Search universities, programs...</span>
-              </div>
-              <Link href="/universities" className="px-5 py-3.5 bg-white text-blue-700 font-bold rounded-2xl hover:bg-blue-50 transition-colors shrink-0">
-                Search
-              </Link>
-            </div>
+            <HeroSearch />
           </div>
         </div>
 
@@ -250,6 +380,42 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── SOCIAL PROOF + FEE TRANSPARENCY ── */}
+      <section className="py-8 bg-white border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-10">
+            <div className="flex items-center gap-2.5 bg-green-50 px-4 py-2.5 rounded-xl border border-green-200">
+              <span className="text-green-600 text-lg">💬</span>
+              <div>
+                <p className="text-xs font-bold text-green-800">WhatsApp Verified</p>
+                <p className="text-xs text-green-600">Avg. response &lt; 2 hours</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2.5 bg-blue-50 px-4 py-2.5 rounded-xl border border-blue-200">
+              <span className="text-blue-600 text-lg">🔒</span>
+              <div>
+                <p className="text-xs font-bold text-blue-800">Free Application Processing</p>
+                <p className="text-xs text-blue-600">No hidden fees — ever</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2.5 bg-amber-50 px-4 py-2.5 rounded-xl border border-amber-200">
+              <span className="text-amber-600 text-lg">🏛️</span>
+              <div>
+                <p className="text-xs font-bold text-amber-800">NAAC Accredited Partners</p>
+                <p className="text-xs text-amber-600">All universities verified</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2.5 bg-indigo-50 px-4 py-2.5 rounded-xl border border-indigo-200">
+              <span className="text-indigo-600 text-lg">🌍</span>
+              <div>
+                <p className="text-xs font-bold text-indigo-800">1,000+ Students Placed</p>
+                <p className="text-xs text-indigo-600">Trusted across Liberia</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── AI MATCH BANNER ── */}
       <section className="py-6 pb-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -277,6 +443,47 @@ export default function Home() {
               <Link href="/ai-match" className="shrink-0 group flex items-center gap-2 px-8 py-4 bg-white text-blue-700 font-black rounded-2xl hover:bg-yellow-50 hover:scale-105 transition-all duration-300 shadow-xl text-sm whitespace-nowrap ring-2 ring-white/50">
                 <Brain className="w-5 h-5 group-hover:rotate-12 transition-transform" /> Try AI Matcher
               </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── AI MATCHER PREVIEW ── */}
+      <section className="py-16 bg-gradient-to-br from-slate-50 to-blue-50/40">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-10 items-center">
+            <div>
+              <div className="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
+                <Brain className="w-4 h-4" /> AI-Powered Matching
+              </div>
+              <h2 className="text-3xl font-black text-slate-900 mb-4 leading-tight">Let AI Find Your Perfect University</h2>
+              <p className="text-slate-500 text-sm leading-relaxed mb-6">Answer 6 quick questions and our AI recommends universities tailored to your budget, program, and career goals. Used by over 800 students.</p>
+              <Link href="/ai-match" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-xl hover:scale-105 transition-all shadow-lg shadow-blue-200 text-sm">
+                <Brain className="w-4 h-4" /> Start AI Match — Free
+              </Link>
+            </div>
+            <div className="space-y-3">
+              {[
+                { q: "What do you want to study?", a: "Computer Science / IT", icon: "💻" },
+                { q: "What&apos;s your annual budget?", a: "$2,000 – $5,000 USD", icon: "💰" },
+                { q: "Which country do you prefer?", a: "India or North Cyprus", icon: "🌍" },
+              ].map((item, i) => (
+                <div key={i} className="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 flex items-center gap-4">
+                  <span className="text-2xl shrink-0">{item.icon}</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs text-slate-500 mb-1" dangerouslySetInnerHTML={{ __html: item.q }} />
+                    <p className="text-sm font-bold text-slate-900">{item.a}</p>
+                  </div>
+                  <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+                    <CheckCircle className="w-3.5 h-3.5 text-green-600" />
+                  </div>
+                </div>
+              ))}
+              <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-4 text-white">
+                <p className="text-xs font-bold mb-1 text-blue-100">🎯 AI Recommendation</p>
+                <p className="font-black text-base">Lovely Professional University</p>
+                <p className="text-blue-200 text-xs mt-0.5">98% match · Scholarship available · NAAC A++</p>
+              </div>
             </div>
           </div>
         </div>
@@ -524,7 +731,9 @@ export default function Home() {
                   &ldquo;{testimonials[activeTestimonial].story}&rdquo;
                 </blockquote>
                 <div className="flex items-center gap-4">
-                  <img src={testimonials[activeTestimonial].image} alt={testimonials[activeTestimonial].name} className="w-14 h-14 rounded-full object-cover ring-2 ring-blue-200 shadow-md" />
+                  <div className={`w-14 h-14 rounded-full bg-gradient-to-br ${testimonials[activeTestimonial].avatarColor} flex items-center justify-center text-white font-black text-lg ring-2 ring-blue-200 shadow-md shrink-0`}>
+                    {testimonials[activeTestimonial].initials}
+                  </div>
                   <div>
                     <p className="font-bold text-slate-900 text-lg">{testimonials[activeTestimonial].name}</p>
                     <p className="text-sm text-blue-600 font-medium">{testimonials[activeTestimonial].program}</p>
@@ -537,13 +746,18 @@ export default function Home() {
           <div className="flex justify-center gap-3 flex-wrap">
             {testimonials.map((t, i) => (
               <button key={i} onClick={() => setActiveTestimonial(i)} className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm transition-all duration-300 ${i === activeTestimonial ? "bg-blue-600 text-white shadow-lg shadow-blue-200 scale-105" : "bg-slate-100 text-slate-600 hover:bg-slate-200"}`}>
-                <img src={t.image} alt={t.name} className="w-6 h-6 rounded-full object-cover" />
+                <div className={`w-6 h-6 rounded-full bg-gradient-to-br ${t.avatarColor} flex items-center justify-center text-white text-[9px] font-black shrink-0`}>
+                  {t.initials}
+                </div>
                 {t.name}
               </button>
             ))}
           </div>
         </div>
       </section>
+
+      {/* ── FAQ ── */}
+      <FAQSection />
 
       {/* ── CTA ── */}
       <section className="py-28 relative overflow-hidden bg-gradient-to-br from-blue-700 via-indigo-700 to-purple-800">
